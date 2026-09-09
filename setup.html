@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="ตั้งค่า Zixel Chords Local AI engine" />
+    <title>ตั้งค่า AI engine — Zixel Chords Local</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body class="setup-page">
+    <header class="site-header">
+      <a class="brand" href="./index.html" aria-label="กลับไป Zixel Chords Local">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>Zixel <span>Chords</span> <small>LOCAL</small></span>
+      </a>
+      <a class="quiet-link" href="./index.html">← กลับหน้าแกะคอร์ด</a>
+    </header>
+
+    <main class="setup-main">
+      <section class="setup-intro">
+        <p class="eyebrow">ONE-TIME SETUP</p>
+        <h1>เปิดใช้ <em>AI engine</em><br />บนเครื่องคุณ</h1>
+        <p>Zixel Chords ใช้โมเดล Transformer สำหรับคอร์ด และตัวจับ beat/downbeat จริง ไม่ได้เดาคอร์ดจากกฎง่าย ๆ ในเบราว์เซอร์</p>
+      </section>
+
+      <section class="setup-grid">
+        <article class="setup-card highlighted">
+          <span class="step-number">01</span>
+          <h2>ติดตั้งเอนจิน</h2>
+          <p>ดับเบิลคลิกไฟล์ <strong>install-ai-engine.cmd</strong> ในโฟลเดอร์นี้หนึ่งครั้ง หน้าต่างจะดาวน์โหลดเฉพาะตัวเอนจินลงในโฟลเดอร์ Zixel Chords</p>
+          <div class="setup-code">install-ai-engine.cmd</div>
+        </article>
+        <article class="setup-card">
+          <span class="step-number">02</span>
+          <h2>เปิด Zixel Chords</h2>
+          <p>ดับเบิลคลิก <strong>start-zixelchords.cmd</strong> แล้วเปิด <strong>http://127.0.0.1:4173</strong> หรือรีเฟรชหน้านี้</p>
+          <div class="setup-code">start-zixelchords.cmd</div>
+        </article>
+        <article class="setup-card">
+          <span class="step-number">03</span>
+          <h2>เลือก MP3 และฟังทวน</h2>
+          <p>ติ๊กยอมรับการใช้ส่วนตัว/ไม่เชิงพาณิชย์ เลือก MP3 ที่คุณมีสิทธิ์ใช้ แล้วแก้จุดที่คลาดเคลื่อนในโหมดตรวจแก้ก่อนส่งออก</p>
+          <div class="setup-code">MP3 → AI draft → review</div>
+        </article>
+      </section>
+
+      <section class="privacy-card">
+        <div class="privacy-icon">◎</div>
+        <div>
+          <p class="eyebrow">PRIVACY BY DESIGN</p>
+          <h2>ไฟล์ไม่ออกจากเครื่อง</h2>
+          <p>ไฟล์ MP3 ถูกส่งไปยัง Local AI engine ผ่าน localhost เท่านั้น และไฟล์ชั่วคราวจะถูกลบทันทีหลังวิเคราะห์เสร็จ การดาวน์โหลดโมเดลจะเกิดเฉพาะตอนวิเคราะห์เพลงครั้งแรก</p>
+        </div>
+      </section>
+
+      <section class="license-card">
+        <p class="eyebrow">IMPORTANT LICENSE NOTE</p>
+        <h2>ใช้สำหรับส่วนตัวและไม่เชิงพาณิชย์</h2>
+        <p>น้ำหนักโมเดลคอร์ดที่ใช้ในชุดนี้เป็นสัญญาอนุญาต CC BY-NC-SA 4.0 จึงต้องใช้กับงานที่ไม่ใช่เชิงพาณิชย์และปฏิบัติตามเงื่อนไขของสัญญาอนุญาต หากต้องการนำไปใช้ในธุรกิจหรือเผยแพร่บริการ ให้เปลี่ยนเป็นโมเดล/บริการที่มีสิทธิ์เชิงพาณิชย์ก่อน</p>
+        <a class="quiet-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">อ่านเงื่อนไขสัญญาอนุญาต →</a>
+      </section>
+    </main>
+    <footer><span>ZIXEL CHORDS LOCAL / 2026</span><span>เก็บเสียงไว้บนเครื่อง · ตรวจทานก่อนใช้งาน</span></footer>
+  </body>
+</html>

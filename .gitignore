@@ -1,0 +1,28 @@
+﻿# Large AI Engine binaries and model weights (auto-installed via install-ai-engine.cmd)
+.engine/
+models/
+
+# User Audio Library and Stem Separation Cache
+library/
+stems/
+temp/
+*.mp3
+*.wav
+*.m4a
+*.aac
+*.flac
+*.ogg
+
+# Dependency directories
+node_modules/
+
+# Logs and environment
+*.log
+npm-debug.log*
+.env
+.env.local
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
