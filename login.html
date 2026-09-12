@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="เข้าสู่ระบบและจัดการบัญชีผู้ใช้ Zixel Chords Studio Pro" />
+    <title>เข้าสู่ระบบ &amp; บัญชีผู้ใช้ — Zixel Chords</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./style.css?v=3.2" />
+  </head>
+  <body class="tool-page chords-studio-view">
+    <!-- Ambient Aurora Glow Orbs (Pure Luxury Atmosphere) -->
+    <div class="luxury-aurora-wrap" aria-hidden="true">
+      <div class="aurora-orb aurora-orb-1"></div>
+      <div class="aurora-orb aurora-orb-2"></div>
+      <div class="aurora-orb aurora-orb-3"></div>
+    </div>
+
+    <!-- Floating Spatial Dynamic Island HUD (Futuristic 2026 Navigation) -->
+    <header class="spatial-hud-island" id="spatialHudIsland">
+      <div class="hud-brand-pill">
+        <a href="./index.html" class="hud-brand-link" aria-label="Zixel Chords Studio หน้าแรก">
+          <span class="hud-brand-glyph">✦</span>
+          <span class="hud-brand-name">ZIXEL<span class="hud-accent">·CHORDS</span></span>
+        </a>
+      </div>
+
+      <!-- Quick Teleport Links -->
+      <nav class="hud-nav-links">
+        <a class="hud-link" href="./index.html">สตูดิโอ</a>
+        <a class="hud-link" id="tunerNavBtn" href="./tuner.html" title="เครื่องตั้งสายกีตาร์">ตั้งสาย</a>
+        <a class="hud-link" id="chordChartNavBtn" href="./chords.html" title="ตารางคอร์ดและไดอะแกรม">ตารางคอร์ด</a>
+        <a class="hud-link" id="onlineJamNavBtn" href="./jam.html" title="เล่นดนตรีออนไลน์">ห้องซ้อม</a>
+        <a class="hud-link" href="./index.html#library" title="ดูแฟ้มเพลงที่บันทึกไว้">แฟ้มเพลง</a>
+      </nav>
+
+      <!-- Right Controls: Audio Telemetry & Auth Capsule -->
+      <div class="hud-controls-pill">
+        <div class="hud-eq-visualizer" aria-hidden="true" title="Audio Engine Active">
+          <span class="eq-b eq-1"></span>
+          <span class="eq-b eq-2"></span>
+          <span class="eq-b eq-3"></span>
+          <span class="eq-b eq-4"></span>
+          <span class="eq-b eq-5"></span>
+        </div>
+
+        <div class="auth-header-wrap" id="authHeaderWrap">
+          <a class="cb-pill-btn active" id="authTriggerBtn" href="./login.html" title="เข้าสู่ระบบหรือจัดการบัญชี">
+            <span class="auth-avatar-chip hidden" id="authAvatarChip">ZC</span>
+            <span class="btn-icon" id="authDefaultIcon"></span>
+            <span id="authBtnLabel">เข้าสู่ระบบ</span>
+          </a>
+          <div class="user-menu-dropdown hidden" id="userMenuDropdown">
+            <div class="user-menu-header">
+              <div class="user-avatar-circle" id="userAvatarCircle">ZC</div>
+              <div class="user-menu-info">
+                <strong id="userDisplayName">Guest</strong>
+                <span id="userUsername">@guest</span>
+              </div>
+            </div>
+            <div class="user-menu-divider"></div>
+            <a href="./login.html" class="user-menu-item">
+              ข้อมูลบัญชีของฉัน
+            </a>
+            <a href="./index.html#library" class="user-menu-item">
+              แฟ้มเพลงของฉัน
+            </a>
+            <button type="button" class="user-menu-item text-danger" id="logoutBtn">
+              ออกจากระบบ
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-main">
+      <section class="page-hero">
+        <span class="page-badge">✦ ★★★★★ 5-STAR ULTRA LUXURY · VIP STUDIO PASSPORT</span>
+        <h1 class="page-title">เข้าสู่ระบบ &amp; บัญชีผู้ใช้</h1>
+        <p class="page-subtitle">
+          เข้าถึงแฟ้มเพลงส่วนตัว บันทึกคอร์ดเพลง และจัดการบัญชีของคุณ
+        </p>
+      </section>
+
+      <div class="auth-standalone-container vault-split-cockpit card-3d">
+        <!-- Left Wing: Holographic Security Shield & Privacy Matrix -->
+        <div class="vault-shield-col">
+          <div class="vault-shield-radar">
+            <span class="vault-radar-ring ring-1"></span>
+            <span class="vault-radar-ring ring-2"></span>
+            <div class="vault-shield-glyph"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          </div>
+
+          <div class="vault-info-cluster">
+            <h3 class="vault-info-title">ZIXEL SECURITY VAULT</h3>
+            <p class="vault-info-desc">เข้าถึงสตูดิโอแกะคอร์ดส่วนตัวของคุณ บันทึกเพลง และซิงค์แฟ้มเพลงในเครื่องอย่างปลอดภัย 100%</p>
+          </div>
+
+          <div class="vault-features-list">
+            <div class="vault-feature-pill">
+              <span class="feat-icon">✦</span>
+              <div class="feat-text">
+                <strong>Local-First Storage</strong>
+                <span>ข้อมูลและไฟล์เพลงไม่ถูกส่งออกภายนอก</span>
+              </div>
+            </div>
+            <div class="vault-feature-pill">
+              <span class="feat-icon">✦</span>
+              <div class="feat-text">
+                <strong>Instant Studio Session</strong>
+                <span>โหลดประวัติการแกะคอร์ดกลับมาเล่นได้ทันที</span>
+              </div>
+            </div>
+            <div class="vault-feature-pill">
+              <span class="feat-icon">✦</span>
+              <div class="feat-text">
+                <strong>Stem &amp; Lyrics Preservation</strong>
+                <span>บันทึกแทร็กเสียงและเนื้อร้องที่แก้ไขแล้ว</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Wing: Auth Form / Profile Chamber -->
+        <div class="vault-form-col">
+          <!-- Not Logged In: Auth Box -->
+          <div id="authBox">
+            <div class="auth-modal-tabs">
+              <button type="button" class="auth-tab active" id="authTabLogin">เข้าสู่ระบบ</button>
+              <button type="button" class="auth-tab" id="authTabRegister">สมัครสมาชิก</button>
+            </div>
+
+            <form class="auth-form" id="authForm" style="margin-top: 20px;">
+              <div class="auth-input-group hidden" id="displayNameGroup">
+                <label for="authDisplayName">ชื่อที่ใช้แสดง (Display Name)</label>
+                <input type="text" id="authDisplayName" placeholder="เช่น John Producer" autocomplete="name" />
+              </div>
+
+              <div class="auth-input-group">
+                <label for="authUsername">ชื่อผู้ใช้ (Username)</label>
+                <input type="text" id="authUsername" placeholder="เช่น guitarist_pro" autocomplete="username" required />
+              </div>
+
+              <div class="auth-input-group">
+                <label for="authPassword">รหัสผ่าน (Password)</label>
+                <input type="password" id="authPassword" placeholder="อย่างน้อย 6 ตัวอักษร" autocomplete="current-password" required />
+              </div>
+
+              <p class="auth-error-msg hidden" id="authErrorMsg" role="alert"></p>
+
+              <div class="auth-footer" style="margin-top: 20px;">
+                <button type="submit" class="luxury-primary-btn auth-submit-btn" id="authSubmitBtn">
+                  <span id="authSubmitLabel">เข้าสู่ระบบ</span>
+                  <span class="btn-arrow">→</span>
+                </button>
+              </div>
+            </form>
+
+            <p class="auth-switch-hint" style="margin-top: 18px; text-align: center;">
+              <span id="authSwitchText">ยังไม่มีบัญชีใช่ไหม?</span>
+              <a href="#" id="authSwitchToRegister">สมัครสมาชิกใหม่</a>
+              <a href="#" id="authSwitchToLogin" class="hidden">เข้าสู่ระบบ</a>
+            </p>
+
+            <div style="margin-top: 20px; padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.03); text-align: center; font-size: 12px; color: var(--text-muted);">
+              ✦ ข้อมูลของคุณถูกเก็บอย่างปลอดภัยบนเครื่องคุณ 100% (Local-First)
+            </div>
+          </div>
+
+          <!-- Logged In: Profile Dashboard -->
+          <div id="profileDashboard" class="profile-dashboard-card card-3d hidden">
+          <div class="profile-avatar-large" id="profileAvatar">ZC</div>
+          <div class="profile-name-wrap">
+            <h2 id="profileDisplayName">User Name</h2>
+            <p id="profileUsername">@username</p>
+          </div>
+          <span class="profile-badge-pro">✦ สมาชิก Zixel Member</span>
+
+          <div class="profile-stats-grid">
+            <div class="profile-stat-box">
+              <div class="profile-stat-num" id="profileSongCount">0</div>
+              <div class="profile-stat-label">เพลงในแฟ้มเพลง</div>
+            </div>
+            <div class="profile-stat-box">
+              <div class="profile-stat-num" style="color: var(--cb-volt, #d4ff00);">PRO</div>
+              <div class="profile-stat-label">สถานะบัญชี</div>
+            </div>
+          </div>
+
+          <div class="profile-action-btns">
+            <a href="./index.html#library" class="luxury-gold-btn" style="text-decoration:none; text-align:center; padding:12px 20px;">
+              เปิดแฟ้มเพลงของฉันในสตูดิโอ
+            </a>
+            <a href="./index.html" class="luxury-ghost-btn" style="text-decoration:none; text-align:center; padding:10px 20px;">
+              เริ่มแกะคอร์ดเพลงใหม่
+            </a>
+            <button type="button" class="user-menu-item text-danger" id="profileLogoutBtn" style="width:100%; justify-content:center; border:1px solid rgba(239,68,68,0.3); border-radius:12px; padding:10px;">
+              ออกจากระบบ
+            </button>
+          </div>
+        </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Minimal Footer -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <strong>ZIXEL CHORDS STUDIO PRO</strong>
+          <span>LOCAL AI CHORD &amp; LYRICS RECOGNITION</span>
+        </div>
+        <div class="footer-copy">
+          ประมวลผลบนเครื่อง 100% · ปกป้องความเป็นส่วนตัว · AI Workstation สำหรับนักดนตรี
+        </div>
+      </div>
+    </footer>
+
+    <script src="./client/nav.js"></script>
+    <script src="./client/luxury-engine.js"></script>
+    <script src="./client/login-page.js"></script>
+  </body>
+</html>

@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="ตารางคอร์ดกีตาร์ ค้นหาคอร์ดหลัก คอร์ดรอง ไดอะแกรมรูปแบบการจับคอร์ด พร้อมฟังเสียง" />
+    <title>ตารางคอร์ดและไดอะแกรม — Zixel Chords</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./style.css?v=3.2" />
+  </head>
+  <body class="chords-studio-view">
+    <!-- Ambient Aurora Glow Orbs (Pure Luxury Atmosphere) -->
+    <div class="luxury-aurora-wrap" aria-hidden="true">
+      <div class="aurora-orb aurora-orb-1"></div>
+      <div class="aurora-orb aurora-orb-2"></div>
+      <div class="aurora-orb aurora-orb-3"></div>
+    </div>
+
+    <!-- Floating Spatial Dynamic Island HUD (Futuristic 2026 Navigation) -->
+    <header class="spatial-hud-island" id="spatialHudIsland">
+      <div class="hud-brand-pill">
+        <a href="./index.html" class="hud-brand-link" aria-label="Zixel Chords หน้าแรก">
+          <span class="hud-brand-glyph">✦</span>
+          <span class="hud-brand-name">ZIXEL<span class="hud-accent">·CHORDS</span></span>
+        </a>
+      </div>
+
+      <!-- Quick Teleport Links -->
+      <nav class="hud-nav-links">
+        <a class="hud-link" href="./index.html">สตูดิโอ</a>
+        <a class="hud-link" href="./tuner.html" title="เครื่องตั้งสายกีตาร์">ตั้งสาย</a>
+        <a class="hud-link active" href="./chords.html" title="ตารางคอร์ดและไดอะแกรม">ตารางคอร์ด</a>
+        <a class="hud-link" href="./jam.html" title="เล่นดนตรีออนไลน์">ห้องซ้อม</a>
+        <a class="hud-link" href="./index.html#library" title="แฟ้มเพลงที่บันทึกไว้">แฟ้มเพลง</a>
+      </nav>
+
+      <!-- Live Reactive Audio Meter & Auth HUD -->
+      <div class="hud-controls-pill">
+        <div class="hud-eq-visualizer" aria-hidden="true" title="Audio Telemetry">
+          <span class="eq-b eq-b1"></span>
+          <span class="eq-b eq-b2"></span>
+          <span class="eq-b eq-b3"></span>
+          <span class="eq-b eq-b4"></span>
+          <span class="eq-b eq-b5"></span>
+        </div>
+
+        <div class="auth-header-wrap" id="authHeaderWrap">
+          <a class="cb-pill-btn" id="authTriggerBtn" href="./login.html" title="เข้าสู่ระบบหรือจัดการบัญชี">
+            <span class="auth-avatar-chip hidden" id="authAvatarChip">ZC</span>
+            <span class="btn-icon" id="authDefaultIcon"></span>
+            <span id="authBtnLabel">เข้าสู่ระบบ</span>
+          </a>
+          <div class="user-menu-dropdown hidden" id="userMenuDropdown">
+            <div class="user-menu-header">
+              <div class="user-avatar-circle" id="userAvatarCircle">ZC</div>
+              <div class="user-menu-info">
+                <strong id="userDisplayName">Guest</strong>
+                <span id="userUsername">@guest</span>
+              </div>
+            </div>
+            <div class="user-menu-divider"></div>
+            <a href="./login.html" class="user-menu-item">ข้อมูลบัญชีของฉัน</a>
+            <a href="./index.html#library" class="user-menu-item">แฟ้มเพลงของฉัน</a>
+            <button type="button" class="user-menu-item text-danger" id="logoutBtn">ออกจากระบบ</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main style="flex: 1; display: flex; flex-direction: column; width: 100%;">
+      <!-- 1. Next-Gen Spatial 3D Instrument Stage (ฉีกรูปแบบกล่องเดิมหมดจด) -->
+      <section class="inst-landing-view" id="instLandingView">
+        <div class="spatial-stage-orbit">
+          <!-- Ambient Futuristic Cyber Rings -->
+          <div class="spatial-orbital-rings" aria-hidden="true">
+            <div class="orbit-ring orbit-ring-1"></div>
+            <div class="orbit-ring orbit-ring-2"></div>
+            <div class="orbit-ring orbit-ring-3"></div>
+          </div>
+
+          <div class="spatial-hero-cluster">
+            <div class="spatial-hero-badge">
+              <span class="badge-sparkle">✦</span> ★★★★★ 5-STAR ULTRA LUXURY · SPATIAL AUDIO WORKSTATION
+            </div>
+            <h1 class="spatial-hero-title">SELECT INSTRUMENT DECK</h1>
+            <p class="spatial-hero-desc">
+              เลือกแท่นเครื่องดนตรีเพื่อเปิดสตูดิโอคอร์ด ไดอะแกรมกายวิภาคนิ้วแท้ 100% พร้อมซาวด์ซินธิไซเซอร์อะคูสติกเรียลไทม์
+            </p>
+          </div>
+
+          <!-- 3 Spatial Floating Pedestals (Guitar · Piano · Ukulele) -->
+          <div class="spatial-pods-row inst-landing-grid">
+            <!-- Guitar Spatial Pod -->
+            <div class="inst-select-card spatial-pod-card pod-guitar card-3d" data-inst="guitar">
+              <div class="pod-ambient-glow"></div>
+              <div class="pod-card-sheen"></div>
+              <div class="pod-hologram-stage">
+                <div class="pod-icon-shield">
+                  <span class="pod-icon">✦</span>
+                  <div class="pod-radar-ring"></div>
+                </div>
+              </div>
+              <div class="pod-details">
+                <div class="pod-kicker">CAGED SYSTEM · 6 STRINGS</div>
+                <h3 class="pod-title">กีตาร์ (Guitar)</h3>
+                <div class="pod-metrics">
+                  <span>6 สาย</span> · <span>15 เฟรต Nickel</span> · <span>192 คอร์ด</span>
+                </div>
+                <p class="pod-blurb">คอกีตาร์แนวนอนแบบละเอียด สลับสาย High E / Low E ได้ ฟอร์มคอร์ดตรง guitar-chords.com 100%</p>
+              </div>
+              <div class="pod-action-dock">
+                <span class="pod-action-text">LAUNCH GUITAR DECK</span>
+                <span class="pod-action-laser">→</span>
+              </div>
+            </div>
+
+            <!-- VR Piano Spatial Pod -->
+            <div class="inst-select-card spatial-pod-card pod-piano card-3d" data-inst="piano">
+              <div class="pod-ambient-glow"></div>
+              <div class="pod-card-sheen"></div>
+              <div class="pod-hologram-stage">
+                <div class="pod-icon-shield">
+                  <span class="pod-icon">✦</span>
+                  <div class="pod-radar-ring"></div>
+                </div>
+              </div>
+              <div class="pod-details">
+                <div class="pod-kicker">CONCERT GRAND ACOUSTIC</div>
+                <h3 class="pod-title">เปียโน (Piano)</h3>
+                <div class="pod-metrics">
+                  <span>25 คีย์ลิ่มงาช้าง</span> · <span>108 คอร์ด</span> · <span>VR Piano</span>
+                </div>
+                <p class="pod-blurb">คีย์บอร์ดคอนเสิร์ตแกรนด์ ลิ่มงาช้าง/ไม้มะเกลือเจียรขอบ ค้นหาจากคีย์ คอร์ดกลับ Inversions และฟังเสียงจริง</p>
+              </div>
+              <div class="pod-action-dock">
+                <span class="pod-action-text">LAUNCH PIANO DECK</span>
+                <span class="pod-action-laser">→</span>
+              </div>
+            </div>
+
+            <!-- Ukulele Pro Spatial Pod -->
+            <div class="inst-select-card spatial-pod-card pod-ukulele card-3d" data-inst="ukulele">
+              <div class="pod-ambient-glow"></div>
+              <div class="pod-card-sheen"></div>
+              <div class="pod-hologram-stage">
+                <div class="pod-icon-shield">
+                  <span class="pod-icon">✦</span>
+                  <div class="pod-radar-ring"></div>
+                </div>
+              </div>
+              <div class="pod-details">
+                <div class="pod-kicker">HAWAIIAN RE-ENTRANT</div>
+                <h3 class="pod-title">อูคูเลเล่ (Ukulele)</h3>
+                <div class="pod-metrics">
+                  <span>4 สาย G-C-E-A</span> · <span>ตำแหน่งทาบแท้</span> · <span>ดีด 3 สปีด</span>
+                </div>
+                <p class="pod-blurb">ตารางคอร์ดฮาวายเอี้ยนแท้ ไดอะแกรมสายเปิด/ทาบครบถ้วน พร้อมแถบสลับตำแหน่งจับสำรอง Voicings</p>
+              </div>
+              <div class="pod-action-dock">
+                <span class="pod-action-text">LAUNCH UKULELE DECK</span>
+                <span class="pod-action-laser">→</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Chord Chart Workspace (Revealed AFTER Instrument Selection) -->
+      <section class="chord-workspace-view" id="chordWorkspaceView" style="display: none;">
+        <!-- Top Spatial Command Deck: Return Button + Instrument Switcher Blade + Audio EQ -->
+        <div class="spatial-cockpit-toolbar">
+          <button type="button" class="back-to-instruments-btn" id="backToInstrumentsBtn" title="กลับไปหน้าเลือกเครื่องดนตรี">
+            <span class="back-laser-arrow">←</span> <span>เปลี่ยนเครื่องดนตรี</span>
+          </button>
+
+          <!-- Tactile Switcher Blade -->
+          <div class="instrument-dock" role="tablist" aria-label="สลับเครื่องดนตรี">
+            <button type="button" class="instrument-tab-btn active" data-inst="guitar" title="กีตาร์ 6 สาย">
+              กีตาร์
+            </button>
+            <button type="button" class="instrument-tab-btn" data-inst="piano" title="เปียโน &amp; คีย์บอร์ด">
+              เปียโน
+            </button>
+            <button type="button" class="instrument-tab-btn" data-inst="ukulele" title="อูคูเลเล่ 4 สาย">
+              อูคูเลเล่
+            </button>
+          </div>
+
+          <!-- Live Audio Telemetry Indicator in Cockpit -->
+          <div class="cockpit-telemetry">
+            <div class="telemetry-wave" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <span class="telemetry-label">HI-RES AUDIO 96kHz</span>
+          </div>
+        </div>
+
+        <!-- 2.A Dedicated Guitar-Chords.com Workspace (Shown when Guitar is selected) -->
+        <div class="gc-workspace-wrap" id="guitarWorkspaceWrap">
+          <div class="gc-card-container card-3d">
+            <!-- Top Cybernetic Sonic HUD Deck -->
+            <div class="gc-sonic-hud-deck">
+              <div class="gc-sonic-hud-left">
+                <button type="button" class="gc-settings-btn hud-pill-btn" id="gcSettingsBtn" title="ตั้งค่าเฟรตบอร์ดและการเล่นเสียง">
+                  <span class="hud-btn-icon">✦</span>
+                  <span>SETTINGS</span>
+                </button>
+                <button type="button" class="gc-circle-btn gc-info-btn hud-pill-btn" id="gcInfoBtn" title="ดูข้อมูลโครงสร้างคอร์ด">
+                  <span class="hud-btn-icon">✦</span>
+                  <span>THEORY</span>
+                </button>
+              </div>
+
+              <div class="gc-title-cluster holo-chord-cluster">
+                <span class="gc-chord-title" id="gcChordTitle">C Major</span>
+              </div>
+
+              <div class="gc-sonic-hud-right">
+                <button type="button" class="gc-circle-btn gc-sound-pad-btn" id="gcSoundBtn" title="ฟังเสียงดีดคอร์ดกีตาร์">
+                  <span class="sound-pad-pulse"></span>
+                  <span class="sound-pad-icon">▶</span>
+                  <span class="sound-pad-label">STRUM CHORD</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Horizontal 15-Fret Fretboard SVG -->
+            <div class="gc-fretboard-wrap" id="gcFretboardWrap">
+              <!-- Dynamically rendered 15-fret SVG -->
+            </div>
+
+            <!-- Position Buttons (1, 2, 3, 4, 5) -->
+            <div class="gc-pos-bar" id="gcPosBar" role="tablist" aria-label="เลือกตำแหน่งการจับคอร์ด">
+              <button type="button" class="gc-pos-btn active" data-pos="0">1</button>
+              <button type="button" class="gc-pos-btn" data-pos="1">2</button>
+              <button type="button" class="gc-pos-btn" data-pos="2">3</button>
+              <button type="button" class="gc-pos-btn" data-pos="3">4</button>
+              <button type="button" class="gc-pos-btn" data-pos="4">5</button>
+            </div>
+
+            <!-- 12-Root Bar (Full Width Grid) -->
+            <div class="gc-root-bar" id="gcRootBar" role="tablist" aria-label="เลือกลำดับตัวโน้ต Root">
+              <button type="button" class="gc-root-btn active" data-root="C">C</button>
+              <button type="button" class="gc-root-btn" data-root="Db">Db</button>
+              <button type="button" class="gc-root-btn" data-root="D">D</button>
+              <button type="button" class="gc-root-btn" data-root="Eb">Eb</button>
+              <button type="button" class="gc-root-btn" data-root="E">E</button>
+              <button type="button" class="gc-root-btn" data-root="F">F</button>
+              <button type="button" class="gc-root-btn" data-root="Gb">Gb</button>
+              <button type="button" class="gc-root-btn" data-root="G">G</button>
+              <button type="button" class="gc-root-btn" data-root="Ab">Ab</button>
+              <button type="button" class="gc-root-btn" data-root="A">A</button>
+              <button type="button" class="gc-root-btn" data-root="Bb">Bb</button>
+              <button type="button" class="gc-root-btn" data-root="B">B</button>
+            </div>
+
+            <!-- 50-Qualities Grid (5 rows x 10 cols) -->
+            <div class="gc-qualities-grid" id="gcQualitiesGrid" role="tablist" aria-label="เลือกชนิดคอร์ด 50 รูปแบบ">
+              <!-- Row 1 -->
+              <button type="button" class="gc-q-btn active" data-q="Major">Major</button>
+              <button type="button" class="gc-q-btn" data-q="Minor">Minor</button>
+              <button type="button" class="gc-q-btn" data-q="7">7</button>
+              <button type="button" class="gc-q-btn" data-q="5">5</button>
+              <button type="button" class="gc-q-btn" data-q="dim">dim</button>
+              <button type="button" class="gc-q-btn" data-q="dim7">dim7</button>
+              <button type="button" class="gc-q-btn" data-q="aug">aug</button>
+              <button type="button" class="gc-q-btn" data-q="sus2">sus2</button>
+              <button type="button" class="gc-q-btn" data-q="sus4">sus4</button>
+              <button type="button" class="gc-q-btn" data-q="maj7">maj7</button>
+
+              <!-- Row 2 -->
+              <button type="button" class="gc-q-btn" data-q="m7">m7</button>
+              <button type="button" class="gc-q-btn" data-q="7sus4">7sus4</button>
+              <button type="button" class="gc-q-btn" data-q="maj9">maj9</button>
+              <button type="button" class="gc-q-btn" data-q="maj11">maj11</button>
+              <button type="button" class="gc-q-btn" data-q="maj13">maj13</button>
+              <button type="button" class="gc-q-btn" data-q="maj9#11">maj9#11</button>
+              <button type="button" class="gc-q-btn" data-q="maj13#11">maj13#11</button>
+              <button type="button" class="gc-q-btn" data-q="add9">add9</button>
+              <button type="button" class="gc-q-btn" data-q="6add9">6add9</button>
+              <button type="button" class="gc-q-btn" data-q="maj7b5">maj7b5</button>
+
+              <!-- Row 3 -->
+              <button type="button" class="gc-q-btn" data-q="maj7#5">maj7#5</button>
+              <button type="button" class="gc-q-btn" data-q="m6">m6</button>
+              <button type="button" class="gc-q-btn" data-q="m9">m9</button>
+              <button type="button" class="gc-q-btn" data-q="m11">m11</button>
+              <button type="button" class="gc-q-btn" data-q="m13">m13</button>
+              <button type="button" class="gc-q-btn" data-q="madd9">madd9</button>
+              <button type="button" class="gc-q-btn" data-q="m6add9">m6add9</button>
+              <button type="button" class="gc-q-btn" data-q="mmaj7">mmaj7</button>
+              <button type="button" class="gc-q-btn" data-q="mmaj9">mmaj9</button>
+              <button type="button" class="gc-q-btn" data-q="m7b5">m7b5</button>
+
+              <!-- Row 4 -->
+              <button type="button" class="gc-q-btn" data-q="m7#5">m7#5</button>
+              <button type="button" class="gc-q-btn" data-q="6">6</button>
+              <button type="button" class="gc-q-btn" data-q="9">9</button>
+              <button type="button" class="gc-q-btn" data-q="11">11</button>
+              <button type="button" class="gc-q-btn" data-q="13">13</button>
+              <button type="button" class="gc-q-btn" data-q="7b5">7b5</button>
+              <button type="button" class="gc-q-btn" data-q="7#5">7#5</button>
+              <button type="button" class="gc-q-btn" data-q="7b9">7b9</button>
+              <button type="button" class="gc-q-btn" data-q="7#9">7#9</button>
+              <button type="button" class="gc-q-btn" data-q="7(b5,b9)">7(b5,b9)</button>
+
+              <!-- Row 5 -->
+              <button type="button" class="gc-q-btn" data-q="7(b5,#9)">7(b5,#9)</button>
+              <button type="button" class="gc-q-btn" data-q="7(#5,b9)">7(#5,b9)</button>
+              <button type="button" class="gc-q-btn" data-q="7(#5,#9)">7(#5,#9)</button>
+              <button type="button" class="gc-q-btn" data-q="9b5">9b5</button>
+              <button type="button" class="gc-q-btn" data-q="9#5">9#5</button>
+              <button type="button" class="gc-q-btn" data-q="13#11">13#11</button>
+              <button type="button" class="gc-q-btn" data-q="13b9">13b9</button>
+              <button type="button" class="gc-q-btn" data-q="11b9">11b9</button>
+              <button type="button" class="gc-q-btn" data-q="sus2sus4">sus2sus4</button>
+              <button type="button" class="gc-q-btn" data-q="-5">-5</button>
+            </div>
+
+            <!-- Bottom Information & Common Filter Button -->
+            <div class="gc-bottom-bar">
+              <div class="gc-notes-formula-text" id="gcFormulaText">Notes: C · E · G | Formula: 1 · 3 · 5</div>
+              <button type="button" class="gc-common-btn" id="gcCommonBtn">Common</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2.B Dedicated Piano & Keyboard Workspace (VR Piano vrpiano.co.jp Pro Interface) -->
+        <div class="vrp-workspace-wrap" id="pianoWorkspaceWrap" style="display: none;">
+          <div class="vrp-card-container card-3d">
+            <!-- Top Controls: Title, Mode Toggle & Audio Controls -->
+            <div class="vrp-top-header">
+              <div class="vrp-title-cluster">
+                <h2 class="vrp-title" id="vrpMainTitle">ค้นหาคอร์ดเปียโน &amp; คีย์บอร์ด</h2>
+                <span class="vrp-badge">VR PIANO PRO</span>
+              </div>
+
+              <!-- Mode Switcher: ค้นหาคอร์ด vs ค้นหาจากคีย์ -->
+              <div class="vrp-mode-switcher-wrap">
+                <div class="vrp-mode-switcher" id="vrpModeSwitcher">
+                  <button type="button" class="vrp-mode-btn active" id="vrpModeFind">
+                    <span>ค้นหาคอร์ด</span>
+                  </button>
+                  <button type="button" class="vrp-mode-btn" id="vrpModeId">
+                    <span>ค้นหาจากคีย์</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Volume Control -->
+              <div class="vrp-sound-controls">
+                <div class="vrp-vol-wrap" title="ระดับเสียง">
+                  <span class="vol-icon">●</span>
+                  <input type="range" id="vrpVolSlider" min="0" max="100" value="80" class="vrp-vol-slider" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Mode 1 Pickers: Roots (12) + Types (15) -->
+            <div class="vrp-pickers-section" id="vrpPickersSection">
+              <!-- 12 Roots Bar -->
+              <div class="vrp-roots-bar" id="vrpRootsBar" role="tablist" aria-label="เลือกลำดับ Root"></div>
+
+              <!-- 15 Qualities Grid -->
+              <div class="vrp-types-grid" id="vrpTypesGrid" role="tablist" aria-label="เลือกประเภทคอร์ด"></div>
+            </div>
+
+            <!-- Prominent Chord Display Card -->
+            <div class="vrp-chord-display-card" id="vrpChordDisplayCard">
+              <div class="vrp-cname-row">
+                <div class="vrp-chord-name" id="vrpChordName">C</div>
+                <div class="vrp-chord-type-th" id="vrpChordTypeTh">เมเจอร์</div>
+              </div>
+              <div class="vrp-notes-row">
+                <div class="vrp-notes-pill">
+                  <span class="vrp-notes-label">โน้ตในคอร์ด:</span>
+                  <span class="vrp-notes-val" id="vrpNotesVal">C - E - G</span>
+                </div>
+                <div class="vrp-solfege-pill">
+                  <span class="vrp-solfege-label">โน้ตไทย:</span>
+                  <span class="vrp-solfege-val" id="vrpSolfegeVal">โด - มี - ซอล</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Interactive 25-Key Piano Keyboard (C3 to C5) -->
+            <div class="vrp-keyboard-stage">
+              <div class="vrp-keyboard-wrap" id="vrpKeyboard"></div>
+            </div>
+
+            <!-- Action Strip (Play, Invert, Clear) -->
+            <div class="vrp-actions-bar">
+              <button type="button" class="vrp-action-btn vrp-play-btn" id="vrpPlayBtn">
+                <span>▶</span> <span id="vrpPlayBtnText">เล่นคอร์ด</span>
+              </button>
+              <button type="button" class="vrp-action-btn vrp-invert-btn" id="vrpInvertBtn">
+                <span>คอร์ดกลับ (Inversion)</span>
+              </button>
+              <button type="button" class="vrp-action-btn vrp-clear-btn" id="vrpClearBtn" style="display: none;">
+                <span>ล้างคีย์</span>
+              </button>
+            </div>
+
+            <!-- 108 Chords Directory & Reference Table (vrpiano.co.jp style) -->
+            <div class="vrp-directory-section">
+              <div class="vrp-directory-header">
+                <h3 class="vrp-directory-title">ตารางคอร์ดเปียโน 108 คอร์ดมาตรฐาน</h3>
+                <p class="vrp-directory-sub">คลิกที่คอร์ดเพื่อดูตำแหน่งบนคีย์บอร์ดและฟังเสียงตัวอย่างได้ทันที</p>
+              </div>
+
+              <!-- Root Filter Bar -->
+              <div class="vrp-dir-filter-bar" id="vrpDirFilterBar"></div>
+
+              <!-- 108 Chords Grid -->
+              <div class="vrp-dir-grid" id="vrpDirGrid"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2.C Dedicated Ukulele Pro Workspace (Hawaiian 4-String G-C-E-A) -->
+        <div class="uke-workspace-wrap" id="ukuleleWorkspaceWrap" style="display: none;">
+          <div class="uke-card-container card-3d">
+            <!-- Top Header & Audio Controls -->
+            <div class="uke-top-header">
+              <div class="uke-title-cluster">
+                <h2 class="uke-title" id="ukeMainTitle">ค้นหาคอร์ดอูคูเลเล่</h2>
+                <span class="uke-badge">HAWAIIAN 4-STRING (G-C-E-A)</span>
+              </div>
+
+              <div class="uke-sound-controls">
+                <div class="uke-vol-wrap" title="ระดับเสียง">
+                  <span class="vol-icon">●</span>
+                  <input type="range" id="ukeVolSlider" min="0" max="100" value="80" class="uke-vol-slider" />
+                </div>
+                <div class="uke-strum-wrap">
+                  <select id="ukeStrumSelect" class="uke-strum-select" title="รูปแบบการดีด">
+                    <option value="normal">ดีดสตรัมปกติ (Normal)</option>
+                    <option value="fast">ดีดเร็ว (Fast)</option>
+                    <option value="arpeggio">เกาทีละสาย (Arpeggio)</option>
+                  </select>
+                </div>
+                <button type="button" class="uke-play-btn" id="ukePlaySoundBtn" title="ฟังเสียงคอร์ด">
+                  <span>▶</span> เล่นเสียงคอร์ด
+                </button>
+              </div>
+            </div>
+
+            <!-- 12-Roots Selector Bar -->
+            <div class="uke-root-bar" id="ukeRootBar" role="tablist" aria-label="เลือก Root โน้ต">
+              <button type="button" class="uke-root-btn active" data-root="C">C</button>
+              <button type="button" class="uke-root-btn" data-root="Db">C#</button>
+              <button type="button" class="uke-root-btn" data-root="D">D</button>
+              <button type="button" class="uke-root-btn" data-root="Eb">Eb</button>
+              <button type="button" class="uke-root-btn" data-root="E">E</button>
+              <button type="button" class="uke-root-btn" data-root="F">F</button>
+              <button type="button" class="uke-root-btn" data-root="Gb">F#</button>
+              <button type="button" class="uke-root-btn" data-root="G">G</button>
+              <button type="button" class="uke-root-btn" data-root="Ab">Ab</button>
+              <button type="button" class="uke-root-btn" data-root="A">A</button>
+              <button type="button" class="uke-root-btn" data-root="Bb">Bb</button>
+              <button type="button" class="uke-root-btn" data-root="B">B</button>
+            </div>
+
+            <!-- 14-Qualities Grid -->
+            <div class="uke-qualities-grid" id="ukeQualitiesGrid" role="tablist" aria-label="เลือกชนิดคอร์ด">
+              <button type="button" class="uke-q-btn active" data-q="Major">Major</button>
+              <button type="button" class="uke-q-btn" data-q="Minor">Minor</button>
+              <button type="button" class="uke-q-btn" data-q="7">7</button>
+              <button type="button" class="uke-q-btn" data-q="maj7">maj7</button>
+              <button type="button" class="uke-q-btn" data-q="m7">m7</button>
+              <button type="button" class="uke-q-btn" data-q="sus4">sus4</button>
+              <button type="button" class="uke-q-btn" data-q="sus2">sus2</button>
+              <button type="button" class="uke-q-btn" data-q="6">6</button>
+              <button type="button" class="uke-q-btn" data-q="m6">m6</button>
+              <button type="button" class="uke-q-btn" data-q="dim">dim</button>
+              <button type="button" class="uke-q-btn" data-q="dim7">dim7</button>
+              <button type="button" class="uke-q-btn" data-q="aug">aug</button>
+              <button type="button" class="uke-q-btn" data-q="9">9</button>
+              <button type="button" class="uke-q-btn" data-q="add9">add9</button>
+            </div>
+
+            <!-- Main Diagram & Voicings Stage Row -->
+            <div class="uke-stage-row">
+              <!-- Left: Big Diagram Card -->
+              <div class="uke-diagram-card">
+                <div class="uke-chord-hero">
+                  <div class="uke-chord-name" id="ukeChordName">C Major</div>
+                  <div class="uke-formula-pill" id="ukeFormulaPill">Notes: C · E · G | Formula: 1 · 3 · 5</div>
+                </div>
+
+                <!-- Position Switcher Pills -->
+                <div class="uke-pos-switcher" id="ukePosSwitcher"></div>
+
+                <!-- SVG Fretboard Box -->
+                <div class="uke-fretboard-wrap" id="ukeFretboardWrap"></div>
+
+                <!-- Strings Pitch Legend -->
+                <div class="uke-strings-legend" id="ukeStringsLegend">
+                  <span>สาย 4: G4</span>
+                  <span>สาย 3: C4</span>
+                  <span>สาย 2: E4</span>
+                  <span>สาย 1: A4</span>
+                </div>
+
+                <!-- Fingering Tip Box -->
+                <div class="uke-tip-box" id="ukeTipBox">
+                  <span class="uke-tip-icon">✦</span>
+                  <span class="uke-tip-text" id="ukeTipText">ใช้นิ้วนางกดสาย 1 เฟรต 3 ปล่อยสายที่เหลือเปิด</span>
+                </div>
+              </div>
+
+              <!-- Right: Voicing Variations Sidebar -->
+              <div class="uke-voicings-sidebar">
+                <div class="uke-sidebar-header">
+                  <h3 class="uke-sidebar-title">รูปแบบการจับทั้งหมด (Voicings)</h3>
+                  <span class="uke-sidebar-sub">คลิกเพื่อเปลี่ยนฟอร์มการจับบนคออูคูเลเล่</span>
+                </div>
+                <div class="uke-voicings-grid" id="ukeVoicingsGrid"></div>
+              </div>
+            </div>
+
+            <!-- Directory Section: ตารางคอร์ดอูคูเลเล่มาตรฐาน -->
+            <div class="uke-directory-section">
+              <div class="uke-directory-header">
+                <h3 class="uke-directory-title">ตารางคอร์ดอูคูเลเล่มาตรฐาน 48 คอร์ดยอดนิยม</h3>
+                <p class="uke-directory-sub">คอร์ดที่ใช้บ่อยที่สุดในเพลงอูคูเลเล่ คลิกที่คอร์ดเพื่อเปิดดูตำแหน่งและฟังเสียงทันที</p>
+              </div>
+
+              <div class="uke-dir-filter-bar" id="ukeDirFilterBar"></div>
+              <div class="uke-dir-grid" id="ukeDirGrid"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hidden Fallback Container -->
+        <div id="otherInstrumentsWrap" style="display: none;"></div>
+      </section>
+    </main>
+
+    <!-- Guitar Settings Modal -->
+    <div class="gc-modal-backdrop hidden" id="gcSettingsModal">
+      <div class="gc-modal-card">
+        <div class="gc-modal-header">
+          <h3 class="gc-modal-title">Fretboard Settings</h3>
+          <button type="button" class="gc-modal-close" id="gcSettingsClose">✕</button>
+        </div>
+        <div class="gc-modal-body">
+          <div class="gc-setting-row">
+            <label>Orientation (ทิศทางมือจับ):</label>
+            <div class="gc-setting-options">
+              <button type="button" class="gc-opt-btn active" data-setting="hand" data-val="right">คนถนัดขวา (Right-handed)</button>
+              <button type="button" class="gc-opt-btn" data-setting="hand" data-val="left">คนถนัดซ้าย (Left-handed)</button>
+            </div>
+          </div>
+          <div class="gc-setting-row">
+            <label>String Order (การจัดเรียงสายกีตาร์):</label>
+            <div class="gc-setting-options">
+              <button type="button" class="gc-opt-btn active" data-setting="stringOrder" data-val="ebgdae">E B G D A E (High E บน / มาตรฐาน)</button>
+              <button type="button" class="gc-opt-btn" data-setting="stringOrder" data-val="eadgbe">E A D G B E (Low E บน / สลับสาย)</button>
+            </div>
+          </div>
+          <div class="gc-setting-row">
+            <label>Marker Display (เครื่องหมายบนจุดกด):</label>
+            <div class="gc-setting-options">
+              <button type="button" class="gc-opt-btn active" data-setting="labels" data-val="fingers">Finger Numbers (1, 2, 3, 4)</button>
+              <button type="button" class="gc-opt-btn" data-setting="labels" data-val="notes">Note Names (C, E, G...)</button>
+            </div>
+          </div>
+          <div class="gc-setting-row">
+            <label>Strum Playback (รูปแบบการดีดเสียง):</label>
+            <div class="gc-setting-options">
+              <button type="button" class="gc-opt-btn active" data-setting="strum" data-val="normal">Normal Strum (ดีดธรรมชาติ)</button>
+              <button type="button" class="gc-opt-btn" data-setting="strum" data-val="fast">Fast Strum (ดีดเร็ว)</button>
+              <button type="button" class="gc-opt-btn" data-setting="strum" data-val="arpeggio">Arpeggio (เกาเส้นทีละสาย)</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Guitar Info Modal -->
+    <div class="gc-modal-backdrop hidden" id="gcInfoModal">
+      <div class="gc-modal-card">
+        <div class="gc-modal-header">
+          <h3 class="gc-modal-title" id="gcInfoChordTitle">C Major Chord Info</h3>
+          <button type="button" class="gc-modal-close" id="gcInfoClose">✕</button>
+        </div>
+        <div class="gc-modal-body">
+          <div class="gc-info-item">
+            <strong>Chord Formula (โครงสร้างขั้นคู่เสียง):</strong>
+            <span id="gcInfoFormula">1 · 3 · 5 (Root · Major 3rd · Perfect 5th)</span>
+          </div>
+          <div class="gc-info-item">
+            <strong>Notes in Chord (ตัวโน้ตประกอบ):</strong>
+            <span id="gcInfoNotes">C · E · G</span>
+          </div>
+          <div class="gc-info-item">
+            <strong>Current Voicing (ตำแหน่งและนิ้วจับ):</strong>
+            <span id="gcInfoVoicing">Position 1 (Open Position)</span>
+          </div>
+          <div class="gc-info-item">
+            <strong>Tips (คำแนะนำการเล่น):</strong>
+            <span id="gcInfoTips">สาย 6 ไม่ต้องดีด (Mute ด้วยปลายนิ้วโป้งหรือปลายนิ้วนาง), ปลายนิ้วตั้งฉากเพื่อให้สาย 1 และ 3 กังวานไม่บอด</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Minimal Footer -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <strong>ZIXEL CHORDS STUDIO PRO</strong>
+          <span>LOCAL AI CHORD &amp; LYRICS RECOGNITION</span>
+        </div>
+        <div class="footer-copy">
+          ประมวลผลบนเครื่อง 100% · ปกป้องความเป็นส่วนตัว · AI Workstation สำหรับนักดนตรี
+        </div>
+      </div>
+    </footer>
+
+    <script src="./client/nav.js"></script>
+    <script src="./client/luxury-engine.js"></script>
+    <script src="./client/chords-page.js"></script>
+  </body>
+</html>

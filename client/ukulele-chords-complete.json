@@ -1,0 +1,6337 @@
+{
+  "C": {
+    "6": [
+      {
+        "frets": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "fingers": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "baseFret": 1,
+        "name": "All Open Strings",
+        "tips": "ดีดสายเปิดทั้งหมด 4 เส้น",
+        "midis": [
+          67,
+          60,
+          64,
+          69
+        ]
+      },
+      {
+        "frets": [
+          2,
+          0,
+          0,
+          0
+        ],
+        "fingers": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Jazz C6",
+        "midis": [
+          69,
+          60,
+          64,
+          69
+        ]
+      }
+    ],
+    "7": [
+      {
+        "frets": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "fingers": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Open C7",
+        "tips": "นิ้วชี้กดสาย 1 เฟรต 1",
+        "midis": [
+          67,
+          60,
+          64,
+          70
+        ]
+      },
+      {
+        "frets": [
+          3,
+          4,
+          3,
+          3
+        ],
+        "fingers": [
+          1,
+          2,
+          1,
+          1
+        ],
+        "baseFret": 3,
+        "name": "Barre Fret 3",
+        "barre": {
+          "fret": 3,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          70,
+          64,
+          67,
+          72
+        ]
+      }
+    ],
+    "9": [
+      {
+        "frets": [
+          0,
+          2,
+          0,
+          1
+        ],
+        "fingers": [
+          0,
+          2,
+          0,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Open C9",
+        "midis": [
+          67,
+          62,
+          64,
+          70
+        ]
+      }
+    ],
+    "Major": [
+      {
+        "frets": [
+          0,
+          0,
+          0,
+          3
+        ],
+        "fingers": [
+          0,
+          0,
+          0,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Open (ตำแหน่งเปิด)",
+        "tips": "นิ้วนางกดสาย 1 เฟรต 3 สายที่เหลือเปิด",
+        "midis": [
+          67,
+          60,
+          64,
+          72
+        ]
+      },
+      {
+        "frets": [
+          5,
+          4,
+          3,
+          3
+        ],
+        "fingers": [
+          4,
+          3,
+          1,
+          1
+        ],
+        "baseFret": 3,
+        "name": "Barre Fret 3",
+        "barre": {
+          "fret": 3,
+          "startStr": 2,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          72,
+          64,
+          67,
+          72
+        ]
+      },
+      {
+        "frets": [
+          0,
+          4,
+          3,
+          3
+        ],
+        "fingers": [
+          0,
+          3,
+          1,
+          2
+        ],
+        "baseFret": 3,
+        "name": "G-Shape Fret 3",
+        "midis": [
+          67,
+          64,
+          67,
+          72
+        ]
+      }
+    ],
+    "Minor": [
+      {
+        "frets": [
+          0,
+          3,
+          3,
+          3
+        ],
+        "fingers": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Open C Minor",
+        "tips": "นิ้วชี้, กลาง, นาง เรียงที่สาย 3, 2, 1 เฟรต 3",
+        "midis": [
+          67,
+          63,
+          67,
+          72
+        ]
+      },
+      {
+        "frets": [
+          5,
+          3,
+          3,
+          3
+        ],
+        "fingers": [
+          4,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 3,
+        "name": "Barre Fret 3",
+        "barre": {
+          "fret": 3,
+          "startStr": 1,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          72,
+          63,
+          67,
+          72
+        ]
+      }
+    ],
+    "maj7": [
+      {
+        "frets": [
+          0,
+          0,
+          0,
+          2
+        ],
+        "fingers": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Open Cmaj7",
+        "tips": "นิ้วชี้หรือกลางกดสาย 1 เฟรต 2",
+        "midis": [
+          67,
+          60,
+          64,
+          71
+        ]
+      },
+      {
+        "frets": [
+          5,
+          4,
+          3,
+          2
+        ],
+        "fingers": [
+          4,
+          3,
+          2,
+          1
+        ],
+        "baseFret": 2,
+        "name": "Diagonal 4-finger",
+        "midis": [
+          72,
+          64,
+          67,
+          71
+        ]
+      }
+    ],
+    "m7": [
+      {
+        "frets": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 3,
+        "name": "Full Barre Fret 3",
+        "barre": {
+          "fret": 3,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          70,
+          63,
+          67,
+          72
+        ]
+      },
+      {
+        "frets": [
+          5,
+          3,
+          6,
+          3
+        ],
+        "fingers": [
+          3,
+          1,
+          4,
+          1
+        ],
+        "baseFret": 3,
+        "name": "Voicing 2",
+        "midis": [
+          72,
+          63,
+          70,
+          72
+        ]
+      }
+    ],
+    "sus4": [
+      {
+        "frets": [
+          0,
+          0,
+          1,
+          3
+        ],
+        "fingers": [
+          0,
+          0,
+          1,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Open Csus4",
+        "tips": "นิ้วชี้สาย 2 เฟรต 1 นิ้วนางสาย 1 เฟรต 3",
+        "midis": [
+          67,
+          60,
+          65,
+          72
+        ]
+      }
+    ],
+    "sus2": [
+      {
+        "frets": [
+          0,
+          2,
+          3,
+          3
+        ],
+        "fingers": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Open Csus2",
+        "midis": [
+          67,
+          62,
+          67,
+          72
+        ]
+      }
+    ],
+    "m6": [
+      {
+        "frets": [
+          2,
+          3,
+          3,
+          3
+        ],
+        "fingers": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Standard Cm6",
+        "midis": [
+          69,
+          63,
+          67,
+          72
+        ]
+      }
+    ],
+    "dim": [
+      {
+        "frets": [
+          2,
+          3,
+          2,
+          3
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Standard Dim",
+        "midis": [
+          69,
+          63,
+          66,
+          72
+        ]
+      }
+    ],
+    "dim7": [
+      {
+        "frets": [
+          2,
+          3,
+          2,
+          3
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Full Dim7",
+        "midis": [
+          69,
+          63,
+          66,
+          72
+        ]
+      },
+      {
+        "frets": [
+          5,
+          6,
+          5,
+          6
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 5,
+        "name": "Fret 5 Dim7",
+        "midis": [
+          72,
+          66,
+          69,
+          75
+        ]
+      }
+    ],
+    "aug": [
+      {
+        "frets": [
+          1,
+          0,
+          0,
+          3
+        ],
+        "fingers": [
+          1,
+          0,
+          0,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Open Caug",
+        "midis": [
+          68,
+          60,
+          64,
+          72
+        ]
+      },
+      {
+        "frets": [
+          5,
+          4,
+          4,
+          3
+        ],
+        "fingers": [
+          4,
+          2,
+          3,
+          1
+        ],
+        "baseFret": 3,
+        "name": "Fret 3 Caug",
+        "midis": [
+          72,
+          64,
+          68,
+          72
+        ]
+      }
+    ],
+    "add9": [
+      {
+        "frets": [
+          0,
+          2,
+          0,
+          3
+        ],
+        "fingers": [
+          0,
+          1,
+          0,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Open Cadd9",
+        "midis": [
+          67,
+          62,
+          64,
+          72
+        ]
+      }
+    ]
+  },
+  "Db": {
+    "6": [
+      {
+        "frets": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Barre Fret 1 All",
+        "barre": {
+          "fret": 1,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          68,
+          61,
+          65,
+          70
+        ]
+      }
+    ],
+    "7": [
+      {
+        "frets": [
+          1,
+          1,
+          1,
+          2
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          2
+        ],
+        "baseFret": 1,
+        "name": "Barre Fret 1",
+        "barre": {
+          "fret": 1,
+          "startStr": 0,
+          "endStr": 2,
+          "finger": 1
+        },
+        "midis": [
+          68,
+          61,
+          65,
+          71
+        ]
+      },
+      {
+        "frets": [
+          4,
+          5,
+          4,
+          4
+        ],
+        "fingers": [
+          1,
+          2,
+          1,
+          1
+        ],
+        "baseFret": 4,
+        "name": "Barre Fret 4",
+        "barre": {
+          "fret": 4,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          71,
+          65,
+          68,
+          73
+        ]
+      }
+    ],
+    "9": [
+      {
+        "frets": [
+          1,
+          3,
+          1,
+          2
+        ],
+        "fingers": [
+          1,
+          3,
+          1,
+          2
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          68,
+          63,
+          65,
+          71
+        ]
+      }
+    ],
+    "Major": [
+      {
+        "frets": [
+          1,
+          1,
+          1,
+          4
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Barre Fret 1",
+        "barre": {
+          "fret": 1,
+          "startStr": 0,
+          "endStr": 2,
+          "finger": 1
+        },
+        "midis": [
+          68,
+          61,
+          65,
+          73
+        ]
+      },
+      {
+        "frets": [
+          6,
+          5,
+          4,
+          4
+        ],
+        "fingers": [
+          4,
+          3,
+          1,
+          1
+        ],
+        "baseFret": 4,
+        "name": "Barre Fret 4",
+        "barre": {
+          "fret": 4,
+          "startStr": 2,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          73,
+          65,
+          68,
+          73
+        ]
+      }
+    ],
+    "Minor": [
+      {
+        "frets": [
+          1,
+          4,
+          4,
+          4
+        ],
+        "fingers": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Standard Dbm",
+        "midis": [
+          68,
+          64,
+          68,
+          73
+        ]
+      },
+      {
+        "frets": [
+          6,
+          4,
+          4,
+          4
+        ],
+        "fingers": [
+          3,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 4,
+        "name": "Barre Fret 4",
+        "barre": {
+          "fret": 4,
+          "startStr": 1,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          73,
+          64,
+          68,
+          73
+        ]
+      }
+    ],
+    "maj7": [
+      {
+        "frets": [
+          1,
+          1,
+          1,
+          3
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Barre Fret 1",
+        "barre": {
+          "fret": 1,
+          "startStr": 0,
+          "endStr": 2,
+          "finger": 1
+        },
+        "midis": [
+          68,
+          61,
+          65,
+          72
+        ]
+      },
+      {
+        "frets": [
+          6,
+          5,
+          4,
+          3
+        ],
+        "fingers": [
+          4,
+          3,
+          2,
+          1
+        ],
+        "baseFret": 3,
+        "name": "Diagonal 4-finger",
+        "midis": [
+          73,
+          65,
+          68,
+          72
+        ]
+      }
+    ],
+    "m7": [
+      {
+        "frets": [
+          4,
+          4,
+          4,
+          4
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 4,
+        "name": "Full Barre Fret 4",
+        "barre": {
+          "fret": 4,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          71,
+          64,
+          68,
+          73
+        ]
+      },
+      {
+        "frets": [
+          1,
+          1,
+          0,
+          2
+        ],
+        "fingers": [
+          1,
+          2,
+          0,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Open Style",
+        "midis": [
+          68,
+          61,
+          64,
+          71
+        ]
+      }
+    ],
+    "sus4": [
+      {
+        "frets": [
+          1,
+          1,
+          2,
+          4
+        ],
+        "fingers": [
+          1,
+          1,
+          2,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          68,
+          61,
+          66,
+          73
+        ]
+      }
+    ],
+    "sus2": [
+      {
+        "frets": [
+          1,
+          3,
+          4,
+          4
+        ],
+        "fingers": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          68,
+          63,
+          68,
+          73
+        ]
+      }
+    ],
+    "m6": [
+      {
+        "frets": [
+          3,
+          4,
+          4,
+          4
+        ],
+        "fingers": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          70,
+          64,
+          68,
+          73
+        ]
+      }
+    ],
+    "dim": [
+      {
+        "frets": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "fingers": [
+          0,
+          1,
+          0,
+          2
+        ],
+        "baseFret": 1,
+        "name": "Open Ddim",
+        "midis": [
+          67,
+          61,
+          64,
+          70
+        ]
+      }
+    ],
+    "dim7": [
+      {
+        "frets": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "fingers": [
+          0,
+          1,
+          0,
+          2
+        ],
+        "baseFret": 1,
+        "name": "Open Ddim7",
+        "midis": [
+          67,
+          61,
+          64,
+          70
+        ]
+      },
+      {
+        "frets": [
+          3,
+          4,
+          3,
+          4
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 3,
+        "name": "Position 2",
+        "midis": [
+          70,
+          64,
+          67,
+          73
+        ]
+      }
+    ],
+    "aug": [
+      {
+        "frets": [
+          2,
+          1,
+          1,
+          0
+        ],
+        "fingers": [
+          2,
+          1,
+          1,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          69,
+          61,
+          65,
+          69
+        ]
+      }
+    ],
+    "add9": [
+      {
+        "frets": [
+          1,
+          3,
+          1,
+          4
+        ],
+        "fingers": [
+          1,
+          2,
+          1,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          68,
+          63,
+          65,
+          73
+        ]
+      }
+    ]
+  },
+  "D": {
+    "6": [
+      {
+        "frets": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 2,
+        "name": "Barre Fret 2 (Full)",
+        "barre": {
+          "fret": 2,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          69,
+          62,
+          66,
+          71
+        ]
+      }
+    ],
+    "7": [
+      {
+        "frets": [
+          2,
+          0,
+          2,
+          0
+        ],
+        "fingers": [
+          1,
+          0,
+          2,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open D7 (Hawaiian)",
+        "tips": "นิ้วชี้สาย 4 เฟรต 2 นิ้วกลางสาย 2 เฟรต 2",
+        "midis": [
+          69,
+          60,
+          66,
+          69
+        ]
+      },
+      {
+        "frets": [
+          2,
+          2,
+          2,
+          3
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          2
+        ],
+        "baseFret": 2,
+        "name": "Barre D7",
+        "barre": {
+          "fret": 2,
+          "startStr": 0,
+          "endStr": 2,
+          "finger": 1
+        },
+        "midis": [
+          69,
+          62,
+          66,
+          72
+        ]
+      }
+    ],
+    "9": [
+      {
+        "frets": [
+          2,
+          4,
+          2,
+          3
+        ],
+        "fingers": [
+          1,
+          3,
+          1,
+          2
+        ],
+        "baseFret": 2,
+        "name": "Barre D9",
+        "barre": {
+          "fret": 2,
+          "startStr": 0,
+          "endStr": 2,
+          "finger": 1
+        },
+        "midis": [
+          69,
+          64,
+          66,
+          72
+        ]
+      }
+    ],
+    "Major": [
+      {
+        "frets": [
+          2,
+          2,
+          2,
+          0
+        ],
+        "fingers": [
+          1,
+          2,
+          3,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open D (Standard)",
+        "tips": "นิ้วชี้, กลาง, นาง กดสาย 4, 3, 2 เฟรต 2 ปล่อยสาย 1 เปิด",
+        "midis": [
+          69,
+          62,
+          66,
+          69
+        ]
+      },
+      {
+        "frets": [
+          2,
+          2,
+          2,
+          5
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          4
+        ],
+        "baseFret": 2,
+        "name": "High D Voicing",
+        "barre": {
+          "fret": 2,
+          "startStr": 0,
+          "endStr": 2,
+          "finger": 1
+        },
+        "midis": [
+          69,
+          62,
+          66,
+          74
+        ]
+      },
+      {
+        "frets": [
+          7,
+          6,
+          5,
+          5
+        ],
+        "fingers": [
+          4,
+          3,
+          1,
+          1
+        ],
+        "baseFret": 5,
+        "name": "Barre Fret 5",
+        "barre": {
+          "fret": 5,
+          "startStr": 2,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          74,
+          66,
+          69,
+          74
+        ]
+      }
+    ],
+    "Minor": [
+      {
+        "frets": [
+          2,
+          2,
+          1,
+          0
+        ],
+        "fingers": [
+          2,
+          3,
+          1,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open Dm (Standard)",
+        "tips": "นิ้วชี้สาย 2 เฟรต 1 นิ้วกลางสาย 4 เฟรต 2 นิ้วนางสาย 3 เฟรต 2",
+        "midis": [
+          69,
+          62,
+          65,
+          69
+        ]
+      },
+      {
+        "frets": [
+          7,
+          5,
+          5,
+          5
+        ],
+        "fingers": [
+          4,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 5,
+        "name": "Barre Fret 5",
+        "barre": {
+          "fret": 5,
+          "startStr": 1,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          74,
+          65,
+          69,
+          74
+        ]
+      }
+    ],
+    "maj7": [
+      {
+        "frets": [
+          2,
+          2,
+          2,
+          4
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          3
+        ],
+        "baseFret": 2,
+        "name": "Barre Dmaj7",
+        "barre": {
+          "fret": 2,
+          "startStr": 0,
+          "endStr": 2,
+          "finger": 1
+        },
+        "midis": [
+          69,
+          62,
+          66,
+          73
+        ]
+      },
+      {
+        "frets": [
+          2,
+          1,
+          2,
+          0
+        ],
+        "fingers": [
+          2,
+          1,
+          3,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open Dmaj7",
+        "midis": [
+          69,
+          61,
+          66,
+          69
+        ]
+      }
+    ],
+    "m7": [
+      {
+        "frets": [
+          2,
+          2,
+          1,
+          3
+        ],
+        "fingers": [
+          2,
+          3,
+          1,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Open Dm7",
+        "midis": [
+          69,
+          62,
+          65,
+          72
+        ]
+      },
+      {
+        "frets": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 5,
+        "name": "Full Barre Fret 5",
+        "barre": {
+          "fret": 5,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          72,
+          65,
+          69,
+          74
+        ]
+      }
+    ],
+    "sus4": [
+      {
+        "frets": [
+          0,
+          2,
+          3,
+          0
+        ],
+        "fingers": [
+          0,
+          1,
+          2,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open Dsus4",
+        "midis": [
+          67,
+          62,
+          67,
+          69
+        ]
+      },
+      {
+        "frets": [
+          2,
+          2,
+          3,
+          0
+        ],
+        "fingers": [
+          1,
+          2,
+          3,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Standard Dsus4",
+        "midis": [
+          69,
+          62,
+          67,
+          69
+        ]
+      }
+    ],
+    "sus2": [
+      {
+        "frets": [
+          2,
+          2,
+          0,
+          0
+        ],
+        "fingers": [
+          1,
+          2,
+          0,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open Dsus2",
+        "midis": [
+          69,
+          62,
+          64,
+          69
+        ]
+      }
+    ],
+    "m6": [
+      {
+        "frets": [
+          2,
+          2,
+          1,
+          2
+        ],
+        "fingers": [
+          2,
+          3,
+          1,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Open Dm6",
+        "midis": [
+          69,
+          62,
+          65,
+          71
+        ]
+      }
+    ],
+    "dim": [
+      {
+        "frets": [
+          1,
+          2,
+          1,
+          2
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Standard Ddim",
+        "midis": [
+          68,
+          62,
+          65,
+          71
+        ]
+      }
+    ],
+    "dim7": [
+      {
+        "frets": [
+          1,
+          2,
+          1,
+          2
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Standard Ddim7",
+        "midis": [
+          68,
+          62,
+          65,
+          71
+        ]
+      }
+    ],
+    "aug": [
+      {
+        "frets": [
+          3,
+          2,
+          2,
+          1
+        ],
+        "fingers": [
+          3,
+          2,
+          2,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Standard Daug",
+        "midis": [
+          70,
+          62,
+          66,
+          70
+        ]
+      }
+    ],
+    "add9": [
+      {
+        "frets": [
+          2,
+          4,
+          2,
+          0
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open Dadd9",
+        "midis": [
+          69,
+          64,
+          66,
+          69
+        ]
+      }
+    ]
+  },
+  "Eb": {
+    "6": [
+      {
+        "frets": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 3,
+        "name": "Full Barre Fret 3",
+        "barre": {
+          "fret": 3,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          70,
+          63,
+          67,
+          72
+        ]
+      }
+    ],
+    "7": [
+      {
+        "frets": [
+          3,
+          1,
+          3,
+          1
+        ],
+        "fingers": [
+          2,
+          1,
+          3,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Barre Fret 1 Eb7",
+        "barre": {
+          "fret": 1,
+          "startStr": 1,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          70,
+          61,
+          67,
+          70
+        ]
+      },
+      {
+        "frets": [
+          3,
+          3,
+          3,
+          4
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          2
+        ],
+        "baseFret": 3,
+        "name": "Barre Fret 3 Eb7",
+        "barre": {
+          "fret": 3,
+          "startStr": 0,
+          "endStr": 2,
+          "finger": 1
+        },
+        "midis": [
+          70,
+          63,
+          67,
+          73
+        ]
+      }
+    ],
+    "9": [
+      {
+        "frets": [
+          0,
+          1,
+          1,
+          1
+        ],
+        "fingers": [
+          0,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Barre Fret 1",
+        "barre": {
+          "fret": 1,
+          "startStr": 1,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          67,
+          61,
+          65,
+          70
+        ]
+      }
+    ],
+    "Major": [
+      {
+        "frets": [
+          0,
+          3,
+          3,
+          1
+        ],
+        "fingers": [
+          0,
+          2,
+          3,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Open Eb (Standard)",
+        "tips": "นิ้วชี้สาย 1 เฟรต 1 นิ้วกลางสาย 3 เฟรต 3 นิ้วนางสาย 2 เฟรต 3",
+        "midis": [
+          67,
+          63,
+          67,
+          70
+        ]
+      },
+      {
+        "frets": [
+          3,
+          3,
+          3,
+          1
+        ],
+        "fingers": [
+          2,
+          3,
+          4,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Voicing 2",
+        "midis": [
+          70,
+          63,
+          67,
+          70
+        ]
+      },
+      {
+        "frets": [
+          8,
+          7,
+          6,
+          6
+        ],
+        "fingers": [
+          4,
+          3,
+          1,
+          1
+        ],
+        "baseFret": 6,
+        "name": "Barre Fret 6",
+        "barre": {
+          "fret": 6,
+          "startStr": 2,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          75,
+          67,
+          70,
+          75
+        ]
+      }
+    ],
+    "Minor": [
+      {
+        "frets": [
+          3,
+          3,
+          2,
+          1
+        ],
+        "fingers": [
+          3,
+          4,
+          2,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Open Ebm",
+        "midis": [
+          70,
+          63,
+          66,
+          70
+        ]
+      },
+      {
+        "frets": [
+          8,
+          6,
+          6,
+          6
+        ],
+        "fingers": [
+          3,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 6,
+        "name": "Barre Fret 6",
+        "barre": {
+          "fret": 6,
+          "startStr": 1,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          75,
+          66,
+          70,
+          75
+        ]
+      }
+    ],
+    "maj7": [
+      {
+        "frets": [
+          3,
+          2,
+          2,
+          1
+        ],
+        "fingers": [
+          4,
+          2,
+          3,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          70,
+          62,
+          66,
+          70
+        ]
+      },
+      {
+        "frets": [
+          3,
+          3,
+          3,
+          5
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          3
+        ],
+        "baseFret": 3,
+        "name": "Barre Fret 3",
+        "barre": {
+          "fret": 3,
+          "startStr": 0,
+          "endStr": 2,
+          "finger": 1
+        },
+        "midis": [
+          70,
+          63,
+          67,
+          74
+        ]
+      }
+    ],
+    "m7": [
+      {
+        "frets": [
+          3,
+          3,
+          2,
+          4
+        ],
+        "fingers": [
+          2,
+          3,
+          1,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          70,
+          63,
+          66,
+          73
+        ]
+      },
+      {
+        "frets": [
+          6,
+          6,
+          6,
+          6
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 6,
+        "name": "Full Barre Fret 6",
+        "barre": {
+          "fret": 6,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          73,
+          66,
+          70,
+          75
+        ]
+      }
+    ],
+    "sus4": [
+      {
+        "frets": [
+          1,
+          3,
+          4,
+          1
+        ],
+        "fingers": [
+          1,
+          2,
+          3,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Barre Fret 1",
+        "barre": {
+          "fret": 1,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          68,
+          63,
+          68,
+          70
+        ]
+      }
+    ],
+    "sus2": [
+      {
+        "frets": [
+          3,
+          3,
+          1,
+          1
+        ],
+        "fingers": [
+          2,
+          3,
+          1,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Barre Fret 1",
+        "barre": {
+          "fret": 1,
+          "startStr": 2,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          70,
+          63,
+          65,
+          70
+        ]
+      }
+    ],
+    "m6": [
+      {
+        "frets": [
+          3,
+          3,
+          2,
+          3
+        ],
+        "fingers": [
+          2,
+          3,
+          1,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          70,
+          63,
+          66,
+          72
+        ]
+      }
+    ],
+    "dim": [
+      {
+        "frets": [
+          2,
+          3,
+          2,
+          0
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          69,
+          63,
+          66,
+          69
+        ]
+      }
+    ],
+    "dim7": [
+      {
+        "frets": [
+          2,
+          3,
+          2,
+          3
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Standard Dim7",
+        "midis": [
+          69,
+          63,
+          66,
+          72
+        ]
+      }
+    ],
+    "aug": [
+      {
+        "frets": [
+          0,
+          3,
+          3,
+          2
+        ],
+        "fingers": [
+          0,
+          2,
+          3,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Open Ebaug",
+        "midis": [
+          67,
+          63,
+          67,
+          71
+        ]
+      }
+    ],
+    "add9": [
+      {
+        "frets": [
+          0,
+          3,
+          1,
+          1
+        ],
+        "fingers": [
+          0,
+          3,
+          1,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "barre": {
+          "fret": 1,
+          "startStr": 2,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          67,
+          63,
+          65,
+          70
+        ]
+      }
+    ]
+  },
+  "E": {
+    "6": [
+      {
+        "frets": [
+          1,
+          1,
+          0,
+          2
+        ],
+        "fingers": [
+          1,
+          2,
+          0,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Open E6",
+        "midis": [
+          68,
+          61,
+          64,
+          71
+        ]
+      },
+      {
+        "frets": [
+          4,
+          4,
+          4,
+          4
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 4,
+        "name": "Full Barre Fret 4",
+        "barre": {
+          "fret": 4,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          71,
+          64,
+          68,
+          73
+        ]
+      }
+    ],
+    "7": [
+      {
+        "frets": [
+          1,
+          2,
+          0,
+          2
+        ],
+        "fingers": [
+          1,
+          2,
+          0,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Open E7 (Standard)",
+        "tips": "นิ้วชี้สาย 4 เฟรต 1 นิ้วกลางสาย 3 เฟรต 2 นิ้วนางสาย 1 เฟรต 2",
+        "midis": [
+          68,
+          62,
+          64,
+          71
+        ]
+      },
+      {
+        "frets": [
+          4,
+          2,
+          4,
+          2
+        ],
+        "fingers": [
+          3,
+          1,
+          4,
+          1
+        ],
+        "baseFret": 2,
+        "name": "Barre Fret 2",
+        "barre": {
+          "fret": 2,
+          "startStr": 1,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          71,
+          62,
+          68,
+          71
+        ]
+      }
+    ],
+    "9": [
+      {
+        "frets": [
+          1,
+          2,
+          2,
+          2
+        ],
+        "fingers": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Open E9",
+        "midis": [
+          68,
+          62,
+          66,
+          71
+        ]
+      }
+    ],
+    "Major": [
+      {
+        "frets": [
+          4,
+          4,
+          4,
+          2
+        ],
+        "fingers": [
+          2,
+          3,
+          4,
+          1
+        ],
+        "baseFret": 2,
+        "name": "Standard E (4-Finger)",
+        "tips": "นิ้วชี้สาย 1 เฟรต 2 นิ้วกลาง/นาง/ก้อยกดสาย 4, 3, 2 เฟรต 4",
+        "midis": [
+          71,
+          64,
+          68,
+          71
+        ]
+      },
+      {
+        "frets": [
+          1,
+          4,
+          0,
+          2
+        ],
+        "fingers": [
+          1,
+          4,
+          0,
+          2
+        ],
+        "baseFret": 1,
+        "name": "Open E Alternative",
+        "tips": "นิ้วชี้สาย 4 เฟรต 1 นิ้วก้อยสาย 3 เฟรต 4 นิ้วกลางสาย 1 เฟรต 2",
+        "midis": [
+          68,
+          64,
+          64,
+          71
+        ]
+      },
+      {
+        "frets": [
+          4,
+          4,
+          4,
+          7
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          4
+        ],
+        "baseFret": 4,
+        "name": "Barre Fret 4 E",
+        "barre": {
+          "fret": 4,
+          "startStr": 0,
+          "endStr": 2,
+          "finger": 1
+        },
+        "midis": [
+          71,
+          64,
+          68,
+          76
+        ]
+      }
+    ],
+    "Minor": [
+      {
+        "frets": [
+          0,
+          4,
+          3,
+          2
+        ],
+        "fingers": [
+          0,
+          3,
+          2,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Open Em (Staircase)",
+        "tips": "นิ้วชี้สาย 1 เฟรต 2, กลางสาย 2 เฟรต 3, นางสาย 3 เฟรต 4",
+        "midis": [
+          67,
+          64,
+          67,
+          71
+        ]
+      },
+      {
+        "frets": [
+          4,
+          4,
+          3,
+          2
+        ],
+        "fingers": [
+          3,
+          4,
+          2,
+          1
+        ],
+        "baseFret": 2,
+        "name": "Fret 2 Em",
+        "midis": [
+          71,
+          64,
+          67,
+          71
+        ]
+      }
+    ],
+    "maj7": [
+      {
+        "frets": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "fingers": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "baseFret": 1,
+        "name": "Open Emaj7",
+        "midis": [
+          68,
+          63,
+          64,
+          71
+        ]
+      },
+      {
+        "frets": [
+          4,
+          4,
+          4,
+          6
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          3
+        ],
+        "baseFret": 4,
+        "name": "Barre Fret 4",
+        "barre": {
+          "fret": 4,
+          "startStr": 0,
+          "endStr": 2,
+          "finger": 1
+        },
+        "midis": [
+          71,
+          64,
+          68,
+          75
+        ]
+      }
+    ],
+    "m7": [
+      {
+        "frets": [
+          0,
+          2,
+          0,
+          2
+        ],
+        "fingers": [
+          0,
+          1,
+          0,
+          2
+        ],
+        "baseFret": 1,
+        "name": "Open Em7",
+        "tips": "นิ้วชี้สาย 3 เฟรต 2 นิ้วกลางสาย 1 เฟรต 2",
+        "midis": [
+          67,
+          62,
+          64,
+          71
+        ]
+      },
+      {
+        "frets": [
+          7,
+          7,
+          7,
+          7
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 7,
+        "name": "Full Barre Fret 7",
+        "barre": {
+          "fret": 7,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          74,
+          67,
+          71,
+          76
+        ]
+      }
+    ],
+    "sus4": [
+      {
+        "frets": [
+          2,
+          4,
+          0,
+          2
+        ],
+        "fingers": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "baseFret": 1,
+        "name": "Open Esus4",
+        "midis": [
+          69,
+          64,
+          64,
+          71
+        ]
+      },
+      {
+        "frets": [
+          4,
+          4,
+          5,
+          2
+        ],
+        "fingers": [
+          2,
+          3,
+          4,
+          1
+        ],
+        "baseFret": 2,
+        "name": "Standard Esus4",
+        "midis": [
+          71,
+          64,
+          69,
+          71
+        ]
+      }
+    ],
+    "sus2": [
+      {
+        "frets": [
+          4,
+          4,
+          2,
+          2
+        ],
+        "fingers": [
+          3,
+          4,
+          1,
+          1
+        ],
+        "baseFret": 2,
+        "name": "Barre Fret 2",
+        "barre": {
+          "fret": 2,
+          "startStr": 2,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          71,
+          64,
+          66,
+          71
+        ]
+      }
+    ],
+    "m6": [
+      {
+        "frets": [
+          0,
+          1,
+          0,
+          2
+        ],
+        "fingers": [
+          0,
+          1,
+          0,
+          2
+        ],
+        "baseFret": 1,
+        "name": "Open Em6",
+        "midis": [
+          67,
+          61,
+          64,
+          71
+        ]
+      }
+    ],
+    "dim": [
+      {
+        "frets": [
+          0,
+          4,
+          0,
+          1
+        ],
+        "fingers": [
+          0,
+          3,
+          0,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Open Edim",
+        "midis": [
+          67,
+          64,
+          64,
+          70
+        ]
+      }
+    ],
+    "dim7": [
+      {
+        "frets": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "fingers": [
+          0,
+          1,
+          0,
+          2
+        ],
+        "baseFret": 1,
+        "name": "Open Edim7",
+        "midis": [
+          67,
+          61,
+          64,
+          70
+        ]
+      },
+      {
+        "frets": [
+          3,
+          4,
+          3,
+          4
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 3,
+        "name": "Fret 3 Edim7",
+        "midis": [
+          70,
+          64,
+          67,
+          73
+        ]
+      }
+    ],
+    "aug": [
+      {
+        "frets": [
+          1,
+          0,
+          0,
+          3
+        ],
+        "fingers": [
+          1,
+          0,
+          0,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Open Eaug",
+        "midis": [
+          68,
+          60,
+          64,
+          72
+        ]
+      }
+    ],
+    "add9": [
+      {
+        "frets": [
+          1,
+          4,
+          2,
+          2
+        ],
+        "fingers": [
+          1,
+          4,
+          2,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          68,
+          64,
+          66,
+          71
+        ]
+      }
+    ]
+  },
+  "F": {
+    "6": [
+      {
+        "frets": [
+          2,
+          2,
+          1,
+          3
+        ],
+        "fingers": [
+          2,
+          3,
+          1,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Open F6",
+        "midis": [
+          69,
+          62,
+          65,
+          72
+        ]
+      },
+      {
+        "frets": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 5,
+        "name": "Full Barre Fret 5",
+        "barre": {
+          "fret": 5,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          72,
+          65,
+          69,
+          74
+        ]
+      }
+    ],
+    "7": [
+      {
+        "frets": [
+          2,
+          3,
+          1,
+          0
+        ],
+        "fingers": [
+          2,
+          3,
+          1,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open F7 (Classic)",
+        "tips": "นิ้วชี้สาย 2 เฟรต 1 นิ้วกลางสาย 4 เฟรต 2 นิ้วนางสาย 3 เฟรต 3",
+        "midis": [
+          69,
+          63,
+          65,
+          69
+        ]
+      },
+      {
+        "frets": [
+          2,
+          3,
+          1,
+          3
+        ],
+        "fingers": [
+          2,
+          3,
+          1,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Full F7",
+        "midis": [
+          69,
+          63,
+          65,
+          72
+        ]
+      }
+    ],
+    "9": [
+      {
+        "frets": [
+          0,
+          3,
+          1,
+          0
+        ],
+        "fingers": [
+          0,
+          3,
+          1,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open F9",
+        "midis": [
+          67,
+          63,
+          65,
+          69
+        ]
+      }
+    ],
+    "Major": [
+      {
+        "frets": [
+          2,
+          0,
+          1,
+          0
+        ],
+        "fingers": [
+          2,
+          0,
+          1,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open F (Classic)",
+        "tips": "นิ้วชี้สาย 2 เฟรต 1 นิ้วกลางสาย 4 เฟรต 2",
+        "midis": [
+          69,
+          60,
+          65,
+          69
+        ]
+      },
+      {
+        "frets": [
+          5,
+          5,
+          5,
+          3
+        ],
+        "fingers": [
+          2,
+          3,
+          4,
+          1
+        ],
+        "baseFret": 3,
+        "name": "Fret 3 F Major",
+        "midis": [
+          72,
+          65,
+          69,
+          72
+        ]
+      },
+      {
+        "frets": [
+          5,
+          5,
+          5,
+          8
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          4
+        ],
+        "baseFret": 5,
+        "name": "Barre Fret 5",
+        "barre": {
+          "fret": 5,
+          "startStr": 0,
+          "endStr": 2,
+          "finger": 1
+        },
+        "midis": [
+          72,
+          65,
+          69,
+          77
+        ]
+      }
+    ],
+    "Minor": [
+      {
+        "frets": [
+          1,
+          0,
+          1,
+          3
+        ],
+        "fingers": [
+          1,
+          0,
+          2,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Open Fm (Classic)",
+        "tips": "นิ้วชี้สาย 4 เฟรต 1 กลางสาย 2 เฟรต 1 ก้อยสาย 1 เฟรต 3",
+        "midis": [
+          68,
+          60,
+          65,
+          72
+        ]
+      },
+      {
+        "frets": [
+          5,
+          5,
+          4,
+          3
+        ],
+        "fingers": [
+          3,
+          4,
+          2,
+          1
+        ],
+        "baseFret": 3,
+        "name": "Position 2",
+        "midis": [
+          72,
+          65,
+          68,
+          72
+        ]
+      }
+    ],
+    "maj7": [
+      {
+        "frets": [
+          2,
+          4,
+          1,
+          0
+        ],
+        "fingers": [
+          2,
+          4,
+          1,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open Fmaj7",
+        "midis": [
+          69,
+          64,
+          65,
+          69
+        ]
+      },
+      {
+        "frets": [
+          5,
+          5,
+          5,
+          7
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          3
+        ],
+        "baseFret": 5,
+        "name": "Barre Fret 5",
+        "barre": {
+          "fret": 5,
+          "startStr": 0,
+          "endStr": 2,
+          "finger": 1
+        },
+        "midis": [
+          72,
+          65,
+          69,
+          76
+        ]
+      }
+    ],
+    "m7": [
+      {
+        "frets": [
+          1,
+          3,
+          1,
+          3
+        ],
+        "fingers": [
+          1,
+          3,
+          1,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Open Fm7",
+        "midis": [
+          68,
+          63,
+          65,
+          72
+        ]
+      },
+      {
+        "frets": [
+          8,
+          8,
+          8,
+          8
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 8,
+        "name": "Full Barre Fret 8",
+        "barre": {
+          "fret": 8,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          75,
+          68,
+          72,
+          77
+        ]
+      }
+    ],
+    "sus4": [
+      {
+        "frets": [
+          3,
+          0,
+          1,
+          1
+        ],
+        "fingers": [
+          3,
+          0,
+          1,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Open Fsus4",
+        "barre": {
+          "fret": 1,
+          "startStr": 2,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          70,
+          60,
+          65,
+          70
+        ]
+      }
+    ],
+    "sus2": [
+      {
+        "frets": [
+          0,
+          0,
+          1,
+          3
+        ],
+        "fingers": [
+          0,
+          0,
+          1,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Open Fsus2",
+        "midis": [
+          67,
+          60,
+          65,
+          72
+        ]
+      }
+    ],
+    "m6": [
+      {
+        "frets": [
+          1,
+          2,
+          1,
+          3
+        ],
+        "fingers": [
+          1,
+          2,
+          1,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Open Fm6",
+        "midis": [
+          68,
+          62,
+          65,
+          72
+        ]
+      }
+    ],
+    "dim": [
+      {
+        "frets": [
+          1,
+          2,
+          1,
+          2
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Standard Fdim",
+        "midis": [
+          68,
+          62,
+          65,
+          71
+        ]
+      }
+    ],
+    "dim7": [
+      {
+        "frets": [
+          1,
+          2,
+          1,
+          2
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Standard Fdim7",
+        "midis": [
+          68,
+          62,
+          65,
+          71
+        ]
+      }
+    ],
+    "aug": [
+      {
+        "frets": [
+          2,
+          1,
+          1,
+          0
+        ],
+        "fingers": [
+          2,
+          1,
+          1,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open Faug",
+        "midis": [
+          69,
+          61,
+          65,
+          69
+        ]
+      }
+    ],
+    "add9": [
+      {
+        "frets": [
+          0,
+          0,
+          1,
+          0
+        ],
+        "fingers": [
+          0,
+          0,
+          1,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Easy Open Fadd9",
+        "midis": [
+          67,
+          60,
+          65,
+          69
+        ]
+      }
+    ]
+  },
+  "Gb": {
+    "6": [
+      {
+        "frets": [
+          3,
+          3,
+          2,
+          4
+        ],
+        "fingers": [
+          2,
+          3,
+          1,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          70,
+          63,
+          66,
+          73
+        ]
+      },
+      {
+        "frets": [
+          6,
+          6,
+          6,
+          6
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 6,
+        "name": "Full Barre Fret 6",
+        "barre": {
+          "fret": 6,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          73,
+          66,
+          70,
+          75
+        ]
+      }
+    ],
+    "7": [
+      {
+        "frets": [
+          3,
+          4,
+          2,
+          1
+        ],
+        "fingers": [
+          3,
+          4,
+          2,
+          1
+        ],
+        "baseFret": 1,
+        "name": "F#7 Position 1",
+        "midis": [
+          70,
+          64,
+          66,
+          70
+        ]
+      },
+      {
+        "frets": [
+          3,
+          4,
+          2,
+          4
+        ],
+        "fingers": [
+          2,
+          3,
+          1,
+          4
+        ],
+        "baseFret": 1,
+        "name": "F#7 Position 2",
+        "midis": [
+          70,
+          64,
+          66,
+          73
+        ]
+      }
+    ],
+    "9": [
+      {
+        "frets": [
+          1,
+          4,
+          2,
+          1
+        ],
+        "fingers": [
+          1,
+          4,
+          2,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          68,
+          64,
+          66,
+          70
+        ]
+      }
+    ],
+    "Major": [
+      {
+        "frets": [
+          3,
+          1,
+          2,
+          1
+        ],
+        "fingers": [
+          3,
+          1,
+          2,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Barre Fret 1 (F#)",
+        "barre": {
+          "fret": 1,
+          "startStr": 1,
+          "endStr": 3,
+          "finger": 1
+        },
+        "tips": "นิ้วชี้ทาบสาย 3, 1 เฟรต 1 นิ้วกลางสาย 2 เฟรต 2 นิ้วนางสาย 4 เฟรต 3",
+        "midis": [
+          70,
+          61,
+          66,
+          70
+        ]
+      },
+      {
+        "frets": [
+          6,
+          6,
+          6,
+          4
+        ],
+        "fingers": [
+          2,
+          3,
+          4,
+          1
+        ],
+        "baseFret": 4,
+        "name": "Position 2",
+        "midis": [
+          73,
+          66,
+          70,
+          73
+        ]
+      }
+    ],
+    "Minor": [
+      {
+        "frets": [
+          2,
+          1,
+          2,
+          0
+        ],
+        "fingers": [
+          2,
+          1,
+          3,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open F#m (Classic)",
+        "tips": "นิ้วชี้สาย 3 เฟรต 1 นิ้วกลางสาย 4 เฟรต 2 นิ้วนางสาย 2 เฟรต 2",
+        "midis": [
+          69,
+          61,
+          66,
+          69
+        ]
+      },
+      {
+        "frets": [
+          6,
+          6,
+          5,
+          4
+        ],
+        "fingers": [
+          3,
+          4,
+          2,
+          1
+        ],
+        "baseFret": 4,
+        "name": "Barre Fret 4",
+        "midis": [
+          73,
+          66,
+          69,
+          73
+        ]
+      }
+    ],
+    "maj7": [
+      {
+        "frets": [
+          3,
+          5,
+          2,
+          1
+        ],
+        "fingers": [
+          2,
+          4,
+          1,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          70,
+          65,
+          66,
+          70
+        ]
+      },
+      {
+        "frets": [
+          6,
+          6,
+          6,
+          8
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          3
+        ],
+        "baseFret": 6,
+        "name": "Barre Fret 6",
+        "barre": {
+          "fret": 6,
+          "startStr": 0,
+          "endStr": 2,
+          "finger": 1
+        },
+        "midis": [
+          73,
+          66,
+          70,
+          77
+        ]
+      }
+    ],
+    "m7": [
+      {
+        "frets": [
+          2,
+          4,
+          2,
+          4
+        ],
+        "fingers": [
+          1,
+          3,
+          1,
+          4
+        ],
+        "baseFret": 2,
+        "name": "F#m7",
+        "midis": [
+          69,
+          64,
+          66,
+          73
+        ]
+      },
+      {
+        "frets": [
+          9,
+          9,
+          9,
+          9
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 9,
+        "name": "Full Barre Fret 9",
+        "barre": {
+          "fret": 9,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          76,
+          69,
+          73,
+          78
+        ]
+      }
+    ],
+    "sus4": [
+      {
+        "frets": [
+          4,
+          1,
+          2,
+          2
+        ],
+        "fingers": [
+          4,
+          1,
+          2,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          71,
+          61,
+          66,
+          71
+        ]
+      }
+    ],
+    "sus2": [
+      {
+        "frets": [
+          1,
+          1,
+          2,
+          4
+        ],
+        "fingers": [
+          1,
+          1,
+          2,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          68,
+          61,
+          66,
+          73
+        ]
+      }
+    ],
+    "m6": [
+      {
+        "frets": [
+          2,
+          3,
+          2,
+          4
+        ],
+        "fingers": [
+          1,
+          2,
+          1,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          69,
+          63,
+          66,
+          73
+        ]
+      }
+    ],
+    "dim": [
+      {
+        "frets": [
+          2,
+          3,
+          2,
+          3
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Standard Dim",
+        "midis": [
+          69,
+          63,
+          66,
+          72
+        ]
+      }
+    ],
+    "dim7": [
+      {
+        "frets": [
+          2,
+          3,
+          2,
+          3
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Standard Dim7",
+        "midis": [
+          69,
+          63,
+          66,
+          72
+        ]
+      }
+    ],
+    "aug": [
+      {
+        "frets": [
+          3,
+          2,
+          2,
+          1
+        ],
+        "fingers": [
+          4,
+          2,
+          3,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          70,
+          62,
+          66,
+          70
+        ]
+      }
+    ],
+    "add9": [
+      {
+        "frets": [
+          1,
+          1,
+          2,
+          1
+        ],
+        "fingers": [
+          1,
+          1,
+          2,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Barre Fret 1",
+        "barre": {
+          "fret": 1,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          68,
+          61,
+          66,
+          70
+        ]
+      }
+    ]
+  },
+  "G": {
+    "6": [
+      {
+        "frets": [
+          0,
+          2,
+          0,
+          2
+        ],
+        "fingers": [
+          0,
+          1,
+          0,
+          2
+        ],
+        "baseFret": 1,
+        "name": "Open G6",
+        "midis": [
+          67,
+          62,
+          64,
+          71
+        ]
+      }
+    ],
+    "7": [
+      {
+        "frets": [
+          0,
+          2,
+          1,
+          2
+        ],
+        "fingers": [
+          0,
+          2,
+          1,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Open G7 (Classic)",
+        "tips": "นิ้วชี้สาย 2 เฟรต 1 นิ้วกลางสาย 3 เฟรต 2 นิ้วนางสาย 1 เฟรต 2",
+        "midis": [
+          67,
+          62,
+          65,
+          71
+        ]
+      },
+      {
+        "frets": [
+          4,
+          5,
+          3,
+          5
+        ],
+        "fingers": [
+          2,
+          3,
+          1,
+          4
+        ],
+        "baseFret": 3,
+        "name": "Position 2",
+        "midis": [
+          71,
+          65,
+          67,
+          74
+        ]
+      }
+    ],
+    "9": [
+      {
+        "frets": [
+          2,
+          2,
+          1,
+          2
+        ],
+        "fingers": [
+          2,
+          3,
+          1,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Open G9",
+        "midis": [
+          69,
+          62,
+          65,
+          71
+        ]
+      }
+    ],
+    "Major": [
+      {
+        "frets": [
+          0,
+          2,
+          3,
+          2
+        ],
+        "fingers": [
+          0,
+          1,
+          3,
+          2
+        ],
+        "baseFret": 1,
+        "name": "Open G (Classic Triangle)",
+        "tips": "นิ้วชี้สาย 3 เฟรต 2 นิ้วกลางสาย 1 เฟรต 2 นิ้วนางสาย 2 เฟรต 3",
+        "midis": [
+          67,
+          62,
+          67,
+          71
+        ]
+      },
+      {
+        "frets": [
+          4,
+          2,
+          3,
+          2
+        ],
+        "fingers": [
+          3,
+          1,
+          2,
+          1
+        ],
+        "baseFret": 2,
+        "name": "Barre Fret 2 G",
+        "barre": {
+          "fret": 2,
+          "startStr": 1,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          71,
+          62,
+          67,
+          71
+        ]
+      },
+      {
+        "frets": [
+          7,
+          7,
+          7,
+          5
+        ],
+        "fingers": [
+          2,
+          3,
+          4,
+          1
+        ],
+        "baseFret": 5,
+        "name": "Position 3",
+        "midis": [
+          74,
+          67,
+          71,
+          74
+        ]
+      }
+    ],
+    "Minor": [
+      {
+        "frets": [
+          0,
+          2,
+          3,
+          1
+        ],
+        "fingers": [
+          0,
+          2,
+          3,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Open Gm (Classic)",
+        "tips": "นิ้วชี้สาย 1 เฟรต 1 นิ้วกลางสาย 3 เฟรต 2 นิ้วนางสาย 2 เฟรต 3",
+        "midis": [
+          67,
+          62,
+          67,
+          70
+        ]
+      },
+      {
+        "frets": [
+          3,
+          2,
+          3,
+          1
+        ],
+        "fingers": [
+          3,
+          2,
+          4,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Position 2",
+        "midis": [
+          70,
+          62,
+          67,
+          70
+        ]
+      }
+    ],
+    "maj7": [
+      {
+        "frets": [
+          0,
+          2,
+          2,
+          2
+        ],
+        "fingers": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Open Gmaj7",
+        "tips": "เรียง 3 นิ้วที่สาย 3, 2, 1 เฟรต 2",
+        "midis": [
+          67,
+          62,
+          66,
+          71
+        ]
+      },
+      {
+        "frets": [
+          4,
+          6,
+          3,
+          2
+        ],
+        "fingers": [
+          3,
+          4,
+          2,
+          1
+        ],
+        "baseFret": 2,
+        "name": "Jazz Gmaj7",
+        "midis": [
+          71,
+          66,
+          67,
+          71
+        ]
+      }
+    ],
+    "m7": [
+      {
+        "frets": [
+          0,
+          2,
+          1,
+          1
+        ],
+        "fingers": [
+          0,
+          2,
+          1,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Open Gm7",
+        "barre": {
+          "fret": 1,
+          "startStr": 2,
+          "endStr": 3,
+          "finger": 1
+        },
+        "tips": "นิ้วชี้ทาบสาย 2-1 เฟรต 1 นิ้วกลางสาย 3 เฟรต 2",
+        "midis": [
+          67,
+          62,
+          65,
+          70
+        ]
+      },
+      {
+        "frets": [
+          3,
+          5,
+          3,
+          5
+        ],
+        "fingers": [
+          1,
+          3,
+          1,
+          4
+        ],
+        "baseFret": 3,
+        "name": "Barre Gm7",
+        "midis": [
+          70,
+          65,
+          67,
+          74
+        ]
+      }
+    ],
+    "sus4": [
+      {
+        "frets": [
+          0,
+          2,
+          3,
+          3
+        ],
+        "fingers": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Open Gsus4",
+        "midis": [
+          67,
+          62,
+          67,
+          72
+        ]
+      }
+    ],
+    "sus2": [
+      {
+        "frets": [
+          0,
+          2,
+          3,
+          0
+        ],
+        "fingers": [
+          0,
+          1,
+          2,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open Gsus2",
+        "midis": [
+          67,
+          62,
+          67,
+          69
+        ]
+      }
+    ],
+    "m6": [
+      {
+        "frets": [
+          0,
+          2,
+          0,
+          1
+        ],
+        "fingers": [
+          0,
+          2,
+          0,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Open Gm6",
+        "midis": [
+          67,
+          62,
+          64,
+          70
+        ]
+      }
+    ],
+    "dim": [
+      {
+        "frets": [
+          0,
+          1,
+          3,
+          1
+        ],
+        "fingers": [
+          0,
+          1,
+          3,
+          2
+        ],
+        "baseFret": 1,
+        "name": "Open Gdim",
+        "midis": [
+          67,
+          61,
+          67,
+          70
+        ]
+      }
+    ],
+    "dim7": [
+      {
+        "frets": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "fingers": [
+          0,
+          1,
+          0,
+          2
+        ],
+        "baseFret": 1,
+        "name": "Open Gdim7",
+        "midis": [
+          67,
+          61,
+          64,
+          70
+        ]
+      }
+    ],
+    "aug": [
+      {
+        "frets": [
+          0,
+          3,
+          3,
+          2
+        ],
+        "fingers": [
+          0,
+          2,
+          3,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Open Gaug",
+        "midis": [
+          67,
+          63,
+          67,
+          71
+        ]
+      }
+    ],
+    "add9": [
+      {
+        "frets": [
+          0,
+          2,
+          3,
+          0
+        ],
+        "fingers": [
+          0,
+          1,
+          2,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open Gadd9",
+        "midis": [
+          67,
+          62,
+          67,
+          69
+        ]
+      },
+      {
+        "frets": [
+          2,
+          2,
+          3,
+          2
+        ],
+        "fingers": [
+          1,
+          2,
+          4,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Position 2",
+        "midis": [
+          69,
+          62,
+          67,
+          71
+        ]
+      }
+    ]
+  },
+  "Ab": {
+    "6": [
+      {
+        "frets": [
+          1,
+          3,
+          1,
+          3
+        ],
+        "fingers": [
+          1,
+          3,
+          1,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          68,
+          63,
+          65,
+          72
+        ]
+      }
+    ],
+    "7": [
+      {
+        "frets": [
+          1,
+          3,
+          2,
+          3
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Open Style Ab7",
+        "midis": [
+          68,
+          63,
+          66,
+          72
+        ]
+      },
+      {
+        "frets": [
+          5,
+          6,
+          4,
+          6
+        ],
+        "fingers": [
+          2,
+          3,
+          1,
+          4
+        ],
+        "baseFret": 4,
+        "name": "Barre Fret 4",
+        "midis": [
+          72,
+          66,
+          68,
+          75
+        ]
+      }
+    ],
+    "9": [
+      {
+        "frets": [
+          3,
+          3,
+          2,
+          3
+        ],
+        "fingers": [
+          2,
+          3,
+          1,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          70,
+          63,
+          66,
+          72
+        ]
+      }
+    ],
+    "Major": [
+      {
+        "frets": [
+          5,
+          3,
+          4,
+          3
+        ],
+        "fingers": [
+          4,
+          1,
+          2,
+          1
+        ],
+        "baseFret": 3,
+        "name": "Barre Fret 3 (Ab)",
+        "barre": {
+          "fret": 3,
+          "startStr": 1,
+          "endStr": 3,
+          "finger": 1
+        },
+        "tips": "นิ้วชี้ทาบสาย 3, 1 เฟรต 3 นิ้วกลางสาย 2 เฟรต 4 นิ้วก้อยสาย 4 เฟรต 5",
+        "midis": [
+          72,
+          63,
+          68,
+          72
+        ]
+      },
+      {
+        "frets": [
+          1,
+          3,
+          4,
+          3
+        ],
+        "fingers": [
+          1,
+          2,
+          4,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Open Style Ab",
+        "midis": [
+          68,
+          63,
+          68,
+          72
+        ]
+      }
+    ],
+    "Minor": [
+      {
+        "frets": [
+          1,
+          3,
+          4,
+          2
+        ],
+        "fingers": [
+          1,
+          3,
+          4,
+          2
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          68,
+          63,
+          68,
+          71
+        ]
+      },
+      {
+        "frets": [
+          4,
+          3,
+          4,
+          2
+        ],
+        "fingers": [
+          3,
+          2,
+          4,
+          1
+        ],
+        "baseFret": 2,
+        "name": "Position 2",
+        "midis": [
+          71,
+          63,
+          68,
+          71
+        ]
+      }
+    ],
+    "maj7": [
+      {
+        "frets": [
+          1,
+          3,
+          3,
+          3
+        ],
+        "fingers": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          68,
+          63,
+          67,
+          72
+        ]
+      },
+      {
+        "frets": [
+          5,
+          7,
+          4,
+          3
+        ],
+        "fingers": [
+          3,
+          4,
+          2,
+          1
+        ],
+        "baseFret": 3,
+        "name": "Jazz Abmaj7",
+        "midis": [
+          72,
+          67,
+          68,
+          72
+        ]
+      }
+    ],
+    "m7": [
+      {
+        "frets": [
+          1,
+          3,
+          2,
+          2
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          2
+        ],
+        "baseFret": 1,
+        "name": "Barre Fret 2",
+        "barre": {
+          "fret": 2,
+          "startStr": 2,
+          "endStr": 3,
+          "finger": 2
+        },
+        "midis": [
+          68,
+          63,
+          66,
+          71
+        ]
+      },
+      {
+        "frets": [
+          4,
+          6,
+          4,
+          6
+        ],
+        "fingers": [
+          1,
+          3,
+          1,
+          4
+        ],
+        "baseFret": 4,
+        "name": "Barre Fret 4",
+        "midis": [
+          71,
+          66,
+          68,
+          75
+        ]
+      }
+    ],
+    "sus4": [
+      {
+        "frets": [
+          1,
+          3,
+          4,
+          4
+        ],
+        "fingers": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          68,
+          63,
+          68,
+          73
+        ]
+      }
+    ],
+    "sus2": [
+      {
+        "frets": [
+          1,
+          3,
+          4,
+          1
+        ],
+        "fingers": [
+          1,
+          2,
+          3,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Barre Fret 1",
+        "barre": {
+          "fret": 1,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          68,
+          63,
+          68,
+          70
+        ]
+      }
+    ],
+    "m6": [
+      {
+        "frets": [
+          1,
+          3,
+          1,
+          2
+        ],
+        "fingers": [
+          1,
+          3,
+          1,
+          2
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          68,
+          63,
+          65,
+          71
+        ]
+      }
+    ],
+    "dim": [
+      {
+        "frets": [
+          1,
+          2,
+          4,
+          2
+        ],
+        "fingers": [
+          1,
+          2,
+          4,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Position 1",
+        "midis": [
+          68,
+          62,
+          68,
+          71
+        ]
+      }
+    ],
+    "dim7": [
+      {
+        "frets": [
+          1,
+          2,
+          1,
+          2
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Standard Dim7",
+        "midis": [
+          68,
+          62,
+          65,
+          71
+        ]
+      }
+    ],
+    "aug": [
+      {
+        "frets": [
+          1,
+          0,
+          0,
+          3
+        ],
+        "fingers": [
+          1,
+          0,
+          0,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Abaug",
+        "midis": [
+          68,
+          60,
+          64,
+          72
+        ]
+      }
+    ],
+    "add9": [
+      {
+        "frets": [
+          3,
+          3,
+          4,
+          3
+        ],
+        "fingers": [
+          1,
+          2,
+          4,
+          3
+        ],
+        "baseFret": 3,
+        "name": "Barre Fret 3",
+        "barre": {
+          "fret": 3,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          70,
+          63,
+          68,
+          72
+        ]
+      }
+    ]
+  },
+  "A": {
+    "6": [
+      {
+        "frets": [
+          2,
+          4,
+          2,
+          4
+        ],
+        "fingers": [
+          1,
+          3,
+          1,
+          4
+        ],
+        "baseFret": 2,
+        "name": "Barre A6",
+        "barre": {
+          "fret": 2,
+          "startStr": 0,
+          "endStr": 2,
+          "finger": 1
+        },
+        "midis": [
+          69,
+          64,
+          66,
+          73
+        ]
+      }
+    ],
+    "7": [
+      {
+        "frets": [
+          0,
+          1,
+          0,
+          0
+        ],
+        "fingers": [
+          0,
+          1,
+          0,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open A7 (One Finger)",
+        "tips": "นิ้วชี้กดสาย 3 เฟรต 1 เพียงนิ้วเดียว",
+        "midis": [
+          67,
+          61,
+          64,
+          69
+        ]
+      },
+      {
+        "frets": [
+          2,
+          4,
+          3,
+          4
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 2,
+        "name": "Position 2 A7",
+        "midis": [
+          69,
+          64,
+          67,
+          73
+        ]
+      }
+    ],
+    "9": [
+      {
+        "frets": [
+          2,
+          1,
+          0,
+          2
+        ],
+        "fingers": [
+          2,
+          1,
+          0,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Open A9",
+        "midis": [
+          69,
+          61,
+          64,
+          71
+        ]
+      }
+    ],
+    "Major": [
+      {
+        "frets": [
+          2,
+          1,
+          0,
+          0
+        ],
+        "fingers": [
+          2,
+          1,
+          0,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open A (Classic)",
+        "tips": "นิ้วชี้สาย 3 เฟรต 1 นิ้วกลางสาย 4 เฟรต 2",
+        "midis": [
+          69,
+          61,
+          64,
+          69
+        ]
+      },
+      {
+        "frets": [
+          6,
+          4,
+          5,
+          4
+        ],
+        "fingers": [
+          4,
+          1,
+          2,
+          1
+        ],
+        "baseFret": 4,
+        "name": "Barre Fret 4 A",
+        "barre": {
+          "fret": 4,
+          "startStr": 1,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          73,
+          64,
+          69,
+          73
+        ]
+      },
+      {
+        "frets": [
+          2,
+          1,
+          0,
+          4
+        ],
+        "fingers": [
+          2,
+          1,
+          0,
+          4
+        ],
+        "baseFret": 1,
+        "name": "High 3rd Voicing",
+        "midis": [
+          69,
+          61,
+          64,
+          73
+        ]
+      }
+    ],
+    "Minor": [
+      {
+        "frets": [
+          2,
+          0,
+          0,
+          0
+        ],
+        "fingers": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open Am (One Finger)",
+        "tips": "นิ้วกลางหรือชี้กดสาย 4 เฟรต 2 เพียงนิ้วเดียว",
+        "midis": [
+          69,
+          60,
+          64,
+          69
+        ]
+      },
+      {
+        "frets": [
+          5,
+          4,
+          5,
+          3
+        ],
+        "fingers": [
+          3,
+          2,
+          4,
+          1
+        ],
+        "baseFret": 3,
+        "name": "Position 2 Am",
+        "midis": [
+          72,
+          64,
+          69,
+          72
+        ]
+      }
+    ],
+    "maj7": [
+      {
+        "frets": [
+          1,
+          1,
+          0,
+          0
+        ],
+        "fingers": [
+          1,
+          2,
+          0,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open Amaj7",
+        "tips": "นิ้วชี้สาย 4 เฟรต 1 นิ้วกลางสาย 3 เฟรต 1",
+        "midis": [
+          68,
+          61,
+          64,
+          69
+        ]
+      },
+      {
+        "frets": [
+          2,
+          1,
+          4,
+          0
+        ],
+        "fingers": [
+          2,
+          1,
+          4,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Position 2",
+        "midis": [
+          69,
+          61,
+          68,
+          69
+        ]
+      }
+    ],
+    "m7": [
+      {
+        "frets": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "fingers": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "baseFret": 1,
+        "name": "All Open Strings (Am7)",
+        "tips": "ดีดสายเปิดทั้งหมด 4 เส้นได้คอร์ด Am7",
+        "midis": [
+          67,
+          60,
+          64,
+          69
+        ]
+      },
+      {
+        "frets": [
+          2,
+          0,
+          3,
+          0
+        ],
+        "fingers": [
+          1,
+          0,
+          2,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Alternative Am7",
+        "midis": [
+          69,
+          60,
+          67,
+          69
+        ]
+      },
+      {
+        "frets": [
+          2,
+          0,
+          0,
+          3
+        ],
+        "fingers": [
+          1,
+          0,
+          0,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Position 3",
+        "midis": [
+          69,
+          60,
+          64,
+          72
+        ]
+      }
+    ],
+    "sus4": [
+      {
+        "frets": [
+          2,
+          2,
+          0,
+          0
+        ],
+        "fingers": [
+          1,
+          2,
+          0,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open Asus4",
+        "midis": [
+          69,
+          62,
+          64,
+          69
+        ]
+      }
+    ],
+    "sus2": [
+      {
+        "frets": [
+          2,
+          4,
+          0,
+          0
+        ],
+        "fingers": [
+          1,
+          3,
+          0,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open Asus2",
+        "midis": [
+          69,
+          64,
+          64,
+          69
+        ]
+      }
+    ],
+    "m6": [
+      {
+        "frets": [
+          2,
+          4,
+          2,
+          3
+        ],
+        "fingers": [
+          1,
+          3,
+          1,
+          2
+        ],
+        "baseFret": 2,
+        "name": "Barre Am6",
+        "midis": [
+          69,
+          64,
+          66,
+          72
+        ]
+      }
+    ],
+    "dim": [
+      {
+        "frets": [
+          2,
+          3,
+          2,
+          3
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Standard Adim",
+        "midis": [
+          69,
+          63,
+          66,
+          72
+        ]
+      }
+    ],
+    "dim7": [
+      {
+        "frets": [
+          2,
+          3,
+          2,
+          3
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Standard Adim7",
+        "midis": [
+          69,
+          63,
+          66,
+          72
+        ]
+      }
+    ],
+    "aug": [
+      {
+        "frets": [
+          2,
+          1,
+          1,
+          0
+        ],
+        "fingers": [
+          2,
+          1,
+          1,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open Aaug",
+        "midis": [
+          69,
+          61,
+          65,
+          69
+        ]
+      }
+    ],
+    "add9": [
+      {
+        "frets": [
+          2,
+          1,
+          0,
+          2
+        ],
+        "fingers": [
+          2,
+          1,
+          0,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Open Aadd9",
+        "midis": [
+          69,
+          61,
+          64,
+          71
+        ]
+      }
+    ]
+  },
+  "Bb": {
+    "6": [
+      {
+        "frets": [
+          0,
+          2,
+          1,
+          1
+        ],
+        "fingers": [
+          0,
+          2,
+          1,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Open Bb6",
+        "barre": {
+          "fret": 1,
+          "startStr": 2,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          67,
+          62,
+          65,
+          70
+        ]
+      }
+    ],
+    "7": [
+      {
+        "frets": [
+          1,
+          2,
+          1,
+          1
+        ],
+        "fingers": [
+          1,
+          2,
+          1,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Barre Fret 1 Bb7",
+        "barre": {
+          "fret": 1,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          68,
+          62,
+          65,
+          70
+        ]
+      },
+      {
+        "frets": [
+          3,
+          5,
+          4,
+          5
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 3,
+        "name": "Position 2",
+        "midis": [
+          70,
+          65,
+          68,
+          74
+        ]
+      }
+    ],
+    "9": [
+      {
+        "frets": [
+          3,
+          2,
+          1,
+          3
+        ],
+        "fingers": [
+          2,
+          1,
+          1,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Bb9",
+        "midis": [
+          70,
+          62,
+          65,
+          72
+        ]
+      }
+    ],
+    "Major": [
+      {
+        "frets": [
+          3,
+          2,
+          1,
+          1
+        ],
+        "fingers": [
+          3,
+          2,
+          1,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Barre Fret 1 (Bb Classic)",
+        "barre": {
+          "fret": 1,
+          "startStr": 2,
+          "endStr": 3,
+          "finger": 1
+        },
+        "tips": "นิ้วชี้ทาบสาย 2-1 เฟรต 1 นิ้วกลางสาย 3 เฟรต 2 นิ้วนางสาย 4 เฟรต 3",
+        "midis": [
+          70,
+          62,
+          65,
+          70
+        ]
+      },
+      {
+        "frets": [
+          7,
+          5,
+          6,
+          5
+        ],
+        "fingers": [
+          4,
+          1,
+          2,
+          1
+        ],
+        "baseFret": 5,
+        "name": "Barre Fret 5 Bb",
+        "barre": {
+          "fret": 5,
+          "startStr": 1,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          74,
+          65,
+          70,
+          74
+        ]
+      }
+    ],
+    "Minor": [
+      {
+        "frets": [
+          3,
+          1,
+          1,
+          1
+        ],
+        "fingers": [
+          3,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Barre Fret 1 Bbm",
+        "barre": {
+          "fret": 1,
+          "startStr": 1,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          70,
+          61,
+          65,
+          70
+        ]
+      },
+      {
+        "frets": [
+          6,
+          5,
+          6,
+          4
+        ],
+        "fingers": [
+          3,
+          2,
+          4,
+          1
+        ],
+        "baseFret": 4,
+        "name": "Position 2",
+        "midis": [
+          73,
+          65,
+          70,
+          73
+        ]
+      }
+    ],
+    "maj7": [
+      {
+        "frets": [
+          3,
+          2,
+          1,
+          0
+        ],
+        "fingers": [
+          3,
+          2,
+          1,
+          0
+        ],
+        "baseFret": 1,
+        "name": "Open Bbmaj7",
+        "tips": "นิ้วชี้สาย 2 เฟรต 1 กลางสาย 3 เฟรต 2 นางสาย 4 เฟรต 3",
+        "midis": [
+          70,
+          62,
+          65,
+          69
+        ]
+      },
+      {
+        "frets": [
+          3,
+          5,
+          5,
+          5
+        ],
+        "fingers": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "baseFret": 3,
+        "name": "Position 2",
+        "midis": [
+          70,
+          65,
+          69,
+          74
+        ]
+      }
+    ],
+    "m7": [
+      {
+        "frets": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Full Barre Fret 1 Bbm7",
+        "barre": {
+          "fret": 1,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          68,
+          61,
+          65,
+          70
+        ]
+      },
+      {
+        "frets": [
+          3,
+          1,
+          4,
+          1
+        ],
+        "fingers": [
+          3,
+          1,
+          4,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Position 2",
+        "midis": [
+          70,
+          61,
+          68,
+          70
+        ]
+      }
+    ],
+    "sus4": [
+      {
+        "frets": [
+          3,
+          3,
+          1,
+          1
+        ],
+        "fingers": [
+          3,
+          4,
+          1,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Barre Fret 1 Bbsus4",
+        "barre": {
+          "fret": 1,
+          "startStr": 2,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          70,
+          63,
+          65,
+          70
+        ]
+      }
+    ],
+    "sus2": [
+      {
+        "frets": [
+          3,
+          0,
+          1,
+          1
+        ],
+        "fingers": [
+          3,
+          0,
+          1,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Open Bbsus2",
+        "barre": {
+          "fret": 1,
+          "startStr": 2,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          70,
+          60,
+          65,
+          70
+        ]
+      }
+    ],
+    "m6": [
+      {
+        "frets": [
+          0,
+          1,
+          1,
+          1
+        ],
+        "fingers": [
+          0,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Barre Fret 1 Bbm6",
+        "barre": {
+          "fret": 1,
+          "startStr": 1,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          67,
+          61,
+          65,
+          70
+        ]
+      }
+    ],
+    "dim": [
+      {
+        "frets": [
+          3,
+          4,
+          3,
+          4
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 3,
+        "name": "Standard Bbdim",
+        "midis": [
+          70,
+          64,
+          67,
+          73
+        ]
+      }
+    ],
+    "dim7": [
+      {
+        "frets": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "fingers": [
+          0,
+          1,
+          0,
+          2
+        ],
+        "baseFret": 1,
+        "name": "Open Bbdim7",
+        "midis": [
+          67,
+          61,
+          64,
+          70
+        ]
+      },
+      {
+        "frets": [
+          3,
+          4,
+          3,
+          4
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 3,
+        "name": "Fret 3 Bbdim7",
+        "midis": [
+          70,
+          64,
+          67,
+          73
+        ]
+      }
+    ],
+    "aug": [
+      {
+        "frets": [
+          3,
+          2,
+          2,
+          1
+        ],
+        "fingers": [
+          4,
+          2,
+          3,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Bbaug",
+        "midis": [
+          70,
+          62,
+          66,
+          70
+        ]
+      }
+    ],
+    "add9": [
+      {
+        "frets": [
+          3,
+          2,
+          1,
+          3
+        ],
+        "fingers": [
+          2,
+          1,
+          1,
+          3
+        ],
+        "baseFret": 1,
+        "name": "Bbadd9",
+        "midis": [
+          70,
+          62,
+          65,
+          72
+        ]
+      }
+    ]
+  },
+  "B": {
+    "6": [
+      {
+        "frets": [
+          1,
+          3,
+          2,
+          2
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          2
+        ],
+        "baseFret": 1,
+        "name": "Barre Fret 2 B6",
+        "barre": {
+          "fret": 2,
+          "startStr": 2,
+          "endStr": 3,
+          "finger": 2
+        },
+        "midis": [
+          68,
+          63,
+          66,
+          71
+        ]
+      }
+    ],
+    "7": [
+      {
+        "frets": [
+          2,
+          3,
+          2,
+          2
+        ],
+        "fingers": [
+          1,
+          2,
+          1,
+          1
+        ],
+        "baseFret": 2,
+        "name": "Barre Fret 2 B7",
+        "barre": {
+          "fret": 2,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "tips": "นิ้วชี้ทาบเฟรต 2 ทั้ง 4 สาย นิ้วกลางกดสาย 3 เฟรต 3",
+        "midis": [
+          69,
+          63,
+          66,
+          71
+        ]
+      },
+      {
+        "frets": [
+          4,
+          6,
+          5,
+          6
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 4,
+        "name": "Position 2 B7",
+        "midis": [
+          71,
+          66,
+          69,
+          75
+        ]
+      }
+    ],
+    "9": [
+      {
+        "frets": [
+          4,
+          3,
+          2,
+          4
+        ],
+        "fingers": [
+          2,
+          1,
+          1,
+          3
+        ],
+        "baseFret": 2,
+        "name": "Position 1",
+        "midis": [
+          71,
+          63,
+          66,
+          73
+        ]
+      }
+    ],
+    "Major": [
+      {
+        "frets": [
+          4,
+          3,
+          2,
+          2
+        ],
+        "fingers": [
+          3,
+          2,
+          1,
+          1
+        ],
+        "baseFret": 2,
+        "name": "Barre Fret 2 (B Classic)",
+        "barre": {
+          "fret": 2,
+          "startStr": 2,
+          "endStr": 3,
+          "finger": 1
+        },
+        "tips": "นิ้วชี้ทาบสาย 2-1 เฟรต 2 นิ้วกลางสาย 3 เฟรต 3 นิ้วนางสาย 4 เฟรต 4",
+        "midis": [
+          71,
+          63,
+          66,
+          71
+        ]
+      },
+      {
+        "frets": [
+          8,
+          6,
+          7,
+          6
+        ],
+        "fingers": [
+          4,
+          1,
+          2,
+          1
+        ],
+        "baseFret": 6,
+        "name": "Barre Fret 6 B",
+        "barre": {
+          "fret": 6,
+          "startStr": 1,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          75,
+          66,
+          71,
+          75
+        ]
+      }
+    ],
+    "Minor": [
+      {
+        "frets": [
+          4,
+          2,
+          2,
+          2
+        ],
+        "fingers": [
+          3,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 2,
+        "name": "Barre Fret 2 Bm (Classic)",
+        "barre": {
+          "fret": 2,
+          "startStr": 1,
+          "endStr": 3,
+          "finger": 1
+        },
+        "tips": "นิ้วชี้ทาบสาย 3, 2, 1 เฟรต 2 นิ้วนางสาย 4 เฟรต 4",
+        "midis": [
+          71,
+          62,
+          66,
+          71
+        ]
+      },
+      {
+        "frets": [
+          7,
+          6,
+          7,
+          5
+        ],
+        "fingers": [
+          3,
+          2,
+          4,
+          1
+        ],
+        "baseFret": 5,
+        "name": "Position 2",
+        "midis": [
+          74,
+          66,
+          71,
+          74
+        ]
+      }
+    ],
+    "maj7": [
+      {
+        "frets": [
+          4,
+          3,
+          2,
+          1
+        ],
+        "fingers": [
+          4,
+          3,
+          2,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Staircase Bmaj7",
+        "midis": [
+          71,
+          63,
+          66,
+          70
+        ]
+      },
+      {
+        "frets": [
+          3,
+          3,
+          2,
+          2
+        ],
+        "fingers": [
+          2,
+          3,
+          1,
+          1
+        ],
+        "baseFret": 2,
+        "name": "Barre Fret 2",
+        "barre": {
+          "fret": 2,
+          "startStr": 2,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          70,
+          63,
+          66,
+          71
+        ]
+      }
+    ],
+    "m7": [
+      {
+        "frets": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "fingers": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseFret": 2,
+        "name": "Full Barre Fret 2 Bm7",
+        "barre": {
+          "fret": 2,
+          "startStr": 0,
+          "endStr": 3,
+          "finger": 1
+        },
+        "tips": "นิ้วชี้ทาบขวางทั้ง 4 สายที่เฟรต 2",
+        "midis": [
+          69,
+          62,
+          66,
+          71
+        ]
+      },
+      {
+        "frets": [
+          4,
+          2,
+          5,
+          2
+        ],
+        "fingers": [
+          3,
+          1,
+          4,
+          1
+        ],
+        "baseFret": 2,
+        "name": "Position 2",
+        "midis": [
+          71,
+          62,
+          69,
+          71
+        ]
+      }
+    ],
+    "sus4": [
+      {
+        "frets": [
+          4,
+          4,
+          2,
+          2
+        ],
+        "fingers": [
+          3,
+          4,
+          1,
+          1
+        ],
+        "baseFret": 2,
+        "name": "Barre Fret 2 Bsus4",
+        "barre": {
+          "fret": 2,
+          "startStr": 2,
+          "endStr": 3,
+          "finger": 1
+        },
+        "midis": [
+          71,
+          64,
+          66,
+          71
+        ]
+      }
+    ],
+    "sus2": [
+      {
+        "frets": [
+          4,
+          1,
+          2,
+          2
+        ],
+        "fingers": [
+          4,
+          1,
+          2,
+          2
+        ],
+        "baseFret": 1,
+        "name": "Barre Fret 2",
+        "barre": {
+          "fret": 2,
+          "startStr": 2,
+          "endStr": 3,
+          "finger": 2
+        },
+        "midis": [
+          71,
+          61,
+          66,
+          71
+        ]
+      }
+    ],
+    "m6": [
+      {
+        "frets": [
+          1,
+          2,
+          2,
+          2
+        ],
+        "fingers": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Position 1 Bm6",
+        "midis": [
+          68,
+          62,
+          66,
+          71
+        ]
+      }
+    ],
+    "dim": [
+      {
+        "frets": [
+          4,
+          5,
+          4,
+          5
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 4,
+        "name": "Standard Bdim",
+        "midis": [
+          71,
+          65,
+          68,
+          74
+        ]
+      }
+    ],
+    "dim7": [
+      {
+        "frets": [
+          1,
+          2,
+          1,
+          2
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 1,
+        "name": "Standard Bdim7",
+        "midis": [
+          68,
+          62,
+          65,
+          71
+        ]
+      },
+      {
+        "frets": [
+          4,
+          5,
+          4,
+          5
+        ],
+        "fingers": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "baseFret": 4,
+        "name": "Fret 4 Bdim7",
+        "midis": [
+          71,
+          65,
+          68,
+          74
+        ]
+      }
+    ],
+    "aug": [
+      {
+        "frets": [
+          0,
+          3,
+          3,
+          2
+        ],
+        "fingers": [
+          0,
+          2,
+          3,
+          1
+        ],
+        "baseFret": 1,
+        "name": "Open Baug",
+        "midis": [
+          67,
+          63,
+          67,
+          71
+        ]
+      },
+      {
+        "frets": [
+          4,
+          3,
+          3,
+          2
+        ],
+        "fingers": [
+          4,
+          2,
+          3,
+          1
+        ],
+        "baseFret": 2,
+        "name": "Position 2",
+        "midis": [
+          71,
+          63,
+          67,
+          71
+        ]
+      }
+    ],
+    "add9": [
+      {
+        "frets": [
+          4,
+          3,
+          2,
+          4
+        ],
+        "fingers": [
+          2,
+          1,
+          1,
+          3
+        ],
+        "baseFret": 2,
+        "name": "Position 1",
+        "midis": [
+          71,
+          63,
+          66,
+          73
+        ]
+      }
+    ]
+  }
+}

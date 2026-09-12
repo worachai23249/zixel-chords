@@ -13,9 +13,13 @@ const { spawn, spawnSync } = require('child_process');
 const { Readable } = require('stream');
 const { pipeline } = require('stream/promises');
 
+// ── Phase 1: Adapter & job-queue layer ───────────────────────────────────────
+const { parseChordLabel, createAdapter } = require('./adapters/analysis-adapter');
+const { jobQueue, STATUS: JOB_STATUS }   = require('./adapters/job-queue');
+
 const root = __dirname;
-const host = '127.0.0.1';
-const port = 4173;
+const host = process.env.HOST || '127.0.0.1';
+const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 4173;
 const enginePath = path.join(root, '.engine', 'crispasr', 'crispasr.exe');
 const tempRoot = path.join(root, '.engine', 'temp');
 // Keep model files beside the application. The system home cache can be locked
@@ -23,6 +27,22 @@ const tempRoot = path.join(root, '.engine', 'temp');
 const modelCacheRoot = path.join(root, '.engine', 'models');
 const libraryRoot = path.join(root, '.engine', 'library');
 fs.mkdirSync(libraryRoot, { recursive: true });
+
+// Auth & User Database Storage
+const authRoot = path.join(root, '.engine', 'auth');
+fs.mkdirSync(authRoot, { recursive: true });
+const usersFile = path.join(authRoot, 'users.json');
+const sessionsFile = path.join(authRoot, 'sessions.json');
+if (!fs.existsSync(usersFile)) fs.writeFileSync(usersFile, '[]', 'utf8');
+if (!fs.existsSync(sessionsFile)) fs.writeFileSync(sessionsFile, '{}', 'utf8');
+
+// Load engine version for provenance embedding
+const engineVersionPath = path.join(root, '.engine', 'engine-version.json');
+let engineVersion = { runtime: 'CrispASR', release: 'unknown', installedAt: null };
+try {
+  const evRaw = fs.readFileSync(engineVersionPath, 'utf8');
+  engineVersion = JSON.parse(evRaw);
+} catch (_) { /* engine not installed yet — use defaults */ }
 
 let rtxGpuIndex = '1';
 let preferredGpuDevice = '1';
@@ -92,7 +112,10 @@ const mimeTypes = {
   '.js': 'application/javascript; charset=utf-8', '.json': 'application/json; charset=utf-8',
   '.txt': 'text/plain; charset=utf-8',
   '.wav': 'audio/wav', '.mp3': 'audio/mpeg', '.m4a': 'audio/mp4', '.aac': 'audio/aac',
-  '.flac': 'audio/flac', '.ogg': 'audio/ogg'
+  '.flac': 'audio/flac', '.ogg': 'audio/ogg',
+  '.wasm': 'application/wasm',
+  '.woff2': 'font/woff2', '.woff': 'font/woff', '.ttf': 'font/ttf', '.otf': 'font/otf',
+  '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp'
 };
 // Active stem separation sessions: sessionId -> { dir, stems: {vocals, drums, bass, other}, created }
 const stemSessions = new Map();
@@ -126,6 +149,107 @@ function sendJson(response, status, payload) {
     'Access-Control-Allow-Headers': '*'
   });
   response.end(JSON.stringify(payload));
+}
+
+// ── Auth Helpers & Cryptographic Functions ──────────────────────────────────
+function readJsonFile(filePath, fallback) {
+  try {
+    if (!fs.existsSync(filePath)) return fallback;
+    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  } catch (_) {
+    return fallback;
+  }
+}
+
+function writeJsonFile(filePath, data) {
+  try {
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+    return true;
+  } catch (err) {
+    console.error('[Auth Error] Failed writing file:', filePath, err);
+    return false;
+  }
+}
+
+function hashPassword(password, salt) {
+  salt = salt || crypto.randomBytes(16).toString('hex');
+  const hash = crypto.pbkdf2Sync(password, salt, 100000, 64, 'sha512').toString('hex');
+  return { salt, hash };
+}
+
+function verifyPassword(password, salt, hash) {
+  try {
+    const result = crypto.pbkdf2Sync(password, salt, 100000, 64, 'sha512').toString('hex');
+    return crypto.timingSafeEqual(Buffer.from(result, 'hex'), Buffer.from(hash, 'hex'));
+  } catch (_) {
+    return false;
+  }
+}
+
+function createSession(userId) {
+  const token = crypto.randomBytes(32).toString('hex');
+  const sessions = readJsonFile(sessionsFile, {});
+  const expiresAt = Date.now() + 30 * 24 * 60 * 60 * 1000; // 30 days
+  sessions[token] = { userId, expiresAt };
+  writeJsonFile(sessionsFile, sessions);
+  return { token, expiresAt };
+}
+
+function getSessionUser(request) {
+  const authHeader = request.headers['authorization'] || '';
+  let token = null;
+  if (authHeader.startsWith('Bearer ')) {
+    token = authHeader.slice(7).trim();
+  } else {
+    const cookieHeader = request.headers['cookie'] || '';
+    const match = /(?:^|;\s*)zc_session=([a-f0-9]{64})/.exec(cookieHeader);
+    if (match) token = match[1];
+  }
+  if (!token) return null;
+  const sessions = readJsonFile(sessionsFile, {});
+  const session = sessions[token];
+  if (!session) return null;
+  if (session.expiresAt && session.expiresAt < Date.now()) {
+    delete sessions[token];
+    writeJsonFile(sessionsFile, sessions);
+    return null;
+  }
+  const users = readJsonFile(usersFile, []);
+  const user = users.find(function (u) { return u.id === session.userId; });
+  if (!user) return null;
+  return {
+    id: user.id,
+    username: user.username,
+    displayName: user.displayName || user.username,
+    createdAt: user.createdAt
+  };
+}
+
+function deleteSession(request) {
+  const authHeader = request.headers['authorization'] || '';
+  let token = null;
+  if (authHeader.startsWith('Bearer ')) {
+    token = authHeader.slice(7).trim();
+  } else {
+    const cookieHeader = request.headers['cookie'] || '';
+    const match = /(?:^|;\s*)zc_session=([a-f0-9]{64})/.exec(cookieHeader);
+    if (match) token = match[1];
+  }
+  if (token) {
+    const sessions = readJsonFile(sessionsFile, {});
+    delete sessions[token];
+    writeJsonFile(sessionsFile, sessions);
+  }
+}
+
+async function parseJsonBody(request) {
+  const buf = await bodyBuffer(request);
+  if (!buf || buf.length === 0) return {};
+  try {
+    return JSON.parse(buf.toString('utf8'));
+  } catch (err) {
+    throw new Error('ข้อมูล JSON ไม่ถูกต้อง');
+  }
 }
 function engineReady() { return fs.existsSync(enginePath); }
 function modelPath(model) { return path.join(modelCacheRoot, model.file); }
@@ -243,7 +367,17 @@ function parseChordTable(output) {
   String(output).replace(/\r/g, '').split('\n').forEach(function (line) {
     const match = /^\s*(\d+(?:\.\d+)?)\s+(\d+(?:\.\d+)?)\s+(\S+)/.exec(line);
     if (!match) return;
-    chords.push({ start: Number(match[1]), end: Number(match[2]), chord: match[3], confidence: 0 });
+    const label  = match[3];
+    const parsed = parseChordLabel(label);
+    chords.push({
+      start:      Number(match[1]),
+      end:        Number(match[2]),
+      chord:      label,
+      root:       parsed.root,
+      quality:    parsed.quality,
+      bass:       parsed.bass,
+      confidence: 0,
+    });
   });
   if (!chords.length) throw new Error('AI engine ส่งตารางคอร์ดที่อ่านไม่ได้');
   return chords;
@@ -290,25 +424,10 @@ async function extractLyrics(audioFile, lang) {
   return { language: 'auto', segments: [] };
 }
 const PITCH_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-const MAJOR_PROFILE = [
-  { step: 0, minor: false, weight: 3.2 }, // I (Tonic)
-  { step: 2, minor: true, weight: 1.1 },  // ii
-  { step: 4, minor: true, weight: 1.1 },  // iii
-  { step: 5, minor: false, weight: 2.2 }, // IV (Subdominant)
-  { step: 7, minor: false, weight: 2.8 }, // V (Dominant)
-  { step: 9, minor: true, weight: 2.0 },  // vi (Relative minor)
-  { step: 11, minor: true, weight: 0.5 }  // vii dim
-];
-const MINOR_PROFILE = [
-  { step: 0, minor: true, weight: 3.2 },  // i (Tonic minor)
-  { step: 2, minor: true, weight: 0.5 },  // ii dim
-  { step: 3, minor: false, weight: 2.0 }, // III (Relative major)
-  { step: 5, minor: true, weight: 2.0 },  // iv
-  { step: 7, minor: true, weight: 1.6 },  // v
-  { step: 7, minor: false, weight: 2.2 }, // V (Harmonic minor dominant)
-  { step: 8, minor: false, weight: 1.8 }, // VI
-  { step: 10, minor: false, weight: 1.5 } // VII
-];
+// Temperley Key Profiles (Temperley 1999) - Unbiased harmonic triad weights
+const TEMPERLEY_MAJOR = [5.0, 2.0, 3.5, 2.0, 4.5, 4.0, 2.0, 4.5, 2.0, 3.5, 1.5, 4.0];
+const TEMPERLEY_MINOR = [5.0, 2.0, 3.5, 4.5, 2.0, 4.0, 2.0, 4.5, 3.5, 2.0, 1.5, 4.0];
+
 const KEY_ENHARMONIC_NAMES = {
   'A# Major': 'Bb Major',
   'D# Major': 'Eb Major',
@@ -332,24 +451,77 @@ function parsePitchClass(name) {
 
 function deriveKey(chords) {
   if (!chords || !chords.length) return 'รอตรวจ';
-  const durationMap = new Map();
+
+  // 1. Accumulate pitch-class duration distribution (chroma profile) from chords
+  const chroma = new Float64Array(12);
+  let totalDur = 0;
+  const parsedChords = [];
+
   for (const c of chords) {
     const pc = parsePitchClass(c.chord);
     if (!pc) continue;
     const dur = Math.max(0.1, Number(c.end || 0) - Number(c.start || 0));
-    const k = pc.pitch + ':' + (pc.isMinor ? 'm' : 'M');
-    durationMap.set(k, (durationMap.get(k) || 0) + dur);
+    totalDur += dur;
+    parsedChords.push({ ...pc, dur });
+
+    const root = pc.pitch;
+    // Root tone
+    chroma[root] += dur * 1.0;
+    // Third (Major 3rd = 4 semitones, Minor 3rd = 3 semitones)
+    const third = (root + (pc.isMinor ? 3 : 4)) % 12;
+    chroma[third] += dur * 0.6;
+    // Fifth (7 semitones)
+    const fifth = (root + 7) % 12;
+    chroma[fifth] += dur * 0.5;
   }
-  if (durationMap.size === 0) return 'รอตรวจ';
+  if (totalDur <= 0 || parsedChords.length === 0) return 'รอตรวจ';
+
+  // Chroma distribution normalization
+  let chromaMean = 0;
+  for (let i = 0; i < 12; i++) chromaMean += chroma[i];
+  chromaMean /= 12;
+  let chromaVar = 0;
+  for (let i = 0; i < 12; i++) chromaVar += Math.pow(chroma[i] - chromaMean, 2);
+  const chromaStd = Math.sqrt(chromaVar) || 1e-6;
+
+  // Pearson correlation between song chroma distribution and shifted profile
+  function getCorrelation(profile, root) {
+    let pMean = 0;
+    for (let i = 0; i < 12; i++) pMean += profile[i];
+    pMean /= 12;
+    let pVar = 0;
+    for (let i = 0; i < 12; i++) pVar += Math.pow(profile[i] - pMean, 2);
+    const pStd = Math.sqrt(pVar) || 1e-6;
+
+    let cov = 0;
+    for (let i = 0; i < 12; i++) {
+      const pVal = profile[(i - root + 12) % 12];
+      cov += (chroma[i] - chromaMean) * (pVal - pMean);
+    }
+    return cov / (12 * chromaStd * pStd);
+  }
+
+  // 2. Tonic Weighting & Cadence Anchoring (resolves Relative Major/Minor ambiguity)
+  const firstChord = parsedChords[0];
+  const lastChord = parsedChords[parsedChords.length - 1];
 
   let bestKey = 'C Major';
-  let maxScore = -1;
+  let maxScore = -999;
+
   for (let root = 0; root < 12; root++) {
-    let majScore = 0;
-    for (const rule of MAJOR_PROFILE) {
-      const p = (root + rule.step) % 12;
-      const k = p + ':' + (rule.minor ? 'm' : 'M');
-      majScore += (durationMap.get(k) || 0) * rule.weight;
+    const domPitch = (root + 7) % 12;
+
+    // --- Major Candidate ---
+    let majScore = getCorrelation(TEMPERLEY_MAJOR, root);
+    // Tonic Weighting: Beginning and ending chord anchoring
+    if (firstChord && firstChord.pitch === root && !firstChord.isMinor) majScore += 0.15;
+    if (lastChord && lastChord.pitch === root && !lastChord.isMinor) majScore += 0.25;
+    // Authentic Cadence bonus: V -> I
+    for (let i = 0; i < parsedChords.length - 1; i++) {
+      if (parsedChords[i].pitch === domPitch && !parsedChords[i].isMinor &&
+          parsedChords[i + 1].pitch === root && !parsedChords[i + 1].isMinor) {
+        majScore += 0.08;
+      }
     }
     if (majScore > maxScore) {
       maxScore = majScore;
@@ -357,11 +529,17 @@ function deriveKey(chords) {
       bestKey = KEY_ENHARMONIC_NAMES[rawKey] || rawKey;
     }
 
-    let minScore = 0;
-    for (const rule of MINOR_PROFILE) {
-      const p = (root + rule.step) % 12;
-      const k = p + ':' + (rule.minor ? 'm' : 'M');
-      minScore += (durationMap.get(k) || 0) * rule.weight;
+    // --- Minor Candidate ---
+    let minScore = getCorrelation(TEMPERLEY_MINOR, root);
+    // Tonic Weighting: Beginning and ending chord anchoring
+    if (firstChord && firstChord.pitch === root && firstChord.isMinor) minScore += 0.15;
+    if (lastChord && lastChord.pitch === root && lastChord.isMinor) minScore += 0.25;
+    // Harmonic cadence: V / v -> i
+    for (let i = 0; i < parsedChords.length - 1; i++) {
+      if (parsedChords[i].pitch === domPitch &&
+          parsedChords[i + 1].pitch === root && parsedChords[i + 1].isMinor) {
+        minScore += 0.08;
+      }
     }
     if (minScore > maxScore) {
       maxScore = minScore;
@@ -369,6 +547,7 @@ function deriveKey(chords) {
       bestKey = KEY_ENHARMONIC_NAMES[rawKey] || rawKey;
     }
   }
+
   return bestKey;
 }
 
@@ -645,74 +824,187 @@ function mixTwoPcmWavFiles(wavPathA, wavPathB, outputPath) {
   }
 }
 
-function classifyInstrumentStem(filePath) {
-  if (!filePath || !fs.existsSync(filePath)) return 'guitar';
-  try {
-    const fd = fs.openSync(filePath, 'r');
-    const stat = fs.fstatSync(fd);
-    const readSize = Math.min(stat.size - 44, 44100 * 4 * 25);
-    const buf = Buffer.alloc(readSize);
-    fs.readSync(fd, buf, 0, readSize, 44);
-    fs.closeSync(fd);
+// ═══════════════════════════════════════════════════════════
+//  STFT Engine & Multi-Instrument Spectral Separation
+// ═══════════════════════════════════════════════════════════
+const STFT_N = 2048;
+const STFT_H = 512;
+const STFT_HALFN = STFT_N / 2;
+const STFT_NORM = 1.0 / 1.5; // Constant Overlap-Add normalization for 75% overlap Hann window
 
-    const numSamples = Math.floor(readSize / 4);
-    let onsets = 0;
-    let attackSum = 0;
-    let prevE = 0;
-    const hop = 256;
+const STFT_WIN = new Float32Array(STFT_N);
+for (let i = 0; i < STFT_N; i++) STFT_WIN[i] = 0.5 * (1 - Math.cos((2 * Math.PI * i) / STFT_N));
 
-    for (let i = 0; i < numSamples - hop; i += hop) {
-      let e = 0;
-      for (let j = 0; j < hop; j++) {
-        const l = buf.readInt16LE((i + j) * 4) / 32768.0;
-        const r = buf.readInt16LE((i + j) * 4 + 2) / 32768.0;
-        const m = (l + r) * 0.5;
-        e += m * m;
-      }
-      e = Math.sqrt(e / hop);
-      const diff = e - prevE;
-      if (diff > 0.025 && e > 0.015) {
-        onsets++;
-        attackSum += diff;
-      }
-      prevE = e;
+const STFT_BITREV = new Int32Array(STFT_N);
+for (let i = 0, j = 0; i < STFT_N - 1; i++) {
+  STFT_BITREV[i] = j;
+  let k = STFT_N >> 1;
+  while (k <= j) { j -= k; k >>= 1; }
+  j += k;
+}
+STFT_BITREV[STFT_N - 1] = STFT_N - 1;
+
+const STFT_COSTABLE = new Float32Array(STFT_HALFN);
+const STFT_SINTABLE = new Float32Array(STFT_HALFN);
+for (let i = 0; i < STFT_HALFN; i++) {
+  STFT_COSTABLE[i] = Math.cos(-2 * Math.PI * i / STFT_N);
+  STFT_SINTABLE[i] = Math.sin(-2 * Math.PI * i / STFT_N);
+}
+
+function stft_fft(re, im, inverse) {
+  for (let i = 0; i < STFT_N; i++) {
+    const j = STFT_BITREV[i];
+    if (j > i) {
+      let t = re[i]; re[i] = re[j]; re[j] = t;
+      t = im[i]; im[i] = im[j]; im[j] = t;
     }
-
-    const durationSec = numSamples / 44100;
-    const onsetRate = onsets / (durationSec || 1);
-    const avgAttack = attackSum / (onsets || 1);
-
-    if (onsetRate < 0.4 && avgAttack < 0.02) return 'synth';
-    if (avgAttack > 0.065 && onsetRate > 1.0) return 'piano';
-    return 'guitar';
-  } catch (e) {
-    return 'guitar';
   }
+  for (let len = 2; len <= STFT_N; len <<= 1) {
+    const half = len >> 1;
+    const step = STFT_N / len;
+    for (let i = 0; i < STFT_N; i += len) {
+      for (let k = 0; k < half; k++) {
+        const tableIdx = k * step;
+        const c = STFT_COSTABLE[tableIdx];
+        const s = inverse ? -STFT_SINTABLE[tableIdx] : STFT_SINTABLE[tableIdx];
+        const uRe = re[i + k], uIm = im[i + k];
+        const vRe = re[i + k + half] * c - im[i + k + half] * s;
+        const vIm = re[i + k + half] * s + im[i + k + half] * c;
+        re[i + k] = uRe + vRe;
+        im[i + k] = uIm + vIm;
+        re[i + k + half] = uRe - vRe;
+        im[i + k + half] = uIm - vIm;
+      }
+    }
+  }
+  if (inverse) {
+    for (let i = 0; i < STFT_N; i++) { re[i] /= STFT_N; im[i] /= STFT_N; }
+  }
+}
+
+// Extracts solo lead guitar vs rhythm guitar from guitar track using soft spectral masking
+function separateGuitarSpectralMasking(inBuf, sampleRate = 44100) {
+  const pcmLen = inBuf.length;
+  const numSamples = Math.floor(pcmLen / 4);
+  const inL = new Float32Array(numSamples);
+  const inR = new Float32Array(numSamples);
+
+  for (let i = 0; i < numSamples; i++) {
+    inL[i] = inBuf.readInt16LE(i * 4) / 32768.0;
+    inR[i] = inBuf.readInt16LE(i * 4 + 2) / 32768.0;
+  }
+
+  const soloL = new Float32Array(numSamples);
+  const soloR = new Float32Array(numSamples);
+  const numFrames = Math.floor((numSamples - STFT_N) / STFT_H);
+  const binFreq = sampleRate / STFT_N;
+  const minBin = Math.floor(150 / binFreq);
+  const maxBin = Math.min(STFT_HALFN, Math.ceil(5800 / binFreq));
+
+  const reL = new Float32Array(STFT_N);
+  const imL = new Float32Array(STFT_N);
+  const reR = new Float32Array(STFT_N);
+  const imR = new Float32Array(STFT_N);
+  const mag = new Float32Array(STFT_HALFN);
+  const floor = new Float32Array(STFT_HALFN);
+  const mask = new Float32Array(STFT_HALFN);
+
+  for (let ch = 0; ch < 2; ch++) {
+    const inputCh = ch === 0 ? inL : inR;
+    const soloCh = ch === 0 ? soloL : soloR;
+    const re = ch === 0 ? reL : reR;
+    const im = ch === 0 ? imL : imR;
+
+    for (let f = 0; f < numFrames; f++) {
+      const offset = f * STFT_H;
+      for (let i = 0; i < STFT_N; i++) {
+        re[i] = inputCh[offset + i] * STFT_WIN[i];
+        im[i] = 0;
+      }
+      stft_fft(re, im, false);
+
+      for (let i = 0; i < STFT_HALFN; i++) {
+        mag[i] = Math.sqrt(re[i] * re[i] + im[i] * im[i]);
+      }
+
+      const radius = 6;
+      for (let i = 0; i < STFT_HALFN; i++) {
+        let sum = 0, count = 0;
+        const start = Math.max(0, i - radius);
+        const end = Math.min(STFT_HALFN, i + radius + 1);
+        for (let k = start; k < end; k++) {
+          sum += mag[k];
+          count++;
+        }
+        floor[i] = sum / count;
+      }
+
+      for (let i = 0; i < STFT_HALFN; i++) {
+        if (i >= minBin && i <= maxBin && floor[i] > 1e-5) {
+          const ratio = mag[i] / floor[i];
+          if (ratio > 1.8) {
+            const t = Math.min(1.0, (ratio - 1.8) / 1.4);
+            mask[i] = t * t * (3 - 2 * t);
+          } else {
+            mask[i] = 0.0;
+          }
+        } else {
+          mask[i] = 0.0;
+        }
+      }
+
+      for (let i = 0; i < STFT_HALFN; i++) {
+        const m = mask[i];
+        re[i] *= m;
+        im[i] *= m;
+        if (i > 0) {
+          re[STFT_N - i] = re[i];
+          im[STFT_N - i] = -im[i];
+        }
+      }
+      re[STFT_HALFN] = 0;
+      im[STFT_HALFN] = 0;
+      stft_fft(re, im, true);
+
+      for (let i = 0; i < STFT_N; i++) {
+        soloCh[offset + i] += re[i] * STFT_WIN[i] * STFT_NORM;
+      }
+    }
+  }
+
+  const soloBuf = Buffer.alloc(pcmLen);
+  const rhythmBuf = Buffer.alloc(pcmLen);
+  let soloSumSq = 0, soloPeak = 0;
+
+  for (let i = 0; i < numSamples; i++) {
+    const s_l = soloL[i];
+    const s_r = soloR[i];
+    const r_l = inL[i] - s_l;
+    const r_r = inR[i] - s_r;
+
+    const magSolo = Math.max(Math.abs(s_l), Math.abs(s_r));
+    if (magSolo > soloPeak) soloPeak = magSolo;
+    soloSumSq += s_l * s_l + s_r * s_r;
+
+    const q_sl = Math.max(-32768, Math.min(32767, Math.round(s_l * 32767)));
+    const q_sr = Math.max(-32768, Math.min(32767, Math.round(s_r * 32767)));
+    const q_rl = Math.max(-32768, Math.min(32767, Math.round(r_l * 32767)));
+    const q_rr = Math.max(-32768, Math.min(32767, Math.round(r_r * 32767)));
+
+    soloBuf.writeInt16LE(q_sl, i * 4);
+    soloBuf.writeInt16LE(q_sr, i * 4 + 2);
+    rhythmBuf.writeInt16LE(q_rl, i * 4);
+    rhythmBuf.writeInt16LE(q_rr, i * 4 + 2);
+  }
+
+  const soloRMS = Math.sqrt(soloSumSq / (numSamples * 2 || 1));
+  return { soloBuf, rhythmBuf, soloRMS, soloPeak };
 }
 
 function processOtherInstrumentStems(otherWavPath, targetStemsDir) {
   const result = { createdStems: [], absentStems: [] };
   if (!otherWavPath || !fs.existsSync(otherWavPath)) return result;
 
-  const instType = classifyInstrumentStem(otherWavPath);
-
-  if (instType === 'piano') {
-    const dest = path.join(targetStemsDir, 'piano.wav');
-    try { fs.copyFileSync(otherWavPath, dest); } catch (e) {}
-    result.createdStems.push('piano');
-    result.absentStems.push('guitar', 'solo_guitar');
-    return result;
-  }
-
-  if (instType === 'synth') {
-    const dest = path.join(targetStemsDir, 'synth.wav');
-    try { fs.copyFileSync(otherWavPath, dest); } catch (e) {}
-    result.createdStems.push('synth');
-    result.absentStems.push('piano', 'solo_guitar');
-    return result;
-  }
-
-  // Guitar processing: extract solo guitar vs rhythm guitar with zero-loss sum
   try {
     const fd = fs.openSync(otherWavPath, 'r');
     const stat = fs.fstatSync(fd);
@@ -721,67 +1013,49 @@ function processOtherInstrumentStems(otherWavPath, targetStemsDir) {
     fs.readSync(fd, inBuf, 0, pcmLen, 44);
     fs.closeSync(fd);
 
-    const soloBuf = Buffer.alloc(pcmLen);
-    const rhythmBuf = Buffer.alloc(pcmLen);
-
-    const sampleRate = 44100;
-    const w0 = 2 * Math.PI * 1500 / sampleRate;
-    const alpha = Math.sin(w0) / (2 * 1.0);
-    const b0 = alpha, b1 = 0, b2 = -alpha;
-    const a0 = 1 + alpha, a1 = -2 * Math.cos(w0), a2 = 1 - alpha;
-
-    let x1_l = 0, x2_l = 0, y1_l = 0, y2_l = 0;
-    let x1_r = 0, x2_r = 0, y1_r = 0, y2_r = 0;
-    let soloSumSq = 0, soloPeak = 0;
-
-    for (let i = 0; i < pcmLen; i += 4) {
-      const xl = inBuf.readInt16LE(i) / 32768.0;
-      const xr = inBuf.readInt16LE(i + 2) / 32768.0;
-
-      const yl = (b0 / a0) * xl + (b1 / a0) * x1_l + (b2 / a0) * x2_l - (a1 / a0) * y1_l - (a2 / a0) * y2_l;
-      x2_l = x1_l; x1_l = xl; y2_l = y1_l; y1_l = yl;
-
-      const yr = (b0 / a0) * xr + (b1 / a0) * x1_r + (b2 / a0) * x2_r - (a1 / a0) * y1_r - (a2 / a0) * y2_r;
-      x2_r = x1_r; x1_r = xr; y2_r = y1_r; y1_r = yr;
-
-      const mag = Math.sqrt(yl * yl + yr * yr);
-      const isSolo = mag > 0.038;
-      const soloGain = isSolo ? Math.min(1.0, (mag - 0.038) / 0.025) : 0.0;
-
-      const s_solo_l = yl * soloGain;
-      const s_solo_r = yr * soloGain;
-      const s_rhythm_l = xl - s_solo_l;
-      const s_rhythm_r = xr - s_solo_r;
-
-      if (Math.abs(s_solo_l) > soloPeak) soloPeak = Math.abs(s_solo_l);
-      if (Math.abs(s_solo_r) > soloPeak) soloPeak = Math.abs(s_solo_r);
-      soloSumSq += s_solo_l * s_solo_l + s_solo_r * s_solo_r;
-
-      const q_solo_l = Math.max(-32768, Math.min(32767, Math.round(s_solo_l * 32767)));
-      const q_solo_r = Math.max(-32768, Math.min(32767, Math.round(s_solo_r * 32767)));
-      const q_rhy_l = Math.max(-32768, Math.min(32767, Math.round(s_rhythm_l * 32767)));
-      const q_rhy_r = Math.max(-32768, Math.min(32767, Math.round(s_rhythm_r * 32767)));
-
-      soloBuf.writeInt16LE(q_solo_l, i);
-      soloBuf.writeInt16LE(q_solo_r, i + 2);
-      rhythmBuf.writeInt16LE(q_rhy_l, i);
-      rhythmBuf.writeInt16LE(q_rhy_r, i + 2);
-    }
-
-    const soloRMS = Math.sqrt(soloSumSq / (pcmLen / 2));
     const header = createWavHeader(pcmLen);
 
-    fs.writeFileSync(path.join(targetStemsDir, 'guitar.wav'), Buffer.concat([header, rhythmBuf]));
-    result.createdStems.push('guitar');
+    // 1. Calculate overall RMS energy of the accompaniment track
+    const numSamples = Math.floor(pcmLen / 4);
+    let totalSumSq = 0;
+    for (let i = 0; i < numSamples; i++) {
+      const l = inBuf.readInt16LE(i * 4) / 32768.0;
+      const r = inBuf.readInt16LE(i * 4 + 2) / 32768.0;
+      totalSumSq += l * l + r * r;
+    }
+    const totalRMS = Math.sqrt(totalSumSq / (numSamples * 2 || 1));
 
-    if (soloRMS > 0.0035 && soloPeak > 0.06) {
-      fs.writeFileSync(path.join(targetStemsDir, 'solo_guitar.wav'), Buffer.concat([header, soloBuf]));
-      result.createdStems.push('solo_guitar');
+    if (totalRMS < 0.002) {
+      // Sub-audible / bleed only
+      result.absentStems.push('guitar', 'solo_guitar', 'piano');
+      return result;
+    }
+
+    // 2. In Zixel Chords, harmonic accompaniment from 'other' is primarily GUITAR!
+    // Extract solo lead guitar vs rhythm guitar if distinct solo lead exists
+    const gSep = separateGuitarSpectralMasking(inBuf, 44100);
+
+    if (gSep.soloRMS > 0.0035 && gSep.soloPeak > 0.06) {
+      // Both Rhythm Guitar and Solo Lead Guitar detected
+      fs.writeFileSync(path.join(targetStemsDir, 'guitar.wav'), Buffer.concat([header, gSep.rhythmBuf]));
+      fs.writeFileSync(path.join(targetStemsDir, 'solo_guitar.wav'), Buffer.concat([header, gSep.soloBuf]));
+      result.createdStems.push('guitar', 'solo_guitar');
     } else {
+      // Standard Guitar accompaniment track
+      fs.writeFileSync(path.join(targetStemsDir, 'guitar.wav'), Buffer.concat([header, inBuf]));
+      result.createdStems.push('guitar');
       result.absentStems.push('solo_guitar');
     }
+
+    // Keep a fallback copy for piano so /api/.../piano requests never fail
+    try {
+      fs.copyFileSync(path.join(targetStemsDir, 'guitar.wav'), path.join(targetStemsDir, 'piano.wav'));
+    } catch (err) {}
+
+    // In default mixer view, guitar is active and piano is absent (user can toggle in UI if needed)
     result.absentStems.push('piano');
   } catch (e) {
+    console.warn('[ProcessOtherStems Error]:', e.message);
     try { fs.copyFileSync(otherWavPath, path.join(targetStemsDir, 'guitar.wav')); } catch (err) {}
     result.createdStems.push('guitar');
     result.absentStems.push('solo_guitar', 'piano');
@@ -1060,14 +1334,58 @@ function compactResult(chords, beats, fileName, details, lyrics) {
   if (!chords.length || !beats.length) throw new Error('AI engine วิเคราะห์คอร์ดหรือจังหวะได้ไม่ครบ');
   const lastBeat = beats[beats.length - 1].time;
   const duration = Math.max(lastBeat, ...chords.map(function (event) { return event.end || event.start; }));
+
+  const analysisMode = (details && details.analysisMode) ? details.analysisMode : 'fast';
+  const modelLabel   = (details && details.model)        ? details.model        : 'BTC Transformer + Beat This!';
+
+  // Build model provenance list from known active models
+  const activeModels = [
+    { name: 'BTC chord model',         file: 'btc-chords-large-f16.gguf', sha256: null },
+    { name: 'Beat This! rhythm model', file: 'beat-this-f16.gguf',        sha256: null },
+  ];
+  if (analysisMode === 'accurate' || analysisMode === 'studio') {
+    activeModels.push({ name: 'HTDemucs stem-separation model', file: 'htdemucs-q4_k.gguf', sha256: null });
+  }
+
+  // Ensure every chord event has root, quality, bass populated
+  const enrichedChords = chords.map(function (c) {
+    if (c.root !== undefined && c.quality !== undefined && c.bass !== undefined) return c;
+    const parsed = parseChordLabel(c.chord);
+    return {
+      start:      Number(c.start || 0),
+      end:        Number(c.end   || 0),
+      chord:      c.chord,
+      root:       c.root    !== undefined ? c.root    : parsed.root,
+      quality:    c.quality !== undefined ? c.quality : parsed.quality,
+      bass:       c.bass    !== undefined ? c.bass    : parsed.bass,
+      confidence: Number(c.confidence || 0),
+    };
+  });
+
   return {
-    title: fileName.replace(/[.][^.]+$/, ''), author: 'ไฟล์เสียงในเครื่อง',
-    duration: duration, key: deriveKey(chords), bpm: deriveBpm(beats),
-    meter: details && details.meter ? details.meter : estimateMeter(beats),
-    analysisMode: details && details.analysisMode ? details.analysisMode : 'standard',
-    model: details && details.model ? details.model : 'BTC Transformer + Beat This!',
-    chords: chords, beats: beats,
-    lyrics: lyrics || { language: 'auto', segments: [] }
+    schemaVersion: 1,
+    title:    fileName.replace(/[.][^.]+$/, ''),
+    author:   'ไฟล์เสียงในเครื่อง',
+    duration: duration,
+    key:      deriveKey(enrichedChords),
+    bpm:      deriveBpm(beats),
+    meter:    (details && details.meter) ? details.meter : estimateMeter(beats),
+    analysisMode: analysisMode,
+    model:    modelLabel,
+    chords:   enrichedChords,
+    beats:    beats,
+    lyrics:   lyrics || { language: 'auto', segments: [] },
+    provenance: {
+      runtime:        engineVersion.runtime  || 'CrispASR',
+      runtimeVersion: engineVersion.release  || 'unknown',
+      backend:        'crispasr-vulkan',
+      precision:      'fp16',
+      gpuName:        nvidiaGpuName,
+      models:         activeModels,
+      analysisMode:   analysisMode,
+      createdAt:      new Date().toISOString(),
+      fallbackReason: null,
+    },
   };
 }
 
@@ -1080,7 +1398,11 @@ async function analyze(request, response) {
   const lang = String(request.headers['x-chordtube-lang'] || 'th');
   const jobId = request.headers['x-chordtube-job-id'] || crypto.randomUUID();
 
+  // Register job with jobQueue (replaces direct analysisJobs.set)
+  const job = jobQueue.create(jobId);
+
   function reportProgress(stage, percent, message, detail) {
+    // Keep legacy analysisJobs map in sync so existing /api/progress polling still works
     analysisJobs.set(jobId, {
       stage: stage,
       percent: Math.min(100, Math.max(0, percent)),
@@ -1089,6 +1411,7 @@ async function analyze(request, response) {
       updated: Date.now(),
       done: percent >= 100
     });
+    jobQueue.report(jobId, stage, percent, message, detail);
   }
 
   reportProgress('upload', 5, 'อัปโหลดไฟล์และเตรียมโมเดล AI', 'ตรวจสอบความพร้อมของไฟล์และโมเดลในเครื่อง');
@@ -1097,6 +1420,10 @@ async function analyze(request, response) {
   let stemsDirToClean = null;
   try {
     await ensureModels(accurate ? accurateModelFiles : coreModelFiles);
+
+    // Guard: check for early cancellation before spending any resources
+    if (jobQueue.isCancelled(jobId)) throw new Error('Job cancelled');
+
     reportProgress('prepare', 10, 'จัดสรรโมเดล AI ในหน่วยความจำ', 'โหลดโมเดลเตรียมประมวลผล');
     const body = await bodyBuffer(request);
     const uploaded = parseMultipartAudio(body, request.headers['content-type']);
@@ -1112,6 +1439,10 @@ async function analyze(request, response) {
       console.log('[API] Starting Studio Accurate pipeline...');
       const accurateResult = await analyzeAccurate(filePath, meter, lang, reportProgress);
       stemsDirToClean = accurateResult.stemsDirectory;
+
+      // Guard: do NOT write to library if cancelled during analysis
+      if (jobQueue.isCancelled(jobId)) throw new Error('Job cancelled');
+
       result = compactResult(accurateResult.chords, accurateResult.beats, uploaded.filename, {
         analysisMode: 'accurate', meter: accurateResult.meter,
         model: 'Accurate · HTDemucs + BTC ensemble + Beat This!'
@@ -1140,6 +1471,9 @@ async function analyze(request, response) {
       ]);
       clearInterval(fastInterval);
 
+      // Guard: do NOT write to library if cancelled during analysis
+      if (jobQueue.isCancelled(jobId)) throw new Error('Job cancelled');
+
       reportProgress('final', 92, 'กำลังคำนวณคีย์และประกอบ Beat Grid', 'วิเคราะห์สัดส่วนห้องเพลงและคอร์ดหลัก');
       const fastRawBeats = parseBeatTable(beatsOutput);
       const fastRawChords = parseChordTable(chordsOutput);
@@ -1151,12 +1485,20 @@ async function analyze(request, response) {
       result = saveSongToLibrary(result, filePath, uploaded.filename, null);
     }
     reportProgress('done', 100, 'วิเคราะห์เสร็จสมบูรณ์ 100%!', 'กำลังเปิดหน้าสตูดิโอแกะคอร์ด...');
+    jobQueue.complete(jobId);
     console.log('[API] Analysis complete & saved to Library (id=' + result.id + ')! Sending response.');
     sendJson(response, 200, result);
   } catch (error) {
-    reportProgress('error', 0, 'เกิดข้อผิดพลาดในการวิเคราะห์', error.message || 'วิเคราะห์ไม่สำเร็จ');
-    console.error('[API Error]:', error.message || error);
-    sendJson(response, 422, { error: error.message || 'วิเคราะห์เพลงไม่สำเร็จ' });
+    const isCancelled = jobQueue.isCancelled(jobId) || /cancelled/i.test(error.message || '');
+    if (isCancelled) {
+      reportProgress('cancelled', 0, 'ยกเลิกการวิเคราะห์แล้ว', 'Job ถูกยกเลิกโดยผู้ใช้');
+      sendJson(response, 409, { error: 'Job cancelled', jobId: jobId });
+    } else {
+      jobQueue.fail(jobId, error.message || 'วิเคราะห์ไม่สำเร็จ');
+      reportProgress('error', 0, 'เกิดข้อผิดพลาดในการวิเคราะห์', error.message || 'วิเคราะห์ไม่สำเร็จ');
+      console.error('[API Error]:', error.message || error);
+      sendJson(response, 422, { error: error.message || 'วิเคราะห์เพลงไม่สำเร็จ' });
+    }
   } finally {
     if (filePath) fs.rm(filePath, { force: true }, function () {});
     if (stemsDirToClean) fs.rm(stemsDirToClean, { recursive: true, force: true }, function () {});
@@ -1337,24 +1679,162 @@ const server = http.createServer(function (request, response) {
     response.end();
     return;
   }
-  if (request.method === 'GET' && new URL(request.url, 'http://localhost').pathname === '/api/health') {
+
+  const reqUrl = new URL(request.url, 'http://localhost');
+
+  // ── Authentication Endpoints ───────────────────────────────────────────────
+  if (request.method === 'POST' && reqUrl.pathname === '/api/auth/register') {
+    (async function () {
+      try {
+        const data = await parseJsonBody(request);
+        const username = String(data.username || '').trim().toLowerCase();
+        const password = String(data.password || '');
+        const displayName = String(data.displayName || '').trim();
+
+        if (!username || username.length < 3 || username.length > 30) {
+          sendJson(response, 400, { error: 'ชื่อผู้ใช้ต้องมีความยาว 3-30 ตัวอักษร' });
+          return;
+        }
+        if (!/^[a-zA-Z0-9_-]+$/.test(username)) {
+          sendJson(response, 400, { error: 'ชื่อผู้ใช้ต้องประกอบด้วยตัวอักษรภาษาอังกฤษ ตัวเลข _ หรือ - เท่านั้น' });
+          return;
+        }
+        if (!password || password.length < 6) {
+          sendJson(response, 400, { error: 'รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร' });
+          return;
+        }
+
+        const users = readJsonFile(usersFile, []);
+        if (users.some(function (u) { return u.username === username; })) {
+          sendJson(response, 409, { error: 'ชื่อผู้ใช้นี้มีอยู่ในระบบแล้ว กรุณาเลือกชื่ออื่น' });
+          return;
+        }
+
+        const hashed = hashPassword(password);
+        const newUser = {
+          id: crypto.randomUUID(),
+          username: username,
+          displayName: displayName || username,
+          salt: hashed.salt,
+          hash: hashed.hash,
+          createdAt: new Date().toISOString()
+        };
+        users.push(newUser);
+        writeJsonFile(usersFile, users);
+
+        const session = createSession(newUser.id);
+        response.writeHead(200, {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Set-Cookie': 'zc_session=' + session.token + '; Path=/; HttpOnly; SameSite=Lax; Max-Age=2592000',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, HEAD, POST, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': '*'
+        });
+        response.end(JSON.stringify({
+          ok: true,
+          user: { id: newUser.id, username: newUser.username, displayName: newUser.displayName },
+          token: session.token,
+          expiresAt: session.expiresAt
+        }));
+      } catch (err) {
+        sendJson(response, 500, { error: err.message || 'เกิดข้อผิดพลาดในการลงทะเบียน' });
+      }
+    })();
+    return;
+  }
+
+  if (request.method === 'POST' && reqUrl.pathname === '/api/auth/login') {
+    (async function () {
+      try {
+        const data = await parseJsonBody(request);
+        const username = String(data.username || '').trim().toLowerCase();
+        const password = String(data.password || '');
+
+        if (!username || !password) {
+          sendJson(response, 400, { error: 'กรุณากรอกชื่อผู้ใช้และรหัสผ่าน' });
+          return;
+        }
+
+        const users = readJsonFile(usersFile, []);
+        const user = users.find(function (u) { return u.username === username; });
+        if (!user || !verifyPassword(password, user.salt, user.hash)) {
+          sendJson(response, 401, { error: 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง' });
+          return;
+        }
+
+        const session = createSession(user.id);
+        response.writeHead(200, {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Set-Cookie': 'zc_session=' + session.token + '; Path=/; HttpOnly; SameSite=Lax; Max-Age=2592000',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, HEAD, POST, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': '*'
+        });
+        response.end(JSON.stringify({
+          ok: true,
+          user: { id: user.id, username: user.username, displayName: user.displayName || user.username },
+          token: session.token,
+          expiresAt: session.expiresAt
+        }));
+      } catch (err) {
+        sendJson(response, 500, { error: err.message || 'เกิดข้อผิดพลาดในการเข้าสู่ระบบ' });
+      }
+    })();
+    return;
+  }
+
+  if (request.method === 'POST' && reqUrl.pathname === '/api/auth/logout') {
+    deleteSession(request);
+    response.writeHead(200, {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Set-Cookie': 'zc_session=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, HEAD, POST, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': '*'
+    });
+    response.end(JSON.stringify({ ok: true }));
+    return;
+  }
+
+  if (request.method === 'GET' && reqUrl.pathname === '/api/auth/me') {
+    const user = getSessionUser(request);
+    sendJson(response, 200, {
+      authenticated: Boolean(user),
+      user: user
+    });
+    return;
+  }
+
+  if (request.method === 'GET' && (reqUrl.pathname === '/api/health' || reqUrl.pathname === '/api/diagnostics')) {
     const rtxGpu = detectedGpus.find(function (g) { return /NVIDIA/i.test(g.name); }) || { name: nvidiaGpuName, id: rtxGpuIndex };
     sendJson(response, 200, {
       ready: engineReady(),
+      installed: engineReady(),
+      device: rtxGpu.name,
       modelsReady: modelsReady(),
       accurateModelsReady: accurateModelsReady(),
       whisperReady: fs.existsSync(modelPath(whisperModel)) && (function () { try { return fs.statSync(modelPath(whisperModel)).size > 1024 * 1024; } catch (e) { return false; } })(),
       engine: engineReady() ? 'CrispASR' : null,
+      engineVersion: engineVersion.release || 'unknown',
       dualGpu: false,
       gpu: rtxGpu.name,
       gpus: [rtxGpu],
       primaryGpu: rtxGpu.id,
-      maxPerformance: true
+      maxPerformance: true,
+      schemaVersion: 1,
     });
     return;
   }
   if (request.method === 'POST' && new URL(request.url, 'http://localhost').pathname === '/api/analyze') {
     analyze(request, response);
+    return;
+  }
+  // Cancel a running or pending analysis job
+  const cancelMatch = /^\/api\/analyze\/([a-f0-9-]{36})$/.exec(new URL(request.url, 'http://localhost').pathname);
+  if (request.method === 'DELETE' && cancelMatch) {
+    const cancelJobId = cancelMatch[1];
+    const cancelled = jobQueue.cancel(cancelJobId);
+    sendJson(response, 200, { ok: cancelled, jobId: cancelJobId });
     return;
   }
   if (request.method === 'POST' && new URL(request.url, 'http://localhost').pathname === '/api/models') {
@@ -1369,7 +1849,6 @@ const server = http.createServer(function (request, response) {
     return;
   }
   // Library endpoints (persistent saved songs)
-  const reqUrl = new URL(request.url, 'http://localhost');
   if (request.method === 'GET' && reqUrl.pathname === '/api/library') {
     sendJson(response, 200, getLibrarySongs());
     return;

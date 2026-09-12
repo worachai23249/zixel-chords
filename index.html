@@ -4,13 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Zixel Chords Studio Pro — สตูดิโอแกะคอร์ดและซิงค์เนื้อร้องอัจฉริยะแบบเรียลไทม์" />
-    <title>Zixel Chords Studio Pro — แกะคอร์ด &amp; ซิงค์เนื้อร้องระดับพรีเมียม</title>
+    <title>Zixel Chords Studio Pro — สตูดิโอแกะคอร์ด &amp; ซิงค์เนื้อร้องระดับพรีเมียม</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./style.css?v=2.2" />
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./style.css?v=3.2" />
   </head>
-  <body class="luxury-theme">
+  <body class="luxury-theme cuberto-mode chords-studio-view">
+    <!-- Ambient Aurora Glow Orbs (Pure Luxury Atmosphere) -->
+    <div class="luxury-aurora-wrap" aria-hidden="true">
+      <div class="aurora-orb aurora-orb-1"></div>
+      <div class="aurora-orb aurora-orb-2"></div>
+      <div class="aurora-orb aurora-orb-3"></div>
+    </div>
+
+    <!-- Cuberto Fluid Interactive Cursor -->
+    <div class="cb-cursor" id="cbCursor" aria-hidden="true">
+      <div class="cb-cursor-pointer"></div>
+      <div class="cb-cursor-text" id="cbCursorText"></div>
+    </div>
+
     <!-- Full-screen Drag & Drop Overlay -->
     <div class="drop-overlay hidden" id="dropOverlay">
       <div class="drop-card">
@@ -58,42 +71,67 @@
 
         <!-- Stage Timeline Steps -->
         <div class="analysis-stages" id="analysisStages">
-          <!-- Will be rendered dynamically based on Fast vs Studio Accurate Mode -->
+          <!-- Rendered dynamically by JS -->
         </div>
 
-        <p class="analysis-privacy">🔒 ประมวลผลบนเครื่องคุณ 100% — ไฟล์ไม่ถูกส่งออกภายนอก</p>
+        <p class="analysis-privacy">✦ ประมวลผลบนเครื่องคุณ 100% — ไฟล์ไม่ถูกส่งออกภายนอก</p>
       </div>
     </div>
 
-    <!-- Luxury Top Header -->
-    <header class="site-header">
-      <div class="header-inner">
-        <a class="brand" href="#start" aria-label="Zixel Chords Studio หน้าแรก">
-          <div class="brand-badge">
-            <span class="brand-monogram">ZC</span>
-          </div>
-          <div class="brand-text">
-            <span class="brand-title">ZIXEL <span>CHORDS</span></span>
-            <span class="brand-tag">STUDIO PRO · LOCAL AI</span>
-          </div>
+    <!-- Floating Spatial Dynamic Island HUD (Futuristic 2026 Navigation) -->
+    <header class="spatial-hud-island" id="spatialHudIsland">
+      <div class="hud-brand-pill">
+        <a href="./index.html" class="hud-brand-link" aria-label="Zixel Chords Studio หน้าแรก">
+          <span class="hud-brand-glyph">✦</span>
+          <span class="hud-brand-name">ZIXEL<span class="hud-accent">·CHORDS</span></span>
         </a>
+      </div>
 
-        <div class="header-center">
-          <div class="header-status" id="engineStatus">
-            <span class="pulse"></span>
-            <span class="status-label">กำลังตรวจ AI engine…</span>
-          </div>
+      <!-- Quick Teleport Links -->
+      <nav class="hud-nav-links">
+        <a class="hud-link active" href="./index.html">สตูดิโอ</a>
+        <a class="hud-link" id="tunerNavBtn" href="./tuner.html" title="เครื่องตั้งสายกีตาร์">ตั้งสาย</a>
+        <a class="hud-link" id="chordChartNavBtn" href="./chords.html" title="ตารางคอร์ดและไดอะแกรม">ตารางคอร์ด</a>
+        <a class="hud-link" id="onlineJamNavBtn" href="./jam.html" title="เล่นดนตรีออนไลน์">ห้องซ้อม</a>
+        <button class="hud-link hud-btn-link" id="libraryButton" type="button" title="ดูแฟ้มเพลงที่บันทึกไว้">แฟ้มเพลง</button>
+        <a class="hud-link help-btn" href="./setup.html" target="_blank" rel="noopener" title="ดูคู่มือติดตั้ง">คู่มือ</a>
+      </nav>
+
+      <!-- Right Controls: Audio Telemetry & Auth Capsule -->
+      <div class="hud-controls-pill">
+        <div class="hud-eq-visualizer" aria-hidden="true" title="Audio Engine Active">
+          <span class="eq-b eq-1"></span>
+          <span class="eq-b eq-2"></span>
+          <span class="eq-b eq-3"></span>
+          <span class="eq-b eq-4"></span>
+          <span class="eq-b eq-5"></span>
         </div>
 
-        <div class="header-actions">
-          <button class="header-btn" id="libraryButton" type="button">
-            <span class="btn-icon">📁</span>
-            <span>แฟ้มเพลง</span>
-          </button>
-          <a class="header-btn help-btn" href="./setup.html" target="_blank" rel="noopener">
-            <span class="btn-icon">⚙️</span>
-            <span>คู่มือติดตั้ง</span>
+        <div class="auth-header-wrap" id="authHeaderWrap">
+          <a class="cb-pill-btn" id="authTriggerBtn" href="./login.html" title="เข้าสู่ระบบหรือจัดการบัญชี">
+            <span class="auth-avatar-chip hidden" id="authAvatarChip">ZC</span>
+            <span class="btn-icon" id="authDefaultIcon"></span>
+            <span id="authBtnLabel">เข้าสู่ระบบ</span>
           </a>
+          <div class="user-menu-dropdown hidden" id="userMenuDropdown">
+            <div class="user-menu-header">
+              <div class="user-avatar-circle" id="userAvatarCircle">ZC</div>
+              <div class="user-menu-info">
+                <strong id="userDisplayName">Guest</strong>
+                <span id="userUsername">@guest</span>
+              </div>
+            </div>
+            <div class="user-menu-divider"></div>
+            <a href="./login.html" class="user-menu-item">
+              ข้อมูลบัญชีของฉัน
+            </a>
+            <button type="button" class="user-menu-item" id="userLibraryShortcut">
+              แฟ้มเพลงของฉัน
+            </button>
+            <button type="button" class="user-menu-item text-danger" id="logoutBtn">
+              ออกจากระบบ
+            </button>
+          </div>
         </div>
       </div>
     </header>
@@ -112,141 +150,187 @@
     </aside>
 
     <main>
-      <!-- HERO & UPLOAD SECTION -->
-      <section class="hero" id="start">
-        <div class="hero-badge">
-          <span class="sparkle">✦</span>
-          <span>HIGH-PRECISION MUSIC AI WORKSTATION</span>
-          <span class="sparkle">✦</span>
-        </div>
-        <h1 class="hero-title">
-          สตูดิโอแกะคอร์ด &amp; ซิงค์เนื้อร้อง<br />
-          <span class="gold-gradient">แม่นยำระดับเสี้ยววินาที</span>
-        </h1>
-        <p class="hero-copy">
-          ถอดคอร์ดดนตรี จับห้องเพลง (Beat Grid) และสกัดเนื้อร้องพร้อมตำแหน่งคำแบบเรียลไทม์ ด้วย AI Transformer บนเครื่องคุณ 100% ไม่มีส่งไฟล์ออกภายนอก
-        </p>
-
-        <!-- Studio Control Deck -->
-        <div class="studio-deck">
-          <div class="deck-tabs" role="tablist">
-            <button class="source-tab active" type="button" role="tab" aria-selected="true" data-source="mp3">
-              <span class="tab-icon">🎵</span> ไฟล์เพลงในเครื่อง
-            </button>
-            <button class="source-tab" type="button" role="tab" aria-selected="false" data-source="youtube">
-              <span class="tab-icon">▶</span> เปิดวิดีโอ YouTube
-            </button>
-          </div>
-
-          <div class="deck-options" id="analysisControls">
-            <div class="deck-option-group">
-              <span class="group-label">ENGINE MODE</span>
-              <div class="segmented-control">
-                <button class="quality-button active" type="button" data-analysis="standard">⚡ Fast Mode (แนะนำ)</button>
-                <button class="quality-button" type="button" data-analysis="accurate">🎯 Studio Accurate</button>
+      <!-- BRAND-NEW SPATIAL DUAL-COCKPIT WORKSTATION LAYOUT -->
+      <section class="spatial-hero-cockpit" id="start">
+        <div class="spatial-cockpit-container">
+          <!-- LEFT WING: Neural Audio Radar & AI Core Telemetry -->
+          <div class="cockpit-left-wing">
+            <div class="cockpit-identity-cluster">
+              <div class="cockpit-live-badge">
+                <span class="hud-pulse-dot"></span>
+                <span>★★★★★ 5-STAR ULTRA LUXURY · NEURAL AUDIO WORKSTATION</span>
               </div>
+              <h1 class="cockpit-mega-title">
+                AI Chord Studio<br />
+                <span class="gold-gradient cb-gradient-text">&amp; Stem Engine</span>
+              </h1>
+              <p class="cockpit-description">
+                วิเคราะห์คอร์ด จังหวะบีต และแยกแทร็กเสียงดนตรีด้วยโมเดล Neural Network บนเครื่องคุณโดยตรง ไม่มีการส่งข้อมูลเสียงออกภายนอก
+              </p>
             </div>
 
-            <div class="deck-option-group">
-              <span class="group-label">TIME SIGNATURE</span>
-              <div class="custom-select-wrap">
-                <select id="meterSelect">
-                  <option value="auto">Auto (ตรวจจับอัตโนมัติ)</option>
-                  <option value="4">4/4 (มาตรฐานป๊อป/ร็อค)</option>
-                  <option value="3">3/4 (วอลซ์/บัลลาด)</option>
-                  <option value="6">6/8 (สโลว์โซล)</option>
-                  <option value="2">2/4 (มาร์ช/คันทรี)</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="deck-option-group">
-              <span class="group-label">LYRICS LANGUAGE</span>
-              <div class="custom-select-wrap">
-                <select id="lyricsLangSelect">
-                  <option value="th" selected>🇹🇭 ภาษาไทย (Thai)</option>
-                  <option value="en">🇺🇸 สากล / English</option>
-                  <option value="auto">🌐 Auto (ตรวจจับอัตโนมัติ)</option>
-                  <option value="ja">🇯🇵 日本語 (Japanese)</option>
-                  <option value="ko">🇰🇷 한국어 (Korean)</option>
-                  <option value="zh">🇨🇳 中文 (Chinese)</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <p class="deck-hint" id="analysisModeHint">
-            ✦ Fast Mode (แนะนำ): วิเคราะห์รวดเร็ว ~30-60 วินาที ได้คอร์ด BTC Transformer + บีต Beat This! + เนื้อเพลงภาษาไทยครบถ้วน
-          </p>
-
-          <!-- Upload Form -->
-          <form class="upload-form" id="sourceForm">
-            <!-- Audio File Upload Area -->
-            <div class="input-panel" id="mp3Panel">
-              <label class="luxury-upload-box" for="audioFile">
-                <div class="upload-icon-wrap">
-                  <span class="upload-arrow">↑</span>
+            <!-- Neural Model Capabilities Matrix (Interactive 3D Micro-Slabs) -->
+            <div class="neural-specs-matrix">
+              <div class="spec-micro-card card-3d">
+                <div class="spec-card-body">
+                  <strong>BTC Transformer</strong>
+                  <span>คอร์ดมาตรฐาน &amp; Extensions 50 ชนิด</span>
                 </div>
-                <div class="upload-info">
-                  <strong id="audioFileName">คลิกหรือลากไฟล์เสียงมาวางที่นี่</strong>
-                  <span class="upload-sub">รองรับ MP3, WAV, M4A, FLAC, OGG, AAC (ขนาดสูงสุด 80 MB)</span>
+              </div>
+              <div class="spec-micro-card card-3d">
+                <div class="spec-card-body">
+                  <strong>Beat This! Engine</strong>
+                  <span>วิเคราะห์จังหวะบีต &amp; Downbeat Alignment</span>
                 </div>
-                <span class="choose-btn">เลือกไฟล์</span>
-                <input id="audioFile" name="audioFile" type="file" accept=".mp3,.wav,.m4a,.aac,.flac,.ogg,audio/*" />
-              </label>
-            </div>
-
-            <!-- YouTube Video Area -->
-            <div class="input-panel hidden" id="youtubePanel">
-              <div class="luxury-input-wrap">
-                <span class="yt-icon">▶</span>
-                <input id="youtubeUrl" name="youtubeUrl" type="url" autocomplete="url" placeholder="วางลิงก์ YouTube เพื่อเปิดวิดีโอฝึกซ้อมประกอบ…" />
+              </div>
+              <div class="spec-micro-card card-3d">
+                <div class="spec-card-body">
+                  <strong>Whisper ASR</strong>
+                  <span>ถอดและซิงค์เนื้อร้องระดับคำต่อคำ</span>
+                </div>
+              </div>
+              <div class="spec-micro-card card-3d">
+                <div class="spec-card-body">
+                  <strong>HTDemucs 4-Stem</strong>
+                  <span>แยกเสียงร้อง กลอง เบส และดนตรี</span>
+                </div>
               </div>
             </div>
 
-            <div class="deck-footer">
-              <label class="license-checkbox" id="licenseRow">
-                <input id="licenseAcceptance" type="checkbox" checked />
-                <span class="checkmark"></span>
-                <span>ฉันยืนยันการใช้งานส่วนตัว/ฝึกซ้อม และมีสิทธิ์ในไฟล์เสียงนี้</span>
-              </label>
-
-              <button class="luxury-primary-btn" id="analyzeButton" type="submit">
-                <span class="btn-shine"></span>
-                <span id="analyzeLabel">เริ่มวิเคราะห์คอร์ด &amp; เนื้อเพลง</span>
-                <span class="btn-arrow">→</span>
+            <!-- Quick Teleport Action Bar -->
+            <div class="cockpit-quick-bar">
+              <span class="quick-bar-label">QUICK ACCESS:</span>
+              <button type="button" class="quick-chip-btn btn-3d-secondary" id="cockpitLibraryTrigger">
+                แฟ้มเพลง
               </button>
-            </div>
-          </form>
-
-          <p class="hint-bar" id="sourceHint">
-            <span class="hint-tag">PRIVACY FIRST</span> ทุกกระบวนการรันบน CPU/GPU ภายในเครื่องของคุณ ไฟล์จะถูกลบอัตโนมัติหลังประมวลผล
-          </p>
-          <p class="form-error" id="formError" role="alert"></p>
-        </div>
-
-        <!-- Trust Badges -->
-        <div class="luxury-trust-deck">
-          <div class="trust-item">
-            <span class="trust-icon">💎</span>
-            <div>
-              <strong>Transformer Chord Model</strong>
-              <small>โมเดลรับรู้คอร์ดชั้นสูง</small>
+              <a href="./chords.html" class="quick-chip-btn btn-3d-secondary">
+                ตารางคอร์ด
+              </a>
+              <a href="./tuner.html" class="quick-chip-btn btn-3d-secondary">
+                เครื่องตั้งสาย
+              </a>
             </div>
           </div>
-          <div class="trust-sep"></div>
-          <div class="trust-item">
-            <span class="trust-icon">⏱️</span>
-            <div>
-              <strong>Beat This! Tracking</strong>
-              <small>จับ Downbeat และบีตแม่นยำ</small>
-            </div>
-          </div>
-          <div class="trust-sep"></div>
-          <div class="trust-item">
-            <span class="trust-icon">🎙️</span>
-            <div>
-              <strong>Whisper Lyrics Sync</strong>
-              <small>ถอดเนื้อร้องตามคำจริง</small>
+
+          <!-- RIGHT WING: Sonic Ingestion Reactor Deck -->
+          <div class="cockpit-right-wing">
+            <div class="studio-deck sonic-reactor-deck card-3d">
+              <div class="reactor-header-bar">
+                <div class="reactor-status-tag">
+                  <span class="reactor-glow-pip"></span>
+                  <span>INGESTION CHAMBER</span>
+                </div>
+
+                <!-- Source Switcher Blade -->
+                <div class="deck-tabs source-switcher-blade" role="tablist">
+                  <button class="source-tab active" type="button" role="tab" aria-selected="true" data-source="mp3">
+                    ไฟล์เสียงในเครื่อง
+                  </button>
+                  <button class="source-tab" type="button" role="tab" aria-selected="false" data-source="youtube">
+                    ลิงก์ YouTube
+                  </button>
+                </div>
+              </div>
+
+              <!-- Upload Form -->
+              <form class="upload-form" id="sourceForm">
+                <!-- Audio File Upload Chamber -->
+                <div class="input-panel" id="mp3Panel">
+                  <label class="luxury-upload-box reactor-drop-chamber" for="audioFile">
+                    <div class="reactor-radar-visualizer" aria-hidden="true">
+                      <span class="radar-scan-circle circle-1"></span>
+                      <span class="radar-scan-circle circle-2"></span>
+                      <span class="radar-scan-circle circle-3"></span>
+                    </div>
+                    <div class="upload-icon-wrap reactor-core-icon">
+                      <span class="upload-arrow">↑</span>
+                    </div>
+                    <div class="upload-info">
+                      <strong id="audioFileName">คลิกเลือกหรือลากไฟล์เสียงมาวางในห้องประมวลผล</strong>
+                      <span class="upload-sub">รองรับ MP3, WAV, M4A, FLAC, OGG, AAC (ประมวลผลบนเครื่อง 100%)</span>
+                    </div>
+                    <span class="choose-btn reactor-browse-btn">เลือกไฟล์ในเครื่อง</span>
+                    <input id="audioFile" name="audioFile" type="file" accept=".mp3,.wav,.m4a,.aac,.flac,.ogg,audio/*" />
+                  </label>
+                </div>
+
+                <!-- YouTube Video Chamber -->
+                <div class="input-panel hidden" id="youtubePanel">
+                  <div class="luxury-input-wrap reactor-yt-chamber">
+                    <span class="yt-icon">▶</span>
+                    <input id="youtubeUrl" name="youtubeUrl" type="url" autocomplete="url" placeholder="วางลิงก์ YouTube เพื่อเปิดวิดีโอฝึกซ้อมประกอบ…" />
+                  </div>
+                </div>
+
+                <!-- Integrated Inline Engine Parameter Console -->
+                <div class="reactor-parameters-deck">
+                  <details class="deck-advanced-accordion" open>
+                    <summary class="advanced-summary">
+                      <span>ค่าพารามิเตอร์ AI (Engine Parameters)</span>
+                      <span class="summary-caret">▾</span>
+                    </summary>
+                    <div class="deck-options" id="analysisControls">
+                      <div class="deck-option-group">
+                        <span class="group-label">ENGINE MODE</span>
+                        <div class="segmented-control">
+                          <button class="quality-button active" type="button" data-analysis="standard">Fast Mode</button>
+                          <button class="quality-button" type="button" data-analysis="accurate">Studio Accurate</button>
+                        </div>
+                      </div>
+
+                      <div class="deck-option-group">
+                        <span class="group-label">TIME SIGNATURE</span>
+                        <div class="custom-select-wrap">
+                          <select id="meterSelect">
+                            <option value="auto">Auto (ตรวจจับอัตโนมัติ)</option>
+                            <option value="4">4/4 (มาตรฐาน)</option>
+                            <option value="3">3/4 (วอลซ์)</option>
+                            <option value="6">6/8 (สโลว์โซล)</option>
+                            <option value="2">2/4 (มาร์ช)</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="deck-option-group">
+                        <span class="group-label">LYRICS LANGUAGE</span>
+                        <div class="custom-select-wrap">
+                          <select id="lyricsLangSelect">
+                            <option value="th" selected>🇹🇭 ภาษาไทย (Thai)</option>
+                            <option value="en">🇺🇸 สากล / English</option>
+                            <option value="auto">Auto (ตรวจจับ)</option>
+                            <option value="ja">🇯🇵 日本語</option>
+                            <option value="ko">🇰🇷 한국어</option>
+                            <option value="zh">🇨🇳 中文</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="deck-hint" id="analysisModeHint">
+                      ✦ Fast Mode: วิเคราะห์รวดเร็ว ~30-60 วินาที ได้คอร์ด BTC Transformer + บีต Beat This! + เนื้อเพลงภาษาไทยครบถ้วน
+                    </p>
+                  </details>
+                </div>
+
+                <!-- Reactor Bottom Footer -->
+                <div class="deck-footer reactor-footer">
+                  <label class="license-checkbox" id="licenseRow">
+                    <input id="licenseAcceptance" type="checkbox" checked />
+                    <span class="checkmark"></span>
+                    <span>ฉันยืนยันการใช้งานส่วนตัว/ฝึกซ้อม และมีสิทธิ์ในไฟล์เสียงนี้</span>
+                  </label>
+
+                  <button class="luxury-primary-btn reactor-launch-btn" id="analyzeButton" type="submit">
+                    <span class="btn-shine"></span>
+                    <span id="analyzeLabel">เริ่มวิเคราะห์คอร์ด &amp; เนื้อเพลง</span>
+                    <span class="btn-arrow">→</span>
+                  </button>
+                </div>
+              </form>
+
+              <p class="hint-bar" id="sourceHint">
+                <span class="hint-tag">PRIVACY FIRST</span> ทุกกระบวนการรันบน CPU/GPU ภายในเครื่องของคุณ ไฟล์จะถูกลบอัตโนมัติหลังประมวลผล
+              </p>
+              <p class="form-error" id="formError" role="alert"></p>
             </div>
           </div>
         </div>
@@ -254,105 +338,102 @@
 
       <!-- LUXURY WORKSPACE (When song loaded) -->
       <section class="workspace hidden" id="workspace" aria-live="polite">
-        <!-- Top Track Navigation -->
-        <div class="workspace-nav">
-          <button class="nav-back-btn" id="backButton" type="button">
-            <span>←</span> นำเข้าเพลงใหม่
-          </button>
-          <div class="nav-meta">
-            <span class="status-chip" id="sourceChip">STUDIO MASTER · AI DRAFT</span>
-            <button class="nav-action-btn" id="pasteLyricsButton" type="button" title="นำเข้าหรือแก้ไขเนื้อเพลง">
-              <span>📝</span> วาง/แก้เนื้อเพลง
+        <!-- Unified Studio Command Bar (Compact Header) -->
+        <div class="studio-command-bar">
+          <div class="command-track-info">
+            <button class="nav-back-btn" id="backButton" type="button" title="กลับไปหน้าเลือกเพลงใหม่">
+              <span>←</span> เพลงใหม่
             </button>
-            <button class="nav-action-btn stem-action-btn" id="stemSeparateButton" type="button" title="แยกแทร็กเสียง Vocals/Drums/Bass/Instruments ด้วย AI">
-              <span>🎛️</span> แยกแทร็กเสียง
+            <div class="track-headline">
+              <div class="track-title-row">
+                <h2 id="songTitle">ชื่อไฟล์เพลง</h2>
+                <span class="status-chip" id="sourceChip">STUDIO MASTER · AI DRAFT</span>
+              </div>
+              <p class="song-artist" id="songArtist">Local Audio File</p>
+            </div>
+          </div>
+
+          <div class="command-metrics">
+            <div class="metric-pill" title="บันไดเสียงหลัก">
+              <span class="pill-label">KEY</span>
+              <strong class="pill-val gold" id="songKey">—</strong>
+            </div>
+            <div class="metric-pill" title="ความเร็วเพลง (BPM)">
+              <span class="pill-label">TEMPO</span>
+              <strong class="pill-val" id="songTempo">—</strong>
+            </div>
+            <div class="metric-pill" title="จังหวะห้องเพลง">
+              <span class="pill-label">METER</span>
+              <strong class="pill-val" id="songMeter">4/4</strong>
+            </div>
+            <div class="metric-pill confidence-pill" title="โมเดล AI ที่ใช้">
+              <span class="pill-label">ENGINE</span>
+              <strong class="pill-val" id="songConfidence">BTC + BeatThis</strong>
+            </div>
+          </div>
+
+          <div class="command-actions">
+            <div class="action-btn-group">
+              <button class="icon-tool-btn" id="undoButton" type="button" title="ย้อนกลับการแก้ไขคอร์ด (Ctrl+Z)" disabled>
+                <span>↩</span>
+              </button>
+              <button class="icon-tool-btn" id="redoButton" type="button" title="ทำซ้ำการแก้ไขคอร์ด (Ctrl+Y)" disabled>
+                <span>↪</span>
+              </button>
+            </div>
+            <button class="nav-action-btn btn-3d-secondary" id="pasteLyricsButton" type="button" title="นำเข้าหรือแก้ไขเนื้อเพลง">
+              <span>เนื้อเพลง</span>
             </button>
-            <button class="nav-action-btn" id="wideModeBtn" type="button" title="ขยายการ์ดเล่นคอร์ดให้เต็มความกว้างหน้าจอ (W)">
-              <span class="btn-icon">↔</span> <span id="wideModeLabel">ขยายกว้าง</span>
+            <button class="nav-action-btn stem-action-btn btn-3d-secondary" id="stemSeparateButton" type="button" title="แยกแทร็กเสียง Vocals/Drums/Bass/Instruments ด้วย AI">
+              <span>แยกแทร็ก</span>
             </button>
-            <button class="nav-action-btn" id="stageMode" type="button" title="เปิดโหมดเต็มจอ">
-              <span>⛶</span> โหมดแสดงสด (Stage)
+            <button class="nav-action-btn btn-3d-secondary" id="exportMidiButton" type="button" title="ส่งออกคอร์ดและสเต็มเบสเป็นไฟล์ Standard MIDI (.mid)">
+              <span>MIDI</span>
+            </button>
+            <div class="export-wrap">
+              <button type="button" class="nav-action-btn export-trigger-btn btn-3d-secondary" id="exportMenuButton">
+                <span>ส่งออก ▾</span>
+              </button>
+              <div class="export-dropdown hidden" id="exportDropdown">
+                <button type="button" data-export="text">Text Document (.txt)</button>
+                <button type="button" data-export="chordpro">ChordPro (.cho)</button>
+                <button type="button" data-export="lrc">Synchronized Lyrics (.lrc)</button>
+                <button type="button" data-export="json">Studio Project (.json)</button>
+              </div>
+            </div>
+            <button class="nav-action-btn btn-3d-secondary" id="wideModeBtn" type="button" title="ขยายการ์ดเล่นคอร์ดให้เต็มความกว้าง (W)">
+              <span id="wideModeLabel">ขยายกว้าง</span>
+            </button>
+            <button class="nav-action-btn stage-btn btn-3d-secondary" id="stageMode" type="button" title="เปิดโหมดแสดงสดเต็มจอ (F)">
+              <span>Stage</span>
             </button>
           </div>
         </div>
 
-        <!-- Grand Song Banner -->
-        <div class="grand-song-banner">
-          <div class="song-headline">
-            <span class="now-badge">NOW AUDITIONING</span>
-            <h2 id="songTitle">ชื่อไฟล์เพลง</h2>
-            <p class="song-artist" id="songArtist">Local Audio File</p>
-          </div>
-          <div class="song-metrics">
-            <div class="metric-card">
-              <span class="metric-label">KEY (บันไดเสียง)</span>
-              <strong class="metric-val gold" id="songKey">—</strong>
-            </div>
-            <div class="metric-card">
-              <span class="metric-label">TEMPO (ความเร็ว)</span>
-              <strong class="metric-val" id="songTempo">—</strong>
-            </div>
-            <div class="metric-card">
-              <span class="metric-label">TIME SIGNATURE</span>
-              <strong class="metric-val" id="songMeter">4/4</strong>
-            </div>
-            <div class="metric-card">
-              <span class="metric-label">AI ENGINE</span>
-              <strong class="metric-val" id="songConfidence">BTC + BeatThis</strong>
-            </div>
-          </div>
-        </div>
-
-        <!-- Master View Tabs -->
+        <!-- Master View Selector Tabs -->
         <div class="studio-view-tabs">
           <div class="view-pill-selector" role="tablist">
             <button class="view-tab active" type="button" role="tab" data-view="lyrics">
-              <span class="tab-badge">🎙️</span> เนื้อร้องพร้อมคอร์ด (Karaoke)
+              เนื้อร้องพร้อมคอร์ด
             </button>
             <button class="view-tab" type="button" role="tab" data-view="grid">
-              <span class="tab-badge">🎼</span> ตารางจังหวะ (Beat Grid)
+              ตารางจังหวะ
             </button>
             <button class="view-tab" type="button" role="tab" data-view="split">
-              <span class="tab-badge">⚡</span> แสดงสองจอพร้อมกัน (Split Studio)
+              จอแยก (Split)
             </button>
             <button class="view-tab" type="button" role="tab" data-view="stems">
-              <span class="tab-badge">🎛️</span> Stem Mixer
+              Stem Mixer
+            </button>
+            <button class="view-tab" type="button" role="tab" data-view="practice">
+              โหมดซ้อมเปียโน
             </button>
           </div>
         </div>
 
-        <!-- Main Studio Layout -->
+        <!-- Main Studio Performance Layout -->
         <div class="practice-layout" id="practiceLayout">
-          <!-- LEFT COLUMN: Instrument & Voicing -->
-          <aside class="instrument-card">
-            <div class="card-header-luxury">
-              <span class="card-tag">INSTRUMENT</span>
-              <select id="instrumentSelect" aria-label="เลือกเครื่องดนตรี">
-                <option value="guitar">🎸 กีตาร์ (Guitar)</option>
-                <option value="ukulele">🪕 อูคูเลเล่ (Ukulele)</option>
-                <option value="piano">🎹 เปียโน (Piano)</option>
-              </select>
-            </div>
-
-            <div class="fretboard-stage">
-              <div class="diagram-name" id="diagramName">—</div>
-              <div class="chord-diagram-wrap" id="chordDiagram" aria-label="รูปแบบการจับคอร์ด"></div>
-              <p class="diagram-caption" id="diagramCaption">รอเริ่มเพลงเพื่อแสดงคอร์ด</p>
-            </div>
-
-            <!-- Transpose & Capo -->
-            <div class="transpose-deck">
-              <span class="sub-label">TRANSPOSE / CAPO</span>
-              <div class="transpose-buttons">
-                <button type="button" class="luxury-circle-btn" id="transposeDown" aria-label="ลดคีย์">−</button>
-                <span class="transpose-value" id="transposeValue">ต้นฉบับ</span>
-                <button type="button" class="luxury-circle-btn" id="transposeUp" aria-label="เพิ่มคีย์">+</button>
-              </div>
-              <div class="capo-badge" id="capoDisplay">Capo: ไม่มี</div>
-            </div>
-          </aside>
-
-          <!-- CENTER COLUMN: Jam Master Stage -->
+          <!-- CENTER COLUMN: Jam Master Stage (Expansive, High Legibility) -->
           <section class="jam-card" aria-label="พื้นที่เล่นตามคอร์ด">
             <!-- Chord & Live Teleprompter Header -->
             <div class="now-chord-deck">
@@ -366,7 +447,7 @@
                 <div class="current-chord" id="currentChord">—</div>
               </div>
 
-              <!-- Live Synchronized Lyric Banner (ALWAYS VISIBLE!) -->
+              <!-- Live Synchronized Lyric Banner -->
               <div class="live-teleprompter" id="liveLyricsBar">
                 <div class="teleprompter-label">
                   <span class="mic-dot"></span>
@@ -382,68 +463,10 @@
               </div>
             </div>
 
-            <!-- Audio Waveform Stage -->
+            <!-- Audio Waveform Visualizer -->
             <div class="audio-stage">
               <audio id="audioPlayer" preload="metadata"></audio>
               <div class="waveform-luxury" id="waveform" aria-hidden="true"></div>
-            </div>
-
-            <!-- Luxury Interactive Seekbar -->
-            <div class="seekbar-luxury-wrap">
-              <div class="seekbar" id="seekbar" title="คลิกหรือลากเพื่อข้ามเวลาเพลง">
-                <div class="seekbar-fill" id="progressFill"></div>
-                <div class="seekbar-loop hidden" id="loopHighlight"></div>
-                <div class="seekbar-beats" id="seekbarBeats"></div>
-                <div class="seekbar-head"></div>
-              </div>
-            </div>
-
-            <!-- Transport Control Bar -->
-            <div class="transport">
-              <!-- Play / Nav -->
-              <div class="transport-main">
-                <button class="transport-btn" id="previousBeat" type="button" title="บีตก่อนหน้า (←)">↶</button>
-                <button class="play-btn-luxury" id="playPause" type="button" aria-label="เล่นหรือพัก (Space)">
-                  <span class="play-icon">▶</span>
-                </button>
-                <button class="transport-btn" id="nextBeat" type="button" title="บีตถัดไป (→)">↷</button>
-                <span class="time-readout">
-                  <strong id="currentTime">0:00</strong> / <span id="totalDuration">0:00</span>
-                </span>
-              </div>
-
-              <!-- Metronome Controls -->
-              <div class="metronome-luxury">
-                <button class="metronome-btn" id="metronomeToggle" type="button" title="เปิด/ปิด Metronome (M)">
-                  <span>⏱️ Metronome</span>
-                </button>
-                <input type="range" id="metronomeVolume" min="0" max="1" step="0.05" value="0.5" title="ระดับเสียง Metronome" />
-              </div>
-
-              <!-- Speed Controller -->
-              <div class="speed-luxury" aria-label="ความเร็วเล่น">
-                <button class="speed-btn" data-rate="0.5" type="button">0.5×</button>
-                <button class="speed-btn" data-rate="0.75" type="button">0.75×</button>
-                <button class="speed-btn" data-rate="0.9" type="button">0.9×</button>
-                <button class="speed-btn active" data-rate="1" type="button">1.0×</button>
-                <button class="speed-btn" data-rate="1.25" type="button">1.25×</button>
-              </div>
-
-              <!-- Pitch Shift (Up Tempo style) -->
-              <div class="pitch-luxury" aria-label="ปรับระดับเสียง (Pitch Shift)">
-                <span class="pitch-label">🎹 PITCH</span>
-                <button type="button" class="pitch-btn" id="pitchDown" title="ลดเสียงทีละครึ่งเสียง (−1 st, ได้สูงสุด −12)">−</button>
-                <span class="pitch-value" id="pitchValue">0 st</span>
-                <button type="button" class="pitch-btn" id="pitchUp" title="เพิ่มเสียงทีละครึ่งเสียง (+1 st, ได้สูงสุด +12)">+</button>
-                <button type="button" class="pitch-reset" id="pitchReset" title="คืนเสียงต้นฉบับ (0 st)">↺</button>
-              </div>
-
-              <!-- A-B Looper -->
-              <div class="looper-luxury">
-                <button class="loop-btn" id="loopStart" type="button" title="ตั้งจุดเริ่มต้นลูป (A)">Loop A</button>
-                <button class="loop-btn" id="loopEnd" type="button" title="ตั้งจุดสิ้นสุดลูป (B)">Loop B</button>
-                <button class="loop-btn loop-toggle" id="loopToggle" type="button" title="เปิด/ปิดวนลูป (L)">↻ Loop</button>
-              </div>
             </div>
 
             <!-- Dynamic Views Container -->
@@ -457,12 +480,12 @@
                     <small>— คลิกที่คำหรือบรรทัดเพื่อข้ามไปท่อนนั้นทันที</small>
                   </div>
                   <div class="lyrics-quick-tools">
-                    <button class="quick-tool-btn" id="editLyricsBtn" type="button">📝 วาง/แก้ไขเนื้อร้อง</button>
+                    <button class="quick-tool-btn" id="editLyricsBtn" type="button">วาง/แก้ไขเนื้อร้อง</button>
                   </div>
                 </div>
                 <div class="lyrics-panel" id="lyricsPanel">
                   <div class="lyrics-empty">
-                    <div class="empty-icon">🎙️</div>
+                    <div class="empty-icon">✦</div>
                     <p>ยังไม่มีเนื้อร้องในเพลงนี้</p>
                     <small>คุณสามารถคลิก "วาง/แก้ไขเนื้อร้อง" ด้านบนเพื่อนำเข้าเนื้อเพลงและซิงค์คอร์ดอัตโนมัติได้ทันที</small>
                     <button class="empty-action-btn" id="emptyPasteBtn" type="button">วางเนื้อเพลงเพื่อเริ่มซิงค์</button>
@@ -481,7 +504,7 @@
                   <div class="grid-tools">
                     <button class="grid-tool-btn" id="shiftDownbeatPrev" type="button" title="เลื่อนหัวห้องถอยหลัง 1 จังหวะ">◀ เลื่อนห้อง</button>
                     <button class="grid-tool-btn" id="shiftDownbeatNext" type="button" title="เลื่อนหัวห้องไปข้างหน้า 1 จังหวะ">เลื่อนห้อง ▶</button>
-                    <button class="grid-tool-btn" id="simplifyChordsBtn" type="button" title="สลับระหว่างคอร์ดง่าย (Triads) กับคอร์ดเต็ม (Extensions)">🎸 คอร์ดง่าย</button>
+                    <button class="grid-tool-btn" id="simplifyChordsBtn" type="button" title="สลับระหว่างคอร์ดง่าย (Triads) กับคอร์ดเต็ม (Extensions)">คอร์ดง่าย</button>
                     <button class="review-toggle" id="reviewToggle" type="button">โหมดตรวจแก้คอร์ด</button>
                   </div>
                 </div>
@@ -495,16 +518,16 @@
                 <div class="stem-mixer-header">
                   <div>
                     <span class="gold-dot"></span>
-                    <strong>🎛️ Stem Mixer — แยกและมิกซ์แทร็กเสียง</strong>
+                    <strong>Stem Mixer — แยกและมิกซ์แทร็กเสียง</strong>
                     <small id="stemMixerStatus"> — กด "แยกแทร็กเสียง" เพื่อเริ่มต้น</small>
                   </div>
                 </div>
                 <div class="stem-mixer-body" id="stemMixerBody">
                   <div class="stem-idle-state" id="stemIdleState">
-                    <div class="stem-idle-icon">🎛️</div>
-                    <p>กดปุ่ม <strong>"แยกแทร็กเสียง"</strong> ที่ด้านบนเพื่อให้ AI แยกเสียงเป็น 4 แทร็ก</p>
-                    <small>Vocals · Drums · Bass · Instruments (ใช้โมเดล HTDemucs ต้องการโหมด Studio Accurate)</small>
-                    <button type="button" class="stem-start-btn" id="stemStartBtn">🎛️ เริ่มแยกแทร็กเสียง</button>
+                    <div class="stem-idle-icon">✦</div>
+                    <p>กดปุ่ม <strong>"เริ่มแยกแทร็กเสียง"</strong> เพื่อให้ AI แยกเสียงเป็น 4 แทร็ก</p>
+                    <small>Vocals · Drums · Bass · Instruments (ใช้โมเดล HTDemucs บนเครื่องคุณ)</small>
+                    <button type="button" class="stem-start-btn" id="stemStartBtn">เริ่มแยกแทร็กเสียง</button>
                   </div>
                   <div class="stem-loading-state hidden" id="stemLoadingState">
                     <div class="stem-spinner"></div>
@@ -521,84 +544,265 @@
                   </div>
                 </div>
               </div>
+
+              <!-- VIEW 4: Interactive MIDI Practice & Virtual Piano -->
+              <div class="view-panel" id="viewPractice">
+                <div class="practice-view-header">
+                  <div>
+                    <span class="gold-dot"></span>
+                    <strong>Interactive Practice Mode &amp; AI Chord Evaluation</strong>
+                    <small id="practiceSubtitle">— เชื่อมต่อคีย์บอร์ด MIDI หรือกดลิ่มเปียโนเพื่อตรวจเช็กความถูกต้องของคอร์ด</small>
+                  </div>
+                  <div class="midi-status-pill" id="midiStatusPill">
+                    <span class="midi-indicator" id="midiIndicator"></span>
+                    <span id="midiDeviceLabel">MIDI: ยังไม่ได้เชื่อมต่อ</span>
+                    <button class="midi-connect-btn" id="midiConnectBtn" type="button">เชื่อมต่อ USB MIDI</button>
+                  </div>
+                </div>
+
+                <!-- AI Evaluation HUD -->
+                <div class="evaluation-hud">
+                  <div class="eval-card current-target">
+                    <span class="hud-label">คอร์ดเป้าหมาย (TARGET CHORD)</span>
+                    <div class="hud-chord-val" id="evalTargetChord">—</div>
+                    <div class="hud-notes-list" id="evalTargetNotes">โน้ตในคอร์ด: —</div>
+                  </div>
+
+                  <div class="eval-card accuracy-meter">
+                    <span class="hud-label">คะแนนความแม่นยำ (AI ACCURACY)</span>
+                    <div class="hud-score-val" id="evalAccuracyScore">0%</div>
+                    <div class="eval-meter-bar">
+                      <div class="eval-meter-fill" id="evalMeterFill" style="width: 0%"></div>
+                    </div>
+                  </div>
+
+                  <div class="eval-card pressed-notes">
+                    <span class="hud-label">โน้ตที่กดอยู่ (ACTIVE NOTES)</span>
+                    <div class="hud-pressed-val" id="evalPressedNotes">—</div>
+                    <div class="hud-feedback" id="evalFeedback">รอเริ่มเล่นเพลงหรือกดคีย์บอร์ด</div>
+                  </div>
+                </div>
+
+                <!-- Piano Toolbar & Controls -->
+                <div class="piano-toolbar-deck">
+                  <div class="piano-toolbar-row">
+                    <div class="piano-size-selector" id="pianoSizeSelector">
+                      <span class="p-tool-tag">ขนาดคีย์:</span>
+                      <button type="button" class="piano-preset-btn active" data-size="88">88 คีย์ (Grand Piano จริง A0–C8)</button>
+                      <button type="button" class="piano-preset-btn" data-size="76">76 คีย์ (E1–G7)</button>
+                      <button type="button" class="piano-preset-btn" data-size="61">61 คีย์ (C2–C7)</button>
+                      <button type="button" class="piano-preset-btn" data-size="49">49 คีย์ (C2–C6)</button>
+                      <button type="button" class="piano-preset-btn" data-size="25">25 คีย์ (C3–C5)</button>
+                    </div>
+                    <div class="piano-theme-toggle">
+                      <button type="button" class="piano-tool-btn" id="pianoThemeBtn" title="สลับธีมคีย์เปียโน">
+                        <span id="pianoThemeLabel">ธีม: Dark Studio</span>
+                      </button>
+                      <button type="button" class="piano-tool-btn" id="pianoLabelsBtn" title="สลับการแสดงชื่อโน้ตบนคีย์">
+                        <span id="pianoLabelsLabel">ชื่อโน้ต: ทั้งหมด</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="piano-toolbar-row secondary">
+                    <div class="piano-octave-nav">
+                      <span class="p-tool-tag">เลื่อน Octave:</span>
+                      <button type="button" class="piano-oct-btn" data-target-note="21">A0–B1 (Sub-bass)</button>
+                      <button type="button" class="piano-oct-btn" data-target-note="36">C2–B3 (Bass)</button>
+                      <button type="button" class="piano-oct-btn active-oct" data-target-note="60">★ C4–B5 (Middle C)</button>
+                      <button type="button" class="piano-oct-btn" data-target-note="84">C6–C8 (Treble)</button>
+                    </div>
+                    <label class="piano-autoscroll-label">
+                      <input type="checkbox" id="pianoAutoScroll" checked>
+                      <span>เลื่อนโฟกัสตามคอร์ดเพลงอัตโนมัติ</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Interactive Virtual Piano Keyboard (Full Concert Grand: 88 Keys A0 to C8) -->
+                <div class="piano-stage" id="pianoStage">
+                  <div class="piano-container" id="pianoContainer">
+                    <div class="virtual-piano theme-dark" id="virtualPiano">
+                      <!-- Rendered by JS -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Full Song Chord Timeline Progress Map -->
+            <div class="timeline-card">
+              <div class="timeline-heading">
+                <div>
+                  <p class="timeline-tag">CHORD PROGRESSION MAP</p>
+                  <h2>ลำดับโครงสร้างคอร์ดทั้งเพลง</h2>
+                </div>
+                <span id="analysisMethod">Transformer + Beat Alignment</span>
+              </div>
+              <div class="sections" id="sections"></div>
             </div>
           </section>
 
-          <!-- RIGHT COLUMN: Review & Inspector -->
-          <aside class="review-card" id="reviewCard">
-            <div class="card-header-luxury">
-              <span class="card-tag">CHORD INSPECTOR</span>
-              <span class="review-state" id="reviewState">ปิดอยู่</span>
-            </div>
-            <div class="review-empty" id="reviewEmpty">
-              <span class="info-sparkle">✦</span>
-              <p>เปิด <strong>“โหมดตรวจแก้คอร์ด”</strong> แล้วคลิกช่องบีตเพื่อฟังเทียบและปรับแต่งคอร์ดด้วยตนเอง</p>
-            </div>
-            <div class="review-editor hidden" id="reviewEditor">
-              <span class="selected-time" id="selectedBeatTime">0:00</span>
-              <label for="editChord">เลือกคอร์ดสำหรับบีตนี้</label>
-              <select id="editChord" aria-label="เลือกคอร์ด"></select>
-              <button class="apply-button" id="applyChord" type="button">บันทึกคอร์ดบีตนี้</button>
-              <button class="text-button" id="resetChord" type="button">คืนค่าคอร์ดจาก AI</button>
-            </div>
-            <div class="inspector-shortcuts">
-              <span class="shortcut-tip">💡 ทริป: กด <kbd>Space</kbd> เล่น/หยุด, กด <kbd>[</kbd> <kbd>]</kbd> ปรับคีย์</span>
-            </div>
-          </aside>
-        </div>
-
-        <!-- Export & Project Actions -->
-        <div class="overview-row">
-          <div class="overview-actions-luxury">
-            <button type="button" class="luxury-ghost-btn" id="copyButton">
-              <span>📋</span> คัดลอกคอร์ดทั้งหมด
-            </button>
-            <div class="export-wrap">
-              <button type="button" class="luxury-gold-btn" id="exportMenuButton">
-                <span>↓</span> ส่งออกผลงาน ▾
-              </button>
-              <div class="export-dropdown hidden" id="exportDropdown">
-                <button type="button" data-export="text">📄 Text Document (.txt)</button>
-                <button type="button" data-export="chordpro">🎼 ChordPro Format (.cho)</button>
-                <button type="button" data-export="lrc">🎙️ Synchronized Lyrics (.lrc)</button>
-                <button type="button" data-export="json">💾 Studio Project Backup (.json)</button>
+          <!-- SIDE COLUMN: Instrument Voicing & Chord Inspector -->
+          <div class="studio-side-panel" id="sidePanel">
+            <!-- Instrument & Voicing Card -->
+            <aside class="instrument-card">
+              <div class="card-header-luxury">
+                <span class="card-tag">INSTRUMENT</span>
+                <select id="instrumentSelect" aria-label="เลือกเครื่องดนตรี">
+                  <option value="guitar">กีตาร์ (Guitar)</option>
+                  <option value="ukulele">อูคูเลเล่ (Ukulele)</option>
+                  <option value="piano">เปียโน (Piano)</option>
+                </select>
               </div>
-            </div>
+
+              <div class="fretboard-stage">
+                <div class="diagram-name" id="diagramName">—</div>
+                <div class="chord-diagram-wrap" id="chordDiagram" aria-label="รูปแบบการจับคอร์ด"></div>
+                <p class="diagram-caption" id="diagramCaption">รอเริ่มเพลงเพื่อแสดงคอร์ด</p>
+              </div>
+
+              <!-- Transpose & Capo -->
+              <div class="transpose-deck">
+                <span class="sub-label">TRANSPOSE / CAPO</span>
+                <div class="transpose-buttons">
+                  <button type="button" class="luxury-circle-btn" id="transposeDown" aria-label="ลดคีย์">−</button>
+                  <span class="transpose-value" id="transposeValue">ต้นฉบับ</span>
+                  <button type="button" class="luxury-circle-btn" id="transposeUp" aria-label="เพิ่มคีย์">+</button>
+                </div>
+                <div class="capo-badge" id="capoDisplay">Capo: ไม่มี</div>
+              </div>
+            </aside>
+
+            <!-- Chord Inspector Card (Review Mode) -->
+            <aside class="review-card" id="reviewCard">
+              <div class="card-header-luxury">
+                <span class="card-tag">CHORD INSPECTOR</span>
+                <span class="review-state" id="reviewState">ปิดอยู่</span>
+              </div>
+              <div class="review-empty" id="reviewEmpty">
+                <span class="info-sparkle">✦</span>
+                <p>เปิด <strong>“โหมดตรวจแก้คอร์ด”</strong> แล้วคลิกช่องบีตเพื่อฟังเทียบและปรับแต่งคอร์ดด้วยตนเอง</p>
+              </div>
+              <div class="review-editor hidden" id="reviewEditor">
+                <span class="selected-time" id="selectedBeatTime">0:00</span>
+                <label for="editChord">เลือกคอร์ดสำหรับบีตนี้</label>
+                <select id="editChord" aria-label="เลือกคอร์ด"></select>
+                <button class="apply-button" id="applyChord" type="button">บันทึกคอร์ดบีตนี้</button>
+                <button class="text-button" id="resetChord" type="button">คืนค่าคอร์ดจาก AI</button>
+              </div>
+              <div class="inspector-shortcuts">
+                <span class="shortcut-tip">คีย์ลัด: กด <kbd>Space</kbd> เล่น/หยุด, กด <kbd>[</kbd> <kbd>]</kbd> ปรับคีย์</span>
+              </div>
+            </aside>
           </div>
         </div>
 
-        <!-- Full Song Chord Timeline -->
-        <div class="timeline-card">
-          <div class="timeline-heading">
-            <div>
-              <p class="timeline-tag">CHORD PROGRESSION MAP</p>
-              <h2>ลำดับโครงสร้างคอร์ดทั้งเพลง</h2>
-            </div>
-            <span id="analysisMethod">Transformer + Beat Alignment</span>
-          </div>
-          <div class="sections" id="sections"></div>
+        <!-- Hidden container for copyButton if needed by shortcuts -->
+        <div class="overview-row hidden-utility">
+          <button type="button" class="luxury-ghost-btn" id="copyButton">
+            คัดลอกคอร์ดทั้งหมด
+          </button>
         </div>
 
-        <!-- Keyboard Shortcuts Drawer -->
-        <div class="shortcuts-panel" id="shortcutsHelp">
-          <p class="shortcuts-tag">KEYBOARD HOTKEYS FOR MUSICIANS</p>
-          <div class="shortcuts-grid">
-            <div class="shortcut-pill"><kbd>Space</kbd> <span>เล่น / พัก</span></div>
-            <div class="shortcut-pill"><kbd>←</kbd> <kbd>→</kbd> <span>ย้อน / ข้ามบีต</span></div>
-            <div class="shortcut-pill"><kbd>[</kbd> <kbd>]</kbd> <span>ลด / เพิ่มคีย์</span></div>
-            <div class="shortcut-pill"><kbd>A</kbd> <kbd>B</kbd> <span>ตั้งจุดลูป A - B</span></div>
-            <div class="shortcut-pill"><kbd>L</kbd> <span>เปิด/ปิดวนลูป</span></div>
-            <div class="shortcut-pill"><kbd>M</kbd> <span>เปิด/ปิด Metronome</span></div>
-            <div class="shortcut-pill"><kbd>F</kbd> <span>เต็มจอ (Stage Mode)</span></div>
-            <div class="shortcut-pill"><kbd>Tab</kbd> <span>สลับมุมมอง</span></div>
-            <div class="shortcut-pill"><kbd>1</kbd>-<kbd>5</kbd> <span>ปรับความเร็วเพลง</span></div>
-            <div class="shortcut-pill"><kbd>Esc</kbd> <span>ปิดหน้าต่าง / เมนู</span></div>
+        <!-- Keyboard Shortcuts Drawer (Collapsible) -->
+        <details class="shortcuts-accordion">
+          <summary class="shortcuts-summary">
+            <span>ดูปุ่มลัดคีย์บอร์ดสำหรับนักดนตรี (Hotkeys)</span>
+            <span class="summary-caret">▾</span>
+          </summary>
+          <div class="shortcuts-panel" id="shortcutsHelp">
+            <div class="shortcuts-grid">
+              <div class="shortcut-pill"><kbd>Space</kbd> <span>เล่น / พัก</span></div>
+              <div class="shortcut-pill"><kbd>←</kbd> <kbd>→</kbd> <span>ย้อน / ข้ามบีต</span></div>
+              <div class="shortcut-pill"><kbd>[</kbd> <kbd>]</kbd> <span>ลด / เพิ่มคีย์</span></div>
+              <div class="shortcut-pill"><kbd>A</kbd> <kbd>B</kbd> <span>ตั้งจุดลูป A - B</span></div>
+              <div class="shortcut-pill"><kbd>L</kbd> <span>เปิด/ปิดวนลูป</span></div>
+              <div class="shortcut-pill"><kbd>M</kbd> <span>เปิด/ปิด Metronome</span></div>
+              <div class="shortcut-pill"><kbd>F</kbd> <span>เต็มจอ (Stage Mode)</span></div>
+              <div class="shortcut-pill"><kbd>W</kbd> <span>ขยายกว้าง (Wide Mode)</span></div>
+              <div class="shortcut-pill"><kbd>Tab</kbd> <span>สลับมุมมอง</span></div>
+              <div class="shortcut-pill"><kbd>1</kbd>-<kbd>5</kbd> <span>ปรับความเร็วเพลง</span></div>
+              <div class="shortcut-pill"><kbd>Esc</kbd> <span>ปิดหน้าต่าง / เมนู</span></div>
+            </div>
           </div>
-        </div>
+        </details>
 
         <p class="analysis-note" id="analysisNote">
           ✦ ผลลัพธ์จาก AI ได้รับการจัดรูปแบบเพื่อช่วยในการฝึกซ้อมอย่างมีประสิทธิภาพสูงสุด แนะนำให้ฟังเทียบเพื่อความสมบูรณ์แบบ
         </p>
+
+        <!-- PERSISTENT STUDIO MASTER TRANSPORT DOCK (Fixed Bottom Player) -->
+        <div class="studio-bottom-dock">
+          <!-- Seekbar Strip -->
+          <div class="seekbar-luxury-wrap">
+            <div class="seekbar" id="seekbar" title="คลิกหรือลากเพื่อข้ามเวลาเพลง">
+              <div class="seekbar-fill" id="progressFill"></div>
+              <div class="seekbar-loop hidden" id="loopHighlight"></div>
+              <div class="seekbar-beats" id="seekbarBeats"></div>
+              <div class="seekbar-head"></div>
+            </div>
+          </div>
+
+          <!-- Dock Controls Row -->
+          <div class="transport">
+            <!-- Left: Current Info -->
+            <div class="dock-left-meta">
+              <div class="dock-chord-chip">
+                <span class="dock-chord-label">CHORD</span>
+                <span class="dock-chord-val" id="dockCurrentChord">—</span>
+              </div>
+              <div class="time-readout">
+                <strong id="currentTime">0:00</strong> / <span id="totalDuration">0:00</span>
+              </div>
+            </div>
+
+            <!-- Center: Transport Primary Controls -->
+            <div class="transport-main">
+              <button class="transport-btn" id="previousBeat" type="button" title="บีตก่อนหน้า (←)">↶</button>
+              <button class="play-btn-luxury" id="playPause" type="button" aria-label="เล่นหรือพัก (Space)">
+                <span class="play-icon">▶</span>
+              </button>
+              <button class="transport-btn" id="nextBeat" type="button" title="บีตถัดไป (→)">↷</button>
+            </div>
+
+            <!-- Right: Studio Performance Tools -->
+            <div class="dock-right-tools">
+              <!-- Speed Controller -->
+              <div class="speed-luxury" aria-label="ความเร็วเล่น">
+                <button class="speed-btn" data-rate="0.5" type="button">0.5×</button>
+                <button class="speed-btn" data-rate="0.75" type="button">0.75×</button>
+                <button class="speed-btn" data-rate="0.9" type="button">0.9×</button>
+                <button class="speed-btn active" data-rate="1" type="button">1.0×</button>
+                <button class="speed-btn" data-rate="1.25" type="button">1.25×</button>
+              </div>
+
+              <!-- Pitch Shift -->
+              <div class="pitch-luxury" aria-label="ปรับระดับเสียง (Pitch Shift)">
+                <span class="pitch-label">PITCH</span>
+                <button type="button" class="pitch-btn" id="pitchDown" title="ลดเสียงทีละครึ่งเสียง (−1 st)">−</button>
+                <span class="pitch-value" id="pitchValue">0 st</span>
+                <button type="button" class="pitch-btn" id="pitchUp" title="เพิ่มเสียงทีละครึ่งเสียง (+1 st)">+</button>
+                <button type="button" class="pitch-reset" id="pitchReset" title="คืนเสียงต้นฉบับ (0 st)">↺</button>
+              </div>
+
+              <!-- A-B Looper -->
+              <div class="looper-luxury">
+                <button class="loop-btn" id="loopStart" type="button" title="ตั้งจุดเริ่มต้นลูป (A)">Loop A</button>
+                <button class="loop-btn" id="loopEnd" type="button" title="ตั้งจุดสิ้นสุดลูป (B)">Loop B</button>
+                <button class="loop-btn loop-toggle" id="loopToggle" type="button" title="เปิด/ปิดวนลูป (L)">↻ Loop</button>
+              </div>
+
+              <!-- Metronome -->
+              <div class="metronome-luxury">
+                <button class="metronome-btn" id="metronomeToggle" type="button" title="เปิด/ปิด Metronome (M)">
+                  <span>Metronome</span>
+                </button>
+                <input type="range" id="metronomeVolume" min="0" max="1" step="0.05" value="0.5" title="ระดับเสียง Metronome" />
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
 
@@ -606,7 +810,7 @@
     <aside class="library-panel hidden" id="libraryPanel">
       <div class="library-header">
         <div class="library-title-group">
-          <span class="gold-icon">📁</span>
+          <span class="gold-icon">✦</span>
           <h2>แฟ้มเพลงที่บันทึกไว้</h2>
         </div>
         <button type="button" class="close-library" id="closeLibrary">✕</button>
@@ -621,7 +825,7 @@
       <div class="modal-card">
         <div class="modal-header">
           <div class="modal-title">
-            <span class="modal-icon">🎙️</span>
+            <span class="modal-icon">✦</span>
             <h3>นำเข้า / วางเนื้อร้อง</h3>
           </div>
           <button type="button" class="modal-close" id="closeLyricsModal">✕</button>
@@ -638,8 +842,289 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="luxury-ghost-btn" id="cancelLyricsBtn">ยกเลิก</button>
-          <button type="button" class="luxury-gold-btn" id="saveLyricsBtn">⚡ บันทึกและซิงค์คอร์ดเข้าเนื้อเพลง</button>
+          <button type="button" class="luxury-gold-btn" id="saveLyricsBtn">บันทึกและซิงค์คอร์ดเข้าเนื้อเพลง</button>
         </div>
+      </div>
+    </div>
+
+    <!-- 1. Guitar Tuner Modal -->
+    <div class="modal-backdrop hidden" id="tunerModal" role="dialog" aria-modal="true" aria-labelledby="tunerModalTitle">
+      <div class="modal-card tuner-modal-card">
+        <div class="modal-header">
+          <div class="modal-title">
+            <span class="modal-icon">✦</span>
+            <h3 id="tunerModalTitle">ตั้งสายกีตาร์ (Guitar Tuner)</h3>
+          </div>
+          <button type="button" class="modal-close" id="closeTunerModal">✕</button>
+        </div>
+
+        <div class="tuner-body">
+          <div class="tuner-meter-wrap">
+            <div class="tuner-note-display">
+              <span class="tuner-current-note" id="tunerNote">—</span>
+              <span class="tuner-octave" id="tunerOctave"></span>
+            </div>
+            <div class="tuner-freq-row">
+              <span class="tuner-freq" id="tunerFreq">0.0 Hz</span>
+              <span class="tuner-status-badge" id="tunerStatusBadge">พร้อมใช้งาน</span>
+            </div>
+
+            <!-- Cents Needle Gauge -->
+            <div class="tuner-gauge">
+              <div class="tuner-gauge-scale">
+                <span>-50</span>
+                <span>-25</span>
+                <span class="center-mark">▼ 0</span>
+                <span>+25</span>
+                <span>+50</span>
+              </div>
+              <div class="tuner-gauge-track">
+                <div class="tuner-target-zone"></div>
+                <div class="tuner-needle" id="tunerNeedle" style="left: 50%;"></div>
+              </div>
+              <div class="tuner-cents-label" id="tunerCents">0 cents</div>
+            </div>
+          </div>
+
+          <!-- Quick Reference Guitar Strings (Pluckable) -->
+          <div class="tuner-strings-section">
+            <div class="tuner-strings-title">ดีดเทียบเสียงมาตรฐาน (Standard 6 Strings):</div>
+            <div class="tuner-strings-grid">
+              <button type="button" class="tuner-str-btn" data-note="E2" data-freq="82.41">
+                <strong>6: E</strong><span>82 Hz</span>
+              </button>
+              <button type="button" class="tuner-str-btn" data-note="A2" data-freq="110.00">
+                <strong>5: A</strong><span>110 Hz</span>
+              </button>
+              <button type="button" class="tuner-str-btn" data-note="D3" data-freq="146.83">
+                <strong>4: D</strong><span>147 Hz</span>
+              </button>
+              <button type="button" class="tuner-str-btn" data-note="G3" data-freq="196.00">
+                <strong>3: G</strong><span>196 Hz</span>
+              </button>
+              <button type="button" class="tuner-str-btn" data-note="B3" data-freq="246.94">
+                <strong>2: B</strong><span>247 Hz</span>
+              </button>
+              <button type="button" class="tuner-str-btn" data-note="E4" data-freq="329.63">
+                <strong>1: e</strong><span>330 Hz</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Tuner Microphone Action -->
+          <div class="tuner-actions">
+            <button type="button" class="luxury-primary-btn tuner-mic-btn" id="tunerMicToggle">
+              <span id="tunerMicIcon">●</span>
+              <span id="tunerMicLabel">เปิดไมค์ตรวจจับเสียงสด</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Interactive Chord Chart & Explorer Modal -->
+    <div class="modal-backdrop hidden" id="chordChartModal" role="dialog" aria-modal="true" aria-labelledby="chordChartModalTitle">
+      <div class="modal-card chord-chart-modal-card">
+        <div class="modal-header">
+          <div class="modal-title">
+            <span class="modal-icon">✦</span>
+            <h3 id="chordChartModalTitle">ตารางคอร์ด &amp; ไดอะแกรม (Chord Library)</h3>
+          </div>
+          <button type="button" class="modal-close" id="closeChordChartModal">✕</button>
+        </div>
+
+        <div class="chord-chart-body">
+          <!-- Instrument Toggle -->
+          <div class="chart-inst-tabs" id="chartInstTabs">
+            <button type="button" class="chart-inst-tab active" data-inst="guitar">กีตาร์</button>
+            <button type="button" class="chart-inst-tab" data-inst="ukulele">อูคูเลเล่</button>
+            <button type="button" class="chart-inst-tab" data-inst="piano">เปียโน</button>
+          </div>
+
+          <!-- Root Note Selector -->
+          <div class="chart-filter-row">
+            <span class="chart-filter-label">รูท (Root):</span>
+            <div class="chart-pill-group" id="chordRootSelector">
+              <button type="button" class="chart-pill active" data-root="C">C</button>
+              <button type="button" class="chart-pill" data-root="C#">C#</button>
+              <button type="button" class="chart-pill" data-root="D">D</button>
+              <button type="button" class="chart-pill" data-root="D#">D#</button>
+              <button type="button" class="chart-pill" data-root="E">E</button>
+              <button type="button" class="chart-pill" data-root="F">F</button>
+              <button type="button" class="chart-pill" data-root="F#">F#</button>
+              <button type="button" class="chart-pill" data-root="G">G</button>
+              <button type="button" class="chart-pill" data-root="G#">G#</button>
+              <button type="button" class="chart-pill" data-root="A">A</button>
+              <button type="button" class="chart-pill" data-root="A#">A#</button>
+              <button type="button" class="chart-pill" data-root="B">B</button>
+            </div>
+          </div>
+
+          <!-- Quality Selector -->
+          <div class="chart-filter-row">
+            <span class="chart-filter-label">ประเภท:</span>
+            <div class="chart-pill-group" id="chordQualitySelector">
+              <button type="button" class="chart-pill active" data-quality="">Major</button>
+              <button type="button" class="chart-pill" data-quality="m">Minor (m)</button>
+              <button type="button" class="chart-pill" data-quality="7">7th</button>
+              <button type="button" class="chart-pill" data-quality="maj7">maj7</button>
+              <button type="button" class="chart-pill" data-quality="m7">m7</button>
+              <button type="button" class="chart-pill" data-quality="sus4">sus4</button>
+              <button type="button" class="chart-pill" data-quality="dim">dim</button>
+            </div>
+          </div>
+
+          <!-- Preview Area -->
+          <div class="chart-preview-card">
+            <div class="chart-preview-header">
+              <div class="chart-chord-title" id="chartChordTitle">C Major</div>
+              <button type="button" class="chart-play-btn" id="chartPlayChordBtn">
+                ฟังเสียงคอร์ด
+              </button>
+            </div>
+            <div class="chart-diagram-container" id="chartDiagramContainer"></div>
+            <div class="chart-notes-info" id="chartNotesInfo">โน้ตในคอร์ด: C · E · G</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Play Music Online (Virtual Jam Studio) Modal -->
+    <div class="modal-backdrop hidden" id="onlineJamModal" role="dialog" aria-modal="true" aria-labelledby="onlineJamModalTitle">
+      <div class="modal-card jam-modal-card">
+        <div class="modal-header">
+          <div class="modal-title">
+            <span class="modal-icon">✦</span>
+            <h3 id="onlineJamModalTitle">เล่นดนตรีออนไลน์ (Virtual Jam Studio)</h3>
+          </div>
+          <button type="button" class="modal-close" id="closeOnlineJamModal">✕</button>
+        </div>
+
+        <div class="jam-body">
+          <!-- Section 1: Quick Jam Chord Pads -->
+          <div class="jam-section">
+            <div class="jam-section-header">
+              <span>แผ่นดีดคอร์ดด่วน (Instant Chord Pads)</span>
+              <span class="jam-hint">คลิกหรือแตะเพื่อดีดคอร์ดเสมือนจริง</span>
+            </div>
+            <div class="jam-chord-pads" id="jamChordPads">
+              <button type="button" class="jam-pad" data-chord="C"><strong>C</strong><span>Major</span></button>
+              <button type="button" class="jam-pad" data-chord="G"><strong>G</strong><span>Major</span></button>
+              <button type="button" class="jam-pad" data-chord="Am"><strong>Am</strong><span>Minor</span></button>
+              <button type="button" class="jam-pad" data-chord="F"><strong>F</strong><span>Major</span></button>
+              <button type="button" class="jam-pad" data-chord="Em"><strong>Em</strong><span>Minor</span></button>
+              <button type="button" class="jam-pad" data-chord="Dm"><strong>Dm</strong><span>Minor</span></button>
+              <button type="button" class="jam-pad" data-chord="E"><strong>E</strong><span>Major</span></button>
+              <button type="button" class="jam-pad" data-chord="D"><strong>D</strong><span>Major</span></button>
+            </div>
+          </div>
+
+          <!-- Section 2: Virtual Playable Piano Keyboard -->
+          <div class="jam-section">
+            <div class="jam-section-header">
+              <span>ลิ่มเปียโนจำลอง (Virtual Piano Keyboard)</span>
+              <span class="jam-hint">กดคีย์บอร์ดคอมพิวเตอร์ A S D F G H J K หรือคลิกเมาส์</span>
+            </div>
+            <div class="jam-piano-wrap">
+              <div class="jam-piano-keys" id="jamPianoKeys">
+                <div class="jam-key white" data-note="60" data-key="a"><span class="key-note">C4</span><span class="key-kb">A</span></div>
+                <div class="jam-key black" data-note="61" data-key="w" style="left: 7.1%;"><span class="key-note">C#</span><span class="key-kb">W</span></div>
+                <div class="jam-key white" data-note="62" data-key="s"><span class="key-note">D4</span><span class="key-kb">S</span></div>
+                <div class="jam-key black" data-note="63" data-key="e" style="left: 17.5%;"><span class="key-note">D#</span><span class="key-kb">E</span></div>
+                <div class="jam-key white" data-note="64" data-key="d"><span class="key-note">E4</span><span class="key-kb">D</span></div>
+                <div class="jam-key white" data-note="65" data-key="f"><span class="key-note">F4</span><span class="key-kb">F</span></div>
+                <div class="jam-key black" data-note="66" data-key="t" style="left: 38.3%;"><span class="key-note">F#</span><span class="key-kb">T</span></div>
+                <div class="jam-key white" data-note="67" data-key="g"><span class="key-note">G4</span><span class="key-kb">G</span></div>
+                <div class="jam-key black" data-note="68" data-key="y" style="left: 48.7%;"><span class="key-note">G#</span><span class="key-kb">Y</span></div>
+                <div class="jam-key white" data-note="69" data-key="h"><span class="key-note">A4</span><span class="key-kb">H</span></div>
+                <div class="jam-key black" data-note="70" data-key="u" style="left: 59.1%;"><span class="key-note">A#</span><span class="key-kb">U</span></div>
+                <div class="jam-key white" data-note="71" data-key="j"><span class="key-note">B4</span><span class="key-kb">J</span></div>
+                <div class="jam-key white" data-note="72" data-key="k"><span class="key-note">C5</span><span class="key-kb">K</span></div>
+                <div class="jam-key black" data-note="73" data-key="o" style="left: 79.9%;"><span class="key-note">C#</span><span class="key-kb">O</span></div>
+                <div class="jam-key white" data-note="74" data-key="l"><span class="key-note">D5</span><span class="key-kb">L</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Drum Beat & Metronome Groove -->
+          <div class="jam-section">
+            <div class="jam-section-header">
+              <span>กลองและจังหวะประกอบ (Drum Machine &amp; Metronome)</span>
+              <span class="jam-hint">ซ้อมคู่กับจังหวะสมจริง</span>
+            </div>
+            <div class="jam-groove-bar">
+              <div class="jam-groove-select-wrap">
+                <label for="jamGrooveSelect">จังหวะ:</label>
+                <select id="jamGrooveSelect" class="jam-select">
+                  <option value="metronome">เมโทรนอม (Click Track)</option>
+                  <option value="lofi">Lo-Fi Chill Hop Beat</option>
+                  <option value="pop">Acoustic Pop 4/4 Beat</option>
+                  <option value="rock">Rock Straight Groove</option>
+                </select>
+              </div>
+
+              <div class="jam-bpm-wrap">
+                <label for="jamBpmSlider">BPM: <strong id="jamBpmDisplay">100</strong></label>
+                <input type="range" id="jamBpmSlider" min="50" max="200" value="100" />
+              </div>
+
+              <button type="button" class="luxury-gold-btn jam-play-beat-btn" id="jamToggleBeatBtn">
+                <span id="jamBeatIcon">▶</span>
+                <span id="jamBeatLabel">เริ่มจังหวะ</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cuberto Auth Modal (Login & Register) -->
+    <div class="modal-backdrop hidden" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
+      <div class="modal-card auth-modal-card">
+        <div class="modal-header">
+          <div class="modal-title">
+            <span class="modal-icon">✦</span>
+            <h3 id="authModalTitle">Zixel Account</h3>
+          </div>
+          <button type="button" class="modal-close" id="closeAuthModal">✕</button>
+        </div>
+
+        <div class="auth-modal-tabs">
+          <button type="button" class="auth-tab active" id="authTabLogin" data-auth-mode="login">เข้าสู่ระบบ</button>
+          <button type="button" class="auth-tab" id="authTabRegister" data-auth-mode="register">สมัครสมาชิก</button>
+        </div>
+
+        <form class="auth-form" id="authForm">
+          <div class="auth-input-group hidden" id="displayNameGroup">
+            <label for="authDisplayName">ชื่อที่ใช้แสดง (Display Name)</label>
+            <input type="text" id="authDisplayName" placeholder="เช่น John Producer" autocomplete="name" />
+          </div>
+
+          <div class="auth-input-group">
+            <label for="authUsername">ชื่อผู้ใช้ (Username)</label>
+            <input type="text" id="authUsername" placeholder="เช่น guitarist_pro" autocomplete="username" required />
+          </div>
+
+          <div class="auth-input-group">
+            <label for="authPassword">รหัสผ่าน (Password)</label>
+            <input type="password" id="authPassword" placeholder="อย่างน้อย 6 ตัวอักษร" autocomplete="current-password" required />
+          </div>
+
+          <p class="auth-error-msg hidden" id="authErrorMsg" role="alert"></p>
+
+          <div class="auth-footer">
+            <button type="submit" class="luxury-primary-btn auth-submit-btn" id="authSubmitBtn">
+              <span id="authSubmitLabel">เข้าสู่ระบบ</span>
+              <span class="btn-arrow">→</span>
+            </button>
+          </div>
+        </form>
+
+        <p class="auth-switch-hint" id="authSwitchHint">
+          <span id="authSwitchText">ยังไม่มีบัญชีใช่ไหม?</span>
+          <a href="#" id="authSwitchToRegister">สมัครสมาชิกใหม่</a>
+          <a href="#" id="authSwitchToLogin" class="hidden">เข้าสู่ระบบ</a>
+        </p>
       </div>
     </div>
 
@@ -666,7 +1151,7 @@
       </div>
     </div>
 
-    <!-- Luxury Footer -->
+    <!-- Minimal Footer -->
     <footer class="site-footer">
       <div class="footer-inner">
         <div class="footer-brand">
@@ -674,13 +1159,18 @@
           <span>LOCAL AI CHORD &amp; LYRICS RECOGNITION</span>
         </div>
         <div class="footer-copy">
-          ประมวลผลบนเครื่อง 100% · ปกป้องความเป็นส่วนตัว · รองรับโมเดล AI คุณภาพสูง
+          ประมวลผลบนเครื่อง 100% · ปกป้องความเป็นส่วนตัว · AI Workstation สำหรับนักดนตรี
         </div>
       </div>
     </footer>
 
     <div class="toast" id="toast" role="status"></div>
     <script src="./soundtouch.min.js?v=2.2"></script>
-    <script src="./app.js?v=2.2"></script>
+    <script src="./client/midi-export.js"></script>
+    <script src="./client/midi-engine.js"></script>
+    <script src="./client/thai-tokenizer.js"></script>
+    <script src="./client/undo-redo.js"></script>
+    <script src="./client/luxury-engine.js"></script>
+    <script src="./app.js?v=3.0"></script>
   </body>
 </html>

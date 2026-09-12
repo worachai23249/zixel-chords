@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/tauri-apps/tauri/v2/crates/tauri-utils/schema.json",
+  "identifier": "default-capability",
+  "description": "Default capabilities and permissions for Zixel Chords Studio",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "shell:default",
+    "dialog:default",
+    "fs:default"
+  ]
+}

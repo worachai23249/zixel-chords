@@ -9,13 +9,31 @@ const GUITAR_SHAPES = {
   C: 'x32010', 'C#': 'x46664', Db: 'x46664', D: 'xx0232', 'D#': 'x68886', Eb: 'x68886', E: '022100',
   F: '133211', 'F#': '244322', G: '320003', Ab: '466544', A: 'x02220', Bb: 'x13331', B: 'x24442',
   Cm: 'x35543', 'C#m': 'x46654', Dm: 'xx0231', 'D#m': 'x68876', Em: '022000', Fm: '133111',
-  'F#m': '244222', Gm: '355333', 'G#m': '466444', Am: 'x02210', 'A#m': 'x13321', Bm: 'x24432'
+  'F#m': '244222', Gm: '355333', 'G#m': '466444', Am: 'x02210', 'A#m': 'x13321', Bm: 'x24432',
+  C7: 'x32310', 'C#7': 'x4342x', D7: 'xx0212', 'D#7': 'x6564x', E7: '020100', F7: '131211',
+  'F#7': '242322', G7: '320001', 'G#7': '464544', A7: 'x02020', 'A#7': 'x13131', B7: 'x21202',
+  Cmaj7: 'x32000', 'C#maj7': 'x46564', Dmaj7: 'xx0222', 'D#maj7': 'x68786', Emaj7: '021100', Fmaj7: 'x33210',
+  'F#maj7': '2x332x', Gmaj7: '320002', 'G#maj7': '4x554x', Amaj7: 'x02120', 'A#maj7': 'x13231', Bmaj7: 'x24342',
+  Cm7: 'x35343', 'C#m7': 'x46454', Dm7: 'xx0211', 'D#m7': 'x68676', Em7: '020000', Fm7: '131111',
+  'F#m7': '242222', Gm7: '353333', 'G#m7': '464444', Am7: 'x02010', 'A#m7': 'x13121', Bm7: 'x20202',
+  Csus4: 'x33010', 'C#sus4': 'x46674', Dsus4: 'xx0233', 'D#sus4': 'x68896', Esus4: '022200', Fsus4: '133311',
+  'F#sus4': '244422', Gsus4: '320013', 'G#sus4': '466644', Asus4: 'x02230', 'A#sus4': 'x13341', Bsus4: 'x24452',
+  Cdim: 'xx1212', 'C#dim': 'xx2323', Ddim: 'xx0101', 'D#dim': 'xx1212', Edim: 'xx2323', Fdim: 'xx0101',
+  'F#dim': 'xx1212', Gdim: 'xx2323', 'G#dim': 'xx0101', Adim: 'xx1212', 'A#dim': 'xx2323', Bdim: 'x2343x'
 };
 const UKULELE_SHAPES = {
   C: '0003', 'C#': '1114', Db: '1114', D: '2220', 'D#': '3331', Eb: '3331', E: '4442',
   F: '2010', 'F#': '3121', G: '0232', Ab: '1343', A: '2100', Bb: '3211', B: '4322',
   Cm: '0333', 'C#m': '1104', Dm: '2210', 'D#m': '3321', Em: '0432', Fm: '1013',
-  'F#m': '2120', Gm: '0231', 'G#m': '1342', Am: '2000', 'A#m': '3111', Bm: '4222'
+  'F#m': '2120', Gm: '0231', 'G#m': '1342', Am: '2000', 'A#m': '3111', Bm: '4222',
+  C7: '0001', 'C#7': '1112', D7: '2020', 'D#7': '3334', E7: '1202', F7: '2310',
+  'F#7': '3424', G7: '0212', 'G#7': '1223', A7: '0100', 'A#7': '1211', B7: '2322',
+  Cmaj7: '0002', 'C#maj7': '1113', Dmaj7: '2224', 'D#maj7': '3335', Emaj7: '1442', Fmaj7: '5500',
+  'F#maj7': '3524', Gmaj7: '0222', 'G#maj7': '1333', Amaj7: '1100', 'A#maj7': '3210', Bmaj7: '3322',
+  Cm7: '3333', 'C#m7': '1102', Dm7: '2213', 'D#m7': '3324', Em7: '0202', Fm7: '1313',
+  'F#m7': '2120', Gm7: '0211', 'G#m7': '1322', Am7: '0000', 'A#m7': '1111', Bm7: '2222',
+  Csus4: '0013', 'C#sus4': '1124', Dsus4: '0230', 'D#sus4': '1341', Esus4: '2402', Fsus4: '3011',
+  'F#sus4': '4122', Gsus4: '0233', 'G#sus4': '1344', Asus4: '2200', 'A#sus4': '3311', Bsus4: '4422'
 };
 
 const $ = function (selector) { return document.querySelector(selector); };
@@ -48,7 +66,9 @@ const state = {
   stemMuted: {},        // { vocals: false, drums: false, ... }
   stemSoloed: null,     // which stem is soloed (or null)
   stemVolumes: {},      // { vocals: 1.0, drums: 1.0, ... }
-  simplifiedChords: false
+  simplifiedChords: false,
+  currentUser: null,
+  authToken: (function () { try { return localStorage.getItem('zc_auth_token') || null; } catch (_) { return null; } })()
 };
 
 // Persistent Server Library & Audio Management
@@ -67,7 +87,7 @@ async function listSongs() {
     songs.forEach(function(song) {
       const div = document.createElement('div');
       div.className = 'library-item';
-      const stemBadge = song.hasStems ? '<span class="lib-stem-badge">🎛️ แยก 4 แทร็กแล้ว</span>' : '';
+      const stemBadge = song.hasStems ? '<span class="lib-stem-badge">แยก 4 แทร็กแล้ว</span>' : '';
       div.innerHTML = '<div><strong>' + song.title + '</strong> ' + stemBadge + '<br><span>' + (song.key || 'Key —') + ' · ' + (song.bpm ? song.bpm + ' BPM' : '') + '</span></div>';
       
       const actions = document.createElement('div');
@@ -326,11 +346,8 @@ function playMetronomeClick(isDownbeat) {
 }
 
 // ═══════════════════════════════════════════════════════════
-//  PITCH SHIFT — Web Audio API with SoundTouch (WSOLA)
-//  True pitch shifting by N semitones WITHOUT affecting playback speed!
-// ═══════════════════════════════════════════════════════════
-//  PITCH SHIFT — Web Audio API with SoundTouch (WSOLA)
-//  True pitch shifting by N semitones WITHOUT affecting playback speed!
+//  PITCH SHIFT — AudioWorklet + Rubber Band (WASM) & SoundTouch Fallback
+//  Studio-grade phase-vocoder pitch shifting on dedicated real-time audio thread!
 // ═══════════════════════════════════════════════════════════
 function ensurePitchPreserved(audio) {
   if (!audio) return;
@@ -346,12 +363,32 @@ function initPitchCtx() {
   try {
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     state.pitchCtx = new AudioCtx();
-    state.pitchSource = state.pitchCtx.createMediaElementSource(state.player);
 
+    // Input bus: all playback sources (player & stems) connect here
+    state.pitchInputBus = state.pitchCtx.createGain();
+    state.pitchSource = state.pitchCtx.createMediaElementSource(state.player);
+    state.pitchSource.connect(state.pitchInputBus);
+
+    // Bypass & Wet buses for instantaneous, glitch-free switching
+    state.bypassGain = state.pitchCtx.createGain();
+    state.wetGain = state.pitchCtx.createGain();
+    state.pitchGain = state.pitchCtx.createGain();
+    state.pitchGain.gain.value = 1.0;
+
+    const isShifted = Boolean(state.pitchShift && state.pitchShift !== 0);
+    state.bypassGain.gain.value = isShifted ? 0.0 : 1.0;
+    state.wetGain.gain.value = isShifted ? 1.0 : 0.0;
+
+    // Connect: InputBus -> Bypass -> PitchGain -> Destination
+    state.pitchInputBus.connect(state.bypassGain);
+    state.bypassGain.connect(state.pitchGain);
+    state.wetGain.connect(state.pitchGain);
+    state.pitchGain.connect(state.pitchCtx.destination);
+
+    // Fallback: SoundTouch WSOLA script processor
     const bufferSize = 4096;
     state.pitchNode = state.pitchCtx.createScriptProcessor(bufferSize, 2, 2);
 
-    // Initialize SoundTouch WSOLA engine
     if (typeof window.SoundTouch !== 'undefined') {
       state.soundTouch = new window.SoundTouch();
       if (state.soundTouch.stretch && typeof state.soundTouch.stretch.setParameters === 'function') {
@@ -362,7 +399,7 @@ function initPitchCtx() {
 
     const interleavedIn = new Float32Array(bufferSize * 2);
     let fifo = new Float32Array(bufferSize * 8);
-    let fifoCount = 0; // count of interleaved samples in FIFO
+    let fifoCount = 0;
 
     state.clearPitchBuffer = function () {
       if (state.soundTouch) {
@@ -378,7 +415,6 @@ function initPitchCtx() {
       const outL = e.outputBuffer.getChannelData(0);
       const outR = e.outputBuffer.getChannelData(1);
 
-      // 100% clean direct pass-through when 0 semitones (Clean Bypass)
       if (!state.pitchShift || !state.soundTouch) {
         outL.set(inL);
         outR.set(inR);
@@ -386,17 +422,14 @@ function initPitchCtx() {
         return;
       }
 
-      // Interleave stereo input: [L0, R0, L1, R1, ...]
       for (let i = 0; i < bufferSize; i++) {
         interleavedIn[i * 2] = inL[i];
         interleavedIn[i * 2 + 1] = inR[i];
       }
 
-      // Feed into SoundTouch WSOLA processor
       state.soundTouch.inputBuffer.putSamples(interleavedIn, 0, bufferSize);
       state.soundTouch.process();
 
-      // Retrieve processed output frames from SoundTouch into FIFO
       const avail = state.soundTouch.outputBuffer.frameCount;
       if (avail > 0) {
         const neededSize = fifoCount + avail * 2;
@@ -409,7 +442,6 @@ function initPitchCtx() {
         fifoCount += avail * 2;
       }
 
-      // Output exactly bufferSize frames (bufferSize * 2 interleaved samples)
       const need = bufferSize * 2;
       if (fifoCount >= need) {
         for (let i = 0; i < bufferSize; i++) {
@@ -419,12 +451,10 @@ function initPitchCtx() {
         fifo.copyWithin(0, need, fifoCount);
         fifoCount -= need;
       } else {
-        // Buffer warmup pre-roll: output silence while FIFO fills up
         outL.fill(0);
         outR.fill(0);
       }
 
-      // Cap FIFO length to keep audio locked tightly < 160ms
       const maxFifo = bufferSize * 4;
       if (fifoCount > maxFifo) {
         fifo.copyWithin(0, fifoCount - maxFifo, fifoCount);
@@ -432,17 +462,55 @@ function initPitchCtx() {
       }
     };
 
-    state.pitchGain = state.pitchCtx.createGain();
-    state.pitchGain.gain.value = 1.0;
+    // Connect SoundTouch scriptProcessor to wet path initially as fallback
+    state.pitchInputBus.connect(state.pitchNode);
+    state.pitchNode.connect(state.wetGain);
 
-    // Connect: MediaElementSource -> ScriptProcessor (SoundTouch) -> Gain -> Destination
-    state.pitchSource.connect(state.pitchNode);
-    state.pitchNode.connect(state.pitchGain);
-    state.pitchGain.connect(state.pitchCtx.destination);
+    // Upgrade to AudioWorklet + Rubber Band (WASM) on dedicated real-time audio thread
+    if (state.pitchCtx.audioWorklet) {
+      state.pitchCtx.audioWorklet.addModule('./rubberband-processor.js').then(function () {
+        try {
+          const rbNode = new AudioWorkletNode(state.pitchCtx, 'rubberband-processor', {
+            numberOfInputs: 1,
+            numberOfOutputs: 1,
+            outputChannelCount: [2]
+          });
+          rbNode.setPitch = function (pitchRatio) {
+            rbNode.port.postMessage(JSON.stringify(['pitch', pitchRatio]));
+          };
+          rbNode.setHighQuality = function (hq) {
+            rbNode.port.postMessage(JSON.stringify(['quality', hq]));
+          };
+          rbNode.setHighQuality(true);
+
+          // Disconnect fallback ScriptProcessor from wet path
+          try {
+            state.pitchInputBus.disconnect(state.pitchNode);
+            state.pitchNode.disconnect(state.wetGain);
+          } catch (e) {}
+
+          // Route wet audio through Rubber Band AudioWorkletNode
+          state.pitchInputBus.connect(rbNode);
+          rbNode.connect(state.wetGain);
+
+          state.rubberBandNode = rbNode;
+          state.dspEngine = 'rubberband';
+          console.log('[Web Audio DSP] 🚀 Rubber Band AudioWorklet (WASM) active on real-time audio thread.');
+
+          if (state.pitchShift) {
+            rbNode.setPitch(Math.pow(2, state.pitchShift / 12));
+          }
+        } catch (nodeErr) {
+          console.warn('[Web Audio DSP] Rubber Band WorkletNode fallback:', nodeErr.message);
+        }
+      }).catch(function (moduleErr) {
+        console.warn('[Web Audio DSP] Rubber Band module load fallback:', moduleErr.message);
+      });
+    }
 
     ensurePitchPreserved(state.player);
 
-    // Route any existing stem audios through pitchNode
+    // Route any existing stem audios through pitchInputBus
     if (state.stemAudios) {
       Object.values(state.stemAudios).forEach(routeStemToPitchNode);
     }
@@ -455,11 +523,11 @@ function routeStemToPitchNode(audio) {
   if (!audio) return;
   audio.crossOrigin = 'anonymous';
   if (!state.pitchCtx) initPitchCtx();
-  if (!state.pitchCtx || !state.pitchNode) return;
+  if (!state.pitchCtx || !state.pitchInputBus) return;
   if (audio._pitchSource) return;
   try {
     const src = state.pitchCtx.createMediaElementSource(audio);
-    src.connect(state.pitchNode);
+    src.connect(state.pitchInputBus);
     audio._pitchSource = src;
   } catch (err) {}
 }
@@ -476,7 +544,28 @@ function applyPitchShift(semitones) {
   ensurePitchPreserved(state.player);
   Object.values(state.stemAudios).forEach(ensurePitchPreserved);
 
-  // Sets pitch shift semitones in SoundTouch WSOLA engine
+  // Seamless bypass / wet switching
+  if (state.bypassGain && state.wetGain && state.pitchCtx) {
+    const now = state.pitchCtx.currentTime;
+    if (semitones === 0) {
+      state.bypassGain.gain.setValueAtTime(1.0, now);
+      state.wetGain.gain.setValueAtTime(0.0, now);
+      if (typeof state.clearPitchBuffer === 'function') {
+        state.clearPitchBuffer();
+      }
+    } else {
+      state.bypassGain.gain.setValueAtTime(0.0, now);
+      state.wetGain.gain.setValueAtTime(1.0, now);
+    }
+  }
+
+  // 1. Rubber Band AudioWorklet (WASM)
+  if (state.rubberBandNode && typeof state.rubberBandNode.setPitch === 'function') {
+    const pitchRatio = Math.pow(2, semitones / 12);
+    state.rubberBandNode.setPitch(pitchRatio);
+  }
+
+  // 2. SoundTouch WSOLA fallback
   if (state.soundTouch) {
     state.soundTouch.pitchSemitones = semitones;
     if (semitones === 0 && typeof state.clearPitchBuffer === 'function') {
@@ -494,7 +583,7 @@ function setPitchShift(semitones) {
     el.classList.toggle('active-shift', state.pitchShift !== 0);
   }
   if (state.pitchShift !== 0) {
-    showToast((state.pitchShift > 0 ? '⬆ เพิ่มเสียง ' : '⬇ ลดเสียง ') + Math.abs(state.pitchShift) + ' ครึ่งเสียง (' + (state.pitchShift > 0 ? '+' : '') + state.pitchShift + ' st)');
+    showToast((state.pitchShift > 0 ? '↑ เพิ่มเสียง ' : '↓ ลดเสียง ') + Math.abs(state.pitchShift) + ' ครึ่งเสียง (' + (state.pitchShift > 0 ? '+' : '') + state.pitchShift + ' st)');
   } else {
     showToast('คืนเสียงต้นฉบับแล้ว (0 st)');
   }
@@ -504,10 +593,10 @@ function setPitchShift(semitones) {
 //  STEM MIXER — Moises style
 // ═══════════════════════════════════════════════════════════
 const STEM_META = {
-  vocals:      { icon: '🎙️', label: 'เสียงร้อง (Vocals)' },
+  vocals:      { icon: '✦', label: 'เสียงร้อง (Vocals)' },
   guitar:      { icon: '🎸', label: 'กีตาร์ (Guitar)' },
   solo_guitar: { icon: '🎸⚡', label: 'กีตาร์โซโล่ (Solo Guitar)' },
-  piano:       { icon: '🎹', label: 'เปียโน (Piano)' },
+  piano:       { icon: '🎹', label: 'เปียโน / คีย์บอร์ด (Piano/Keys)' },
   bass:        { icon: '🎸', label: 'เบส (Bass)' },
   drums:       { icon: '🥁', label: 'กลอง (Drums)' },
   synth:       { icon: '🎛️', label: 'ซินธ์ / คีย์บอร์ด (Synth)' },
@@ -629,7 +718,7 @@ function renderStemMixer(stems, absentStems) {
   if (!container) return;
   container.replaceChildren();
 
-  // Moises-Style Detection Summary
+  // Only show detected instruments that actually exist
   const summaryDiv = document.createElement('div');
   summaryDiv.className = 'stem-detected-summary';
   const detectedLabels = stems.map(function (s) {
@@ -637,15 +726,7 @@ function renderStemMixer(stems, absentStems) {
     return meta ? meta.label.split(' ')[0] : s;
   }).join(', ');
 
-  let summaryHtml = '<span>🎯 ตรวจพบเครื่องดนตรีเฉพาะชิ้น: <strong>' + detectedLabels + '</strong></span>';
-  if (absentStems && absentStems.length > 0) {
-    const absentLabels = absentStems.map(function (s) {
-      const meta = STEM_META[s];
-      return meta ? meta.label.split(' ')[0] : s;
-    }).join(', ');
-    summaryHtml += '<span class="stem-absent-tag">⚡ ไม่พบ ' + absentLabels + ' (ซ่อนแทร็กอัตโนมัติ)</span>';
-  }
-  summaryDiv.innerHTML = summaryHtml;
+  summaryDiv.innerHTML = '<span>🎯 ตรวจพบเครื่องดนตรี: <strong>' + detectedLabels + '</strong> (' + stems.length + ' ชิ้นดนตรี)</span>';
   container.append(summaryDiv);
 
   stems.forEach(function (stem) {
@@ -657,6 +738,21 @@ function renderStemMixer(stems, absentStems) {
     const nameDiv = document.createElement('div');
     nameDiv.className = 'stem-track-name';
     nameDiv.innerHTML = '<span class="stem-track-icon">' + meta.icon + '</span>' + meta.label;
+    if (stem === 'guitar') {
+      nameDiv.style.cursor = 'pointer';
+      nameDiv.title = 'คลิกเพื่อสลับป้ายชื่อ: กีตาร์ / เปียโน / ซินธ์';
+      const alternates = [
+        { icon: '🎸', label: 'กีตาร์ (Guitar)' },
+        { icon: '🎹', label: 'เปียโน / คีย์บอร์ด (Piano/Keys)' },
+        { icon: '🎛️', label: 'ซินธ์ / คีย์บอร์ด (Synth)' }
+      ];
+      let altIdx = 0;
+      nameDiv.addEventListener('click', function () {
+        altIdx = (altIdx + 1) % alternates.length;
+        nameDiv.innerHTML = '<span class="stem-track-icon">' + alternates[altIdx].icon + '</span>' + alternates[altIdx].label;
+        showToast('เปลี่ยนการแสดงผลแทร็กเป็น: ' + alternates[altIdx].label);
+      });
+    }
 
     const muteBtn = document.createElement('button');
     muteBtn.type = 'button';
@@ -796,39 +892,51 @@ async function checkEngine() {
     state.modelsReady = Boolean(status.modelsReady);
     if (state.engineReady) {
       if (state.modelsReady) {
-        $('#engineStatus').classList.remove('offline');
-        let label = 'Local AI Engine พร้อมใช้งาน 100%';
-        if (status.gpu) {
-          label = '🔥 ' + status.gpu + ' (ความเร็วสูงสุด 100%)';
-        } else if (status.gpus && status.gpus.length > 0) {
-          label = '🔥 ' + status.gpus[0].name + ' (ความเร็วสูงสุด 100%)';
+        const engStatus = $('#engineStatus');
+        if (engStatus) {
+          engStatus.classList.remove('offline');
+          let label = 'Local AI Engine พร้อมใช้งาน 100%';
+          if (status.gpu) {
+            label = '🔥 ' + status.gpu + ' (ความเร็วสูงสุด 100%)';
+          } else if (status.gpus && status.gpus.length > 0) {
+            label = '🔥 ' + status.gpus[0].name + ' (ความเร็วสูงสุด 100%)';
+          }
+          setText('#engineStatus span.status-label', label);
         }
-        setText('#engineStatus span.status-label', label);
-        $('#engineBanner').classList.add('hidden');
+        if ($('#engineBanner')) $('#engineBanner').classList.add('hidden');
       } else {
-        $('#engineStatus').classList.add('offline');
-        setText('#engineStatus span.status-label', 'พร้อมติดตั้งโมเดล AI');
+        const engStatus = $('#engineStatus');
+        if (engStatus) {
+          engStatus.classList.add('offline');
+          setText('#engineStatus span.status-label', 'พร้อมติดตั้งโมเดล AI');
+        }
         setText('#engineMessageTitle', 'Local AI Engine พร้อมแล้ว');
         setText('#engineMessage', ' — กดเริ่มวิเคราะห์เพลงเพื่อดาวน์โหลดโมเดลคอร์ดและเนื้อเพลงครั้งเดียว');
-        $('#downloadModelsButton').classList.remove('hidden');
-        $('#setupLink').classList.add('hidden');
-        $('#engineBanner').classList.remove('hidden');
+        if ($('#downloadModelsButton')) $('#downloadModelsButton').classList.remove('hidden');
+        if ($('#setupLink')) $('#setupLink').classList.add('hidden');
+        if ($('#engineBanner')) $('#engineBanner').classList.remove('hidden');
       }
     } else {
-      $('#engineStatus').classList.add('offline');
-      setText('#engineStatus span.status-label', 'ต้องเปิดหรือติดตั้ง AI Engine');
+      const engStatus = $('#engineStatus');
+      if (engStatus) {
+        engStatus.classList.add('offline');
+        setText('#engineStatus span.status-label', 'ต้องเปิดหรือติดตั้ง AI Engine');
+      }
       setText('#engineMessageTitle', 'ยังไม่พบ Local AI Engine');
       setText('#engineMessage', ' — ติดตั้งครั้งเดียวเพื่อใช้โมเดล Transformer บนเครื่องคุณ');
-      $('#downloadModelsButton').classList.add('hidden');
-      $('#setupLink').classList.remove('hidden');
-      $('#engineBanner').classList.remove('hidden');
+      if ($('#downloadModelsButton')) $('#downloadModelsButton').classList.add('hidden');
+      if ($('#setupLink')) $('#setupLink').classList.remove('hidden');
+      if ($('#engineBanner')) $('#engineBanner').classList.remove('hidden');
     }
   } catch (error) {
     state.engineReady = false;
     state.modelsReady = false;
-    $('#engineStatus').classList.add('offline');
-    setText('#engineStatus span.status-label', 'ออฟไลน์ / กรุณารัน node server.js');
-    $('#engineBanner').classList.remove('hidden');
+    const engStatus = $('#engineStatus');
+    if (engStatus) {
+      engStatus.classList.add('offline');
+      setText('#engineStatus span.status-label', 'ออฟไลน์ / กรุณารัน node server.js');
+    }
+    if ($('#engineBanner')) $('#engineBanner').classList.remove('hidden');
   }
 }
 async function downloadModelsNow() {
@@ -1028,22 +1136,30 @@ function startTicker() {
     syncStemAudios(time);
     updatePlayback(time);
   }, 50);
-  const playBtnIcon = $('#playPause span.play-icon') || $('#playPause');
-  playBtnIcon.textContent = '⏸';
+  const playBtn = $('#playPause');
+  const playBtnIcon = $('#playPause span.play-icon') || playBtn;
+  if (playBtnIcon) playBtnIcon.textContent = '⏸';
+  if (playBtn) playBtn.classList.add('playing');
 }
 function stopTicker() {
   if (state.playingTimer) window.clearInterval(state.playingTimer);
   state.playingTimer = null;
   // Pause all stem audios
   Object.values(state.stemAudios).forEach(function (a) { try { if (!a.paused) a.pause(); } catch (e) {} });
-  const playBtnIcon = $('#playPause span.play-icon') || $('#playPause');
-  playBtnIcon.textContent = '▶';
+  const playBtn = $('#playPause');
+  const playBtnIcon = $('#playPause span.play-icon') || playBtn;
+  if (playBtnIcon) playBtnIcon.textContent = '▶';
+  if (playBtn) playBtn.classList.remove('playing');
 }
 
 function renderChordDiagram(chord) {
   const target = $('#chordDiagram');
   if (!target) return;
   const display = transposeChord(chord, state.transpose);
+  const diagramKey = display + '|' + state.instrument;
+  if (state._renderedChordKey === diagramKey) return;
+  state._renderedChordKey = diagramKey;
+
   $('#diagramName').textContent = display;
   if (display === 'N.C.' || display === '—') {
     target.innerHTML = '<div style="font-size:24px;color:var(--text-muted);padding:40px 0;">—</div>';
@@ -1074,7 +1190,7 @@ function renderFretboard(shape, target, instrument) {
   const frets = shape.split('').map(function (item) { return /^[1-9]$/.test(item) ? Number(item) : 0; }).filter(Boolean);
   const baseFret = frets.length && Math.min.apply(null, frets) > 3 ? Math.min.apply(null, frets) : 1;
   const x = function (index) { return 26 + index * (108 / Math.max(1, strings - 1)); };
-  const y = function (fret) { return 27 + (fret - baseFret + 1) * 25; };
+  const y = function (fret) { return 27 + (fret - baseFret + 0.5) * 25; };
   const vertical = Array.from({ length: strings }, function (_, index) {
     return '<line x1="' + x(index) + '" y1="27" x2="' + x(index) + '" y2="152" stroke="rgba(212, 175, 55, 0.4)" stroke-width="1.5"/>';
   }).join('');
@@ -1084,9 +1200,9 @@ function renderFretboard(shape, target, instrument) {
   const markers = shape.split('').map(function (item, index) {
     if (item === 'x') return '<text x="' + x(index) + '" y="18" text-anchor="middle" fill="#ef4444" font-size="13">×</text>';
     if (item === '0') return '<text x="' + x(index) + '" y="18" text-anchor="middle" fill="#10b981" font-size="12">○</text>';
-    return '<circle cx="' + x(index) + '" cy="' + y(Number(item)) + '" r="7" fill="#d4af37"/>';
+    return '<circle cx="' + x(index) + '" cy="' + y(Number(item)) + '" r="7" fill="#ffd700" stroke="#d4af37" stroke-width="1.2" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.5))"/>';
   }).join('');
-  const base = baseFret > 1 ? '<text x="8" y="57" fill="#d4af37" font-size="10">' + baseFret + 'fr</text>' : '';
+  const base = baseFret > 1 ? '<text x="8" y="44" fill="#d4af37" font-size="10" font-weight="600">' + baseFret + 'fr</text>' : '';
   target.innerHTML = '<svg style="width:160px;height:176px;" viewBox="0 0 160 176" aria-hidden="true">' + vertical + horizontal + markers + base + '</svg>';
 }
 function renderPianoKeyboard(activeSemitones) {
@@ -1242,7 +1358,7 @@ function renderLyrics() {
   panel.replaceChildren();
 
   if (!state.song.lyrics || !state.song.lyrics.segments || state.song.lyrics.segments.length === 0) {
-    panel.innerHTML = '<div class="lyrics-empty"><div class="empty-icon">🎙️</div><p>ยังไม่มีเนื้อร้องในเพลงนี้</p><small>คลิกปุ่มด้านล่างเพื่อวางเนื้อเพลงและซิงค์คอร์ดอัตโนมัติได้ทันที</small><button class="empty-action-btn" id="emptyPasteBtn" type="button">วางเนื้อเพลงเพื่อเริ่มซิงค์</button></div>';
+    panel.innerHTML = '<div class="lyrics-empty"><div class="empty-icon">✦</div><p>ยังไม่มีเนื้อร้องในเพลงนี้</p><small>คลิกปุ่มด้านล่างเพื่อวางเนื้อเพลงและซิงค์คอร์ดอัตโนมัติได้ทันที</small><button class="empty-action-btn" id="emptyPasteBtn" type="button">วางเนื้อเพลงเพื่อเริ่มซิงค์</button></div>';
     const emptyBtn = $('#emptyPasteBtn');
     if (emptyBtn) emptyBtn.onclick = openLyricsModal;
     return;
@@ -1278,6 +1394,31 @@ function renderLyrics() {
           wordSpan.prepend(chordSpan);
         }
         lineDiv.append(wordSpan);
+      });
+    } else if (window.thaiTokenizer && typeof window.thaiTokenizer.createTimedSyllables === 'function' && segment.text) {
+      const syllables = window.thaiTokenizer.createTimedSyllables(segment.text, segment.start, segment.end);
+      syllables.forEach(function (syl) {
+        const sylSpan = document.createElement('span');
+        sylSpan.className = 'lyrics-word';
+        sylSpan.dataset.start = String(syl.start);
+        sylSpan.dataset.end = String(syl.end);
+        sylSpan.textContent = syl.text;
+        sylSpan.onclick = function (e) { e.stopPropagation(); seek(syl.start); };
+
+        const sylChords = state.song.beats.filter(function (b, idx) {
+          if (idx === 0) return false;
+          const prev = state.song.beats[idx - 1];
+          if (b.chord === prev.chord || b.chord === 'N.C.') return false;
+          return b.time >= syl.start - 0.15 && b.time < syl.end + 0.15;
+        });
+
+        if (sylChords.length > 0) {
+          const chordSpan = document.createElement('span');
+          chordSpan.className = 'lyrics-chord';
+          chordSpan.textContent = transposeChord(sylChords[0].chord, state.transpose);
+          sylSpan.prepend(chordSpan);
+        }
+        lineDiv.append(sylSpan);
       });
     } else {
       const lineChords = state.song.beats.filter(function (b, idx) {
@@ -1364,23 +1505,33 @@ function setViewMode(mode) {
   const viewLyrics = $('#viewLyrics');
   const viewGrid = $('#viewGrid');
   const viewStems = $('#viewStems');
+  const viewPractice = $('#viewPractice');
 
   if (mode === 'split') {
     if (viewGrid) viewGrid.classList.add('active');
     if (viewLyrics) viewLyrics.classList.add('active');
     if (viewStems) viewStems.classList.remove('active');
+    if (viewPractice) viewPractice.classList.remove('active');
   } else if (mode === 'grid') {
     if (viewGrid) viewGrid.classList.add('active');
     if (viewLyrics) viewLyrics.classList.remove('active');
     if (viewStems) viewStems.classList.remove('active');
+    if (viewPractice) viewPractice.classList.remove('active');
   } else if (mode === 'stems') {
     if (viewStems) viewStems.classList.add('active');
     if (viewLyrics) viewLyrics.classList.remove('active');
     if (viewGrid) viewGrid.classList.remove('active');
+    if (viewPractice) viewPractice.classList.remove('active');
+  } else if (mode === 'practice') {
+    if (viewPractice) viewPractice.classList.add('active');
+    if (viewLyrics) viewLyrics.classList.remove('active');
+    if (viewGrid) viewGrid.classList.remove('active');
+    if (viewStems) viewStems.classList.remove('active');
   } else {
     if (viewLyrics) viewLyrics.classList.add('active');
     if (viewGrid) viewGrid.classList.remove('active');
     if (viewStems) viewStems.classList.remove('active');
+    if (viewPractice) viewPractice.classList.remove('active');
   }
 }
 
@@ -1391,14 +1542,32 @@ function updatePlayback(time) {
   const currentTChord = transposeChord(current.chord, state.transpose);
   const nextTChord = transposeChord(nextChordAfter(time), state.transpose);
 
+  if (state.lastChord !== currentTChord) {
+    state.lastChord = currentTChord;
+    const curEl = $('#currentChord');
+    const dockEl = $('#dockCurrentChord');
+    if (curEl) {
+      curEl.classList.remove('chord-pop');
+      void curEl.offsetWidth; // trigger reflow
+      curEl.classList.add('chord-pop');
+    }
+    if (dockEl) {
+      dockEl.classList.remove('chord-pop');
+      void dockEl.offsetWidth;
+      dockEl.classList.add('chord-pop');
+    }
+    renderChordDiagram(current.chord);
+    updatePracticeHUD(currentTChord);
+  }
+
   setText('#currentChord', currentTChord);
+  setText('#dockCurrentChord', currentTChord);
   setText('#nextChord', nextTChord);
   setText('#currentTime', formatTime(time));
 
   // Progress bars
   const pct = Math.min(100, (time / (state.song.duration || 1)) * 100);
   if ($('#progressFill')) $('#progressFill').style.width = pct + '%';
-  renderChordDiagram(current.chord);
 
   // Stage Mode
   if (state.stageMode) {
@@ -1566,6 +1735,8 @@ function renderOverview() {
 }
 
 function renderSong() {
+  state._renderedChordKey = null;
+  state.lastChord = null;
   setText('#songTitle', state.song.title);
   setText('#songArtist', state.song.author);
   setText('#songKey', transposeKey(state.song.key, state.transpose));
@@ -2070,36 +2241,112 @@ $('#reviewToggle').addEventListener('click', function () {
 });
 $('#applyChord').addEventListener('click', function () {
   if (state.selectedBeat === null) return;
-  state.song.beats[state.selectedBeat].chord = $('#editChord').value;
-  renderBeatGrid();
-  renderLyrics();
-  renderOverview();
-  updatePlayback(state.player.currentTime);
-  saveSong(state.song);
-  showToast('บันทึกคอร์ดสำหรับบีตนี้แล้ว');
+  const beat = state.song.beats[state.selectedBeat];
+  const oldChord = beat.chord;
+  const newChord = $('#editChord').value;
+  if (oldChord === newChord) return;
+
+  if (window.undoManager && window.ChangeChordCommand) {
+    const cmd = new window.ChangeChordCommand(beat, oldChord, newChord, function (c) {
+      selectChordValue(c);
+      renderBeatGrid();
+      renderLyrics();
+      renderOverview();
+      updatePlayback(state.player.currentTime);
+      saveSong(state.song);
+    });
+    window.undoManager.execute(cmd);
+    showToast('บันทึกคอร์ดสำหรับบีตนี้แล้ว (กด Ctrl+Z เพื่อย้อนกลับ)');
+  } else {
+    beat.chord = newChord;
+    renderBeatGrid();
+    renderLyrics();
+    renderOverview();
+    updatePlayback(state.player.currentTime);
+    saveSong(state.song);
+    showToast('บันทึกคอร์ดสำหรับบีตนี้แล้ว');
+  }
 });
+
 $('#resetChord').addEventListener('click', function () {
   if (state.selectedBeat === null) return;
   const beat = state.song.beats[state.selectedBeat];
-  beat.chord = beat.aiChord;
-  selectChordValue(beat.chord);
-  renderBeatGrid();
-  renderLyrics();
-  renderOverview();
-  updatePlayback(state.player.currentTime);
-  saveSong(state.song);
-  showToast('คืนค่าคอร์ดจาก AI ดั้งเดิมแล้ว');
+  const oldChord = beat.chord;
+  const newChord = beat.aiChord;
+  if (oldChord === newChord) return;
+
+  if (window.undoManager && window.ChangeChordCommand) {
+    const cmd = new window.ChangeChordCommand(beat, oldChord, newChord, function (c) {
+      selectChordValue(c);
+      renderBeatGrid();
+      renderLyrics();
+      renderOverview();
+      updatePlayback(state.player.currentTime);
+      saveSong(state.song);
+    });
+    window.undoManager.execute(cmd);
+    showToast('คืนค่าคอร์ดจาก AI ดั้งเดิมแล้ว (กด Ctrl+Z เพื่อย้อนกลับ)');
+  } else {
+    beat.chord = newChord;
+    selectChordValue(beat.chord);
+    renderBeatGrid();
+    renderLyrics();
+    renderOverview();
+    updatePlayback(state.player.currentTime);
+    saveSong(state.song);
+    showToast('คืนค่าคอร์ดจาก AI ดั้งเดิมแล้ว');
+  }
 });
+
+// Undo / Redo Toolbar Controls
+const undoBtn = $('#undoButton');
+const redoBtn = $('#redoButton');
+if (undoBtn) {
+  undoBtn.addEventListener('click', function () {
+    if (window.undoManager) window.undoManager.undo();
+  });
+}
+if (redoBtn) {
+  redoBtn.addEventListener('click', function () {
+    if (window.undoManager) window.undoManager.redo();
+  });
+}
+if (window.undoManager) {
+  window.undoManager.subscribe(function (status) {
+    if (undoBtn) undoBtn.disabled = !status.canUndo;
+    if (redoBtn) redoBtn.disabled = !status.canRedo;
+  });
+  window.undoManager.bindKeyboardShortcuts(window);
+}
+
+// Standard MIDI (.mid) Export
+const exportMidiBtn = $('#exportMidiButton');
+if (exportMidiBtn) {
+  exportMidiBtn.addEventListener('click', function () {
+    if (!state.song) {
+      showToast('กรุณาวิเคราะห์หรือเปิดเพลงก่อนส่งออก MIDI');
+      return;
+    }
+    const exporter = window.midiExport || (window.ZixelMidi ? window.ZixelMidi : null);
+    if (exporter && typeof exporter.downloadMidi === 'function') {
+      exporter.downloadMidi(state.song, state.song.title);
+      showToast('ส่งออกไฟล์ Standard MIDI (.mid) เรียบร้อยแล้ว');
+    } else {
+      showToast('MIDI Export Engine ยังไม่พร้อมทำงาน');
+    }
+  });
+}
 
 $('#instrumentSelect').addEventListener('change', function () {
   state.instrument = this.value;
-  renderChordDiagram(chordAt(state.player.currentTime).chord);
+  state._renderedChordKey = null;
+  renderChordDiagram(chordAt(state.player ? state.player.currentTime : 0).chord);
 });
 $('#transposeDown').addEventListener('click', function () {
-  if (state.song && state.transpose > -12) { state.transpose -= 1; renderSong(); }
+  if (state.song && state.transpose > -12) { state.transpose -= 1; state._renderedChordKey = null; renderSong(); }
 });
 $('#transposeUp').addEventListener('click', function () {
-  if (state.song && state.transpose < 12) { state.transpose += 1; renderSong(); }
+  if (state.song && state.transpose < 12) { state.transpose += 1; state._renderedChordKey = null; renderSong(); }
 });
 
 $('#copyButton').addEventListener('click', async function () {
@@ -2132,7 +2379,17 @@ $('#backButton').addEventListener('click', function () {
 });
 
 $('#libraryButton').addEventListener('click', function () { $('#libraryPanel').classList.remove('hidden'); });
+const cockpitLibBtn = $('#cockpitLibraryTrigger');
+if (cockpitLibBtn) cockpitLibBtn.addEventListener('click', function () { $('#libraryPanel').classList.remove('hidden'); });
 $('#closeLibrary').addEventListener('click', function () { $('#libraryPanel').classList.add('hidden'); });
+if (window.location.hash === '#library') {
+  setTimeout(() => { if ($('#libraryPanel')) $('#libraryPanel').classList.remove('hidden'); }, 300);
+}
+window.addEventListener('hashchange', function () {
+  if (window.location.hash === '#library' && $('#libraryPanel')) {
+    $('#libraryPanel').classList.remove('hidden');
+  }
+});
 
 // Paste Lyrics Modal Buttons
 if ($('#pasteLyricsButton')) $('#pasteLyricsButton').addEventListener('click', openLyricsModal);
@@ -2225,6 +2482,1341 @@ document.addEventListener('keydown', function (e) {
   if (e.shiftKey && e.key === '}') { e.preventDefault(); if (state.pitchShift < 12) setPitchShift(state.pitchShift + 1); }
 });
 
+// ─── Interactive MIDI Practice Mode & Full 88-Key Concert Grand Piano ─────────
+const PIANO_PRESETS = {
+  88: { startMidi: 21, endMidi: 108, name: '88 คีย์ (Grand Piano จริง A0–C8)' },
+  76: { startMidi: 28, endMidi: 103, name: '76 คีย์ (E1–G7 Stage Piano)' },
+  61: { startMidi: 36, endMidi: 96,  name: '61 คีย์ (C2–C7 Standard Synth)' },
+  49: { startMidi: 36, endMidi: 84,  name: '49 คีย์ (C2–C6 Studio)' },
+  25: { startMidi: 48, endMidi: 72,  name: '25 คีย์ (C3–C5 Compact)' }
+};
+
+state.pianoSize = 88; // Default to full 88-key acoustic grand piano!
+state.pianoTheme = 'dark'; // Default to dark studio aesthetic matching user blueprint!
+state.pianoLabels = 'all'; // 'all' | 'c-only'
+state.pianoAutoScroll = true;
+
+function updatePracticeHUD(targetChord) {
+  const currentTarget = targetChord || (state.song ? transposeChord(chordAt(state.player.currentTime).chord, state.transpose) : '—');
+  state.currentTargetChord = currentTarget;
+
+  setText('#evalTargetChord', currentTarget);
+
+  let targetNotes = [];
+  let targetPCs = [];
+  const engine = window.midiEngine || (window.ZixelMidiEngine ? window.ZixelMidiEngine.midiEngine : null);
+
+  if (engine && typeof engine.getChordNotes === 'function') {
+    const chordInfo = engine.getChordNotes(currentTarget);
+    targetNotes = chordInfo.notes || [];
+    targetPCs = chordInfo.pitchClasses || [];
+    setText('#evalTargetNotes', targetNotes.length > 0 ? 'โน้ตในคอร์ด: ' + targetNotes.join(', ') : 'พักมือ (No Chord)');
+
+    // Evaluate currently pressed MIDI notes against target chord
+    const evalRes = engine.evaluateChord(currentTarget);
+    setText('#evalAccuracyScore', evalRes.score + '%');
+    const fill = $('#evalMeterFill');
+    if (fill) {
+      fill.style.width = Math.min(100, Math.max(0, evalRes.score)) + '%';
+      if (evalRes.score >= 80) fill.style.background = 'linear-gradient(90deg, #10b981, #34d399)';
+      else if (evalRes.score >= 40) fill.style.background = 'linear-gradient(90deg, #f59e0b, #fbbf24)';
+      else fill.style.background = 'linear-gradient(90deg, #ef4444, #f87171)';
+    }
+    setText('#evalFeedback', evalRes.feedback || '');
+    setText('#evalPressedNotes', evalRes.pressedNotes && evalRes.pressedNotes.length > 0 ? evalRes.pressedNotes.join(', ') : '—');
+  }
+
+  updateVirtualPianoKeys(targetPCs);
+
+  // Auto-scroll piano view to keep current chord visible if enabled
+  if (state.pianoAutoScroll && targetPCs.length > 0) {
+    const stage = $('#pianoStage');
+    if (stage) {
+      // Find middle octave target key (around C4 = 60)
+      const targetMidi = 60 + targetPCs[0];
+      const activeKey = document.querySelector(`.piano-key[data-midi="${targetMidi}"]`) ||
+                        document.querySelector(`.piano-key.active-target`);
+      if (activeKey) {
+        const keyLeft = activeKey.offsetLeft;
+        const stageWidth = stage.clientWidth;
+        const targetScroll = keyLeft - (stageWidth / 2) + (activeKey.clientWidth / 2);
+        stage.scrollTo({ left: Math.max(0, targetScroll), behavior: 'smooth' });
+      }
+    }
+  }
+}
+
+function updateVirtualPianoKeys(targetPitchClasses = []) {
+  const keys = document.querySelectorAll('.piano-key');
+  if (!keys || keys.length === 0) return;
+
+  const targetSet = new Set(targetPitchClasses);
+  const engine = window.midiEngine || (window.ZixelMidiEngine ? window.ZixelMidiEngine.midiEngine : null);
+  const activeMidiNotes = engine ? engine.activeNotes : new Set();
+
+  keys.forEach(function (key) {
+    const midi = Number(key.dataset.midi);
+    const pc = Number(key.dataset.pc);
+    const isPressed = activeMidiNotes.has(midi);
+    const isTarget = targetSet.has(pc);
+
+    key.classList.remove('active-target', 'active-pressed', 'active-both');
+
+    if (isPressed && isTarget) {
+      key.classList.add('active-both');
+    } else if (isPressed) {
+      key.classList.add('active-pressed');
+    } else if (isTarget) {
+      key.classList.add('active-target');
+    }
+  });
+}
+
+function scrollPianoToNote(targetMidi) {
+  const stage = $('#pianoStage');
+  if (!stage) return;
+  const key = document.querySelector(`.piano-key[data-midi="${targetMidi}"]`);
+  if (key) {
+    const targetScroll = key.offsetLeft - (stage.clientWidth / 2) + (key.clientWidth / 2);
+    stage.scrollTo({ left: Math.max(0, targetScroll), behavior: 'smooth' });
+  }
+}
+
+function initVirtualPiano(presetSize = state.pianoSize || 88) {
+  state.pianoSize = presetSize;
+  const piano = $('#virtualPiano');
+  if (!piano) return;
+  piano.replaceChildren();
+
+  // Apply theme class
+  piano.className = 'virtual-piano theme-' + (state.pianoTheme || 'dark');
+
+  const preset = PIANO_PRESETS[presetSize] || PIANO_PRESETS[88];
+  const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  const blackPitchClasses = [1, 3, 6, 8, 10]; // C#, D#, F#, G#, A#
+  const engine = window.midiEngine || (window.ZixelMidiEngine ? window.ZixelMidiEngine.midiEngine : null);
+
+  for (let midi = preset.startMidi; midi <= preset.endMidi; midi++) {
+    const pc = midi % 12;
+    const oct = Math.floor(midi / 12) - 1;
+    const isBlack = blackPitchClasses.includes(pc);
+    const isMiddleC = midi === 60; // C4
+    const name = noteNames[pc] + oct;
+
+    const keyDiv = document.createElement('div');
+    keyDiv.className = 'piano-key ' + (isBlack ? 'black' : 'white') + (isMiddleC ? ' middle-c' : '');
+    keyDiv.dataset.midi = String(midi);
+    keyDiv.dataset.pc = String(pc);
+    keyDiv.dataset.name = name;
+
+    const label = document.createElement('span');
+    if (state.pianoLabels === 'all') {
+      label.textContent = isBlack ? (oct >= 2 && oct <= 5 ? name : '') : name;
+    } else {
+      // C-only labels like authentic grand pianos
+      if (pc === 0) {
+        label.textContent = isMiddleC ? '★ C4' : name;
+      } else {
+        label.textContent = '';
+      }
+    }
+    keyDiv.appendChild(label);
+
+    // Mouse interactive controls
+    keyDiv.addEventListener('mousedown', function (e) {
+      e.preventDefault();
+      if (engine && typeof engine.noteOn === 'function') engine.noteOn(midi, 100);
+      updatePracticeHUD(state.currentTargetChord);
+    });
+    keyDiv.addEventListener('mouseup', function () {
+      if (engine && typeof engine.noteOff === 'function') engine.noteOff(midi);
+      updatePracticeHUD(state.currentTargetChord);
+    });
+    keyDiv.addEventListener('mouseleave', function () {
+      if (engine && engine.activeNotes && engine.activeNotes.has(midi)) {
+        engine.noteOff(midi);
+        updatePracticeHUD(state.currentTargetChord);
+      }
+    });
+
+    // Touch controls for mobile / touch screens
+    keyDiv.addEventListener('touchstart', function (e) {
+      e.preventDefault();
+      if (engine && typeof engine.noteOn === 'function') engine.noteOn(midi, 100);
+      updatePracticeHUD(state.currentTargetChord);
+    });
+    keyDiv.addEventListener('touchend', function (e) {
+      e.preventDefault();
+      if (engine && typeof engine.noteOff === 'function') engine.noteOff(midi);
+      updatePracticeHUD(state.currentTargetChord);
+    });
+
+    piano.appendChild(keyDiv);
+  }
+
+  // Update button active states in toolbar
+  document.querySelectorAll('.piano-preset-btn').forEach(function (btn) {
+    btn.classList.toggle('active', Number(btn.dataset.size) === presetSize);
+  });
+
+  // Center view on Middle C (C4 = 60) on initial render
+  setTimeout(function () {
+    scrollPianoToNote(60);
+  }, 100);
+}
+
+function initMidiPractice() {
+  initVirtualPiano(88);
+
+  // Wire Piano Toolbar Presets
+  document.querySelectorAll('.piano-preset-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const size = Number(btn.dataset.size);
+      initVirtualPiano(size);
+    });
+  });
+
+  // Wire Octave Jump Buttons
+  document.querySelectorAll('.piano-oct-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const targetMidi = Number(btn.dataset.targetNote);
+      scrollPianoToNote(targetMidi);
+      document.querySelectorAll('.piano-oct-btn').forEach(b => b.classList.remove('active-oct'));
+      btn.classList.add('active-oct');
+    });
+  });
+
+  // Wire Theme Toggle
+  const themeBtn = $('#pianoThemeBtn');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function () {
+      state.pianoTheme = state.pianoTheme === 'dark' ? 'ivory' : 'dark';
+      setText('#pianoThemeLabel', state.pianoTheme === 'dark' ? 'ธีม: Dark Studio' : 'ธีม: Classic Ivory');
+      const piano = $('#virtualPiano');
+      if (piano) {
+        piano.className = 'virtual-piano theme-' + state.pianoTheme;
+      }
+    });
+  }
+
+  // Wire Labels Toggle
+  const labelsBtn = $('#pianoLabelsBtn');
+  if (labelsBtn) {
+    labelsBtn.addEventListener('click', function () {
+      state.pianoLabels = state.pianoLabels === 'all' ? 'c-only' : 'all';
+      setText('#pianoLabelsLabel', state.pianoLabels === 'all' ? 'ชื่อโน้ต: ทั้งหมด' : 'ชื่อโน้ต: เฉพาะ C');
+      initVirtualPiano(state.pianoSize);
+    });
+  }
+
+  // Wire Auto-Scroll Checkbox
+  const autoScrollCb = $('#pianoAutoScroll');
+  if (autoScrollCb) {
+    autoScrollCb.addEventListener('change', function () {
+      state.pianoAutoScroll = this.checked;
+    });
+  }
+
+  const engine = window.midiEngine || (window.ZixelMidiEngine ? window.ZixelMidiEngine.midiEngine : null);
+  if (!engine) return;
+
+  engine.subscribe(function (event) {
+    if (event.type === 'noteOn' || event.type === 'noteOff') {
+      updatePracticeHUD(state.currentTargetChord);
+    } else if (event.type === 'status' || event.type === 'deviceChange') {
+      const isConnected = engine.status === 'connected';
+      const indicator = $('#midiIndicator');
+      const label = $('#midiDeviceLabel');
+      if (indicator) indicator.classList.toggle('connected', isConnected);
+      if (label) {
+        const inputs = typeof engine.getInputs === 'function' ? engine.getInputs() : [];
+        if (inputs.length > 0) {
+          label.textContent = 'MIDI: ' + inputs.map(function (i) { return i.name; }).join(', ');
+        } else {
+          label.textContent = isConnected ? 'MIDI: พร้อมเชื่อมต่ออุปกรณ์' : 'MIDI: ยังไม่ได้เชื่อมต่อ';
+        }
+      }
+    }
+  });
+
+  const connectBtn = $('#midiConnectBtn');
+  if (connectBtn) {
+    connectBtn.addEventListener('click', async function () {
+      connectBtn.disabled = true;
+      connectBtn.textContent = 'กำลังตรวจหา...';
+      const success = await engine.init();
+      if (success) {
+        showToast('เชื่อมต่อ Web MIDI สำเร็จ พร้อมรับสัญญาณจากคีย์บอร์ด 88 คีย์');
+        connectBtn.textContent = 'เชื่อมต่อแล้ว';
+      } else {
+        showToast('ไม่พบอุปกรณ์ MIDI หรือเบราว์เซอร์ไม่อนุญาต (ยังสามารถคลิกลิ่มเปียโนจำลองได้)');
+        connectBtn.textContent = 'ลองเชื่อมต่อใหม่';
+        connectBtn.disabled = false;
+      }
+    });
+  }
+}
+
+// ─── Cuberto Interactive Fluid Follower Cursor Engine ───
+function initCubertoCursor() {
+  if (window.__luxuryCursorInitialized) return;
+  const cursor = $('#cbCursor');
+  const cursorText = $('#cbCursorText');
+  if (!cursor) return;
+
+  // Gracefully skip on touch devices
+  if (window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
+    return;
+  }
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let cursorX = mouseX;
+  let cursorY = mouseY;
+  let isMouseDown = false;
+  let isVisible = false;
+
+  window.addEventListener('mousemove', function (e) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    if (!isVisible) {
+      isVisible = true;
+      cursor.style.opacity = '1';
+    }
+  }, { passive: true });
+
+  window.addEventListener('mousedown', function () {
+    isMouseDown = true;
+    cursor.classList.add('cb-active');
+  });
+
+  window.addEventListener('mouseup', function () {
+    isMouseDown = false;
+    cursor.classList.remove('cb-active');
+  });
+
+  // Smooth Lerp Loop (60fps)
+  function renderCursor() {
+    const ease = 0.22;
+    cursorX += (mouseX - cursorX) * ease;
+    cursorY += (mouseY - cursorY) * ease;
+    cursor.style.transform = 'translate3d(' + cursorX + 'px, ' + cursorY + 'px, 0px) translate(-50%, -50%)' + (isMouseDown ? ' scale(0.85)' : '');
+    requestAnimationFrame(renderCursor);
+  }
+  requestAnimationFrame(renderCursor);
+
+  // Delegation for hover states
+  document.addEventListener('mouseover', function (e) {
+    const target = e.target;
+    if (!target) return;
+
+    const interactive = target.closest('button, a, input, select, textarea, .luxury-upload-box, .chord-button, .view-tab, .source-tab, .lyrics-line, .metric-pill, .speed-btn, .loop-btn, .pitch-btn');
+    if (interactive) {
+      cursor.classList.add('cb-hover');
+      if (interactive.classList.contains('luxury-upload-box') || interactive.id === 'analyzeButton') {
+        if (cursorText) cursorText.textContent = 'OPEN';
+        cursor.classList.add('cb-text-mode');
+      } else if (interactive.id === 'playPause') {
+        const isPlaying = state.player && !state.player.paused;
+        if (cursorText) cursorText.textContent = isPlaying ? 'PAUSE' : 'PLAY';
+        cursor.classList.add('cb-text-mode');
+      } else {
+        if (cursorText) cursorText.textContent = '';
+        cursor.classList.remove('cb-text-mode');
+      }
+    }
+  });
+
+  document.addEventListener('mouseout', function (e) {
+    const target = e.target;
+    if (!target) return;
+    const interactive = target.closest('button, a, input, select, textarea, .luxury-upload-box, .chord-button, .view-tab, .source-tab, .lyrics-line, .metric-pill, .speed-btn, .loop-btn, .pitch-btn');
+    if (interactive) {
+      cursor.classList.remove('cb-hover', 'cb-text-mode');
+      if (cursorText) cursorText.textContent = '';
+    }
+  });
+
+  document.addEventListener('mouseleave', function () {
+    cursor.style.opacity = '0';
+    isVisible = false;
+  });
+
+  document.addEventListener('mouseenter', function () {
+    cursor.style.opacity = '1';
+    isVisible = true;
+  });
+}
+
+// ─── Cuberto Authentication Module ───
+let authMode = 'login'; // 'login' or 'register'
+
+function updateUserUI(user) {
+  state.currentUser = user;
+  const authBtnLabel = $('#authBtnLabel');
+  const authDefaultIcon = $('#authDefaultIcon');
+  const authAvatarChip = $('#authAvatarChip');
+  const userDisplayName = $('#userDisplayName');
+  const userUsername = $('#userUsername');
+  const userAvatarCircle = $('#userAvatarCircle');
+
+  if (user) {
+    const initials = (user.displayName || user.username || 'U').slice(0, 2).toUpperCase();
+    if (authBtnLabel) authBtnLabel.textContent = user.displayName || user.username;
+    if (authDefaultIcon) authDefaultIcon.classList.add('hidden');
+    if (authAvatarChip) {
+      authAvatarChip.textContent = initials;
+      authAvatarChip.classList.remove('hidden');
+    }
+    if (userDisplayName) userDisplayName.textContent = user.displayName || user.username;
+    if (userUsername) userUsername.textContent = '@' + user.username;
+    if (userAvatarCircle) userAvatarCircle.textContent = initials;
+  } else {
+    if (authBtnLabel) authBtnLabel.textContent = 'เข้าสู่ระบบ';
+    if (authDefaultIcon) authDefaultIcon.classList.remove('hidden');
+    if (authAvatarChip) authAvatarChip.classList.add('hidden');
+    if (userDisplayName) userDisplayName.textContent = 'Guest';
+    if (userUsername) userUsername.textContent = '@guest';
+    if (userAvatarCircle) userAvatarCircle.textContent = 'ZC';
+  }
+}
+
+async function checkAuthStatus() {
+  try {
+    const headers = {};
+    if (state.authToken) headers['Authorization'] = 'Bearer ' + state.authToken;
+    const res = await fetch('/api/auth/me', { headers: headers, cache: 'no-store' });
+    if (!res.ok) throw new Error('Auth check failed');
+    const data = await res.json();
+    if (data.authenticated && data.user) {
+      updateUserUI(data.user);
+    } else {
+      updateUserUI(null);
+      state.authToken = null;
+      try { localStorage.removeItem('zc_auth_token'); } catch (_) {}
+    }
+  } catch (err) {
+    console.warn('[Auth] Status check skipped:', err);
+    updateUserUI(null);
+  }
+}
+
+function openAuthModal(mode) {
+  authMode = mode || 'login';
+  switchAuthMode(authMode);
+  const modal = $('#authModal');
+  const errorMsg = $('#authErrorMsg');
+  if (errorMsg) {
+    errorMsg.textContent = '';
+    errorMsg.classList.add('hidden');
+  }
+  if (modal) modal.classList.remove('hidden');
+  const userDropdown = $('#userMenuDropdown');
+  if (userDropdown) userDropdown.classList.add('hidden');
+}
+
+function closeAuthModal() {
+  const modal = $('#authModal');
+  if (modal) modal.classList.add('hidden');
+}
+
+function switchAuthMode(mode) {
+  authMode = mode;
+  const isLogin = mode === 'login';
+  const tabLogin = $('#authTabLogin');
+  const tabRegister = $('#authTabRegister');
+  const title = $('#authModalTitle');
+  const displayNameGroup = $('#displayNameGroup');
+  const submitLabel = $('#authSubmitLabel');
+  const switchText = $('#authSwitchText');
+  const switchReg = $('#authSwitchToRegister');
+  const switchLog = $('#authSwitchToLogin');
+
+  if (tabLogin) tabLogin.classList.toggle('active', isLogin);
+  if (tabRegister) tabRegister.classList.toggle('active', !isLogin);
+  if (title) title.textContent = isLogin ? 'เข้าสู่ระบบ Zixel' : 'สมัครสมาชิก Zixel';
+  if (displayNameGroup) displayNameGroup.classList.toggle('hidden', isLogin);
+  if (submitLabel) submitLabel.textContent = isLogin ? 'เข้าสู่ระบบ' : 'สร้างบัญชีผู้ใช้';
+  if (switchText) switchText.textContent = isLogin ? 'ยังไม่มีบัญชีใช่ไหม?' : 'มีบัญชีอยู่แล้วใช่ไหม?';
+  if (switchReg) switchReg.classList.toggle('hidden', !isLogin);
+  if (switchLog) switchLog.classList.toggle('hidden', isLogin);
+}
+
+async function handleAuthSubmit(e) {
+  e.preventDefault();
+  const usernameInput = $('#authUsername');
+  const passwordInput = $('#authPassword');
+  const displayNameInput = $('#authDisplayName');
+  const errorMsg = $('#authErrorMsg');
+  const submitBtn = $('#authSubmitBtn');
+
+  const username = usernameInput ? usernameInput.value.trim() : '';
+  const password = passwordInput ? passwordInput.value : '';
+  const displayName = displayNameInput ? displayNameInput.value.trim() : '';
+
+  if (!username || !password) {
+    if (errorMsg) {
+      errorMsg.textContent = 'กรุณากรอกชื่อผู้ใช้และรหัสผ่านให้ครบถ้วน';
+      errorMsg.classList.remove('hidden');
+    }
+    return;
+  }
+
+  if (submitBtn) submitBtn.disabled = true;
+  if (errorMsg) errorMsg.classList.add('hidden');
+
+  try {
+    const endpoint = authMode === 'login' ? '/api/auth/login' : '/api/auth/register';
+    const payload = { username: username, password: password };
+    if (authMode === 'register' && displayName) payload.displayName = displayName;
+
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'การเข้าสู่ระบบล้มเหลว');
+
+    state.authToken = data.token;
+    try { localStorage.setItem('zc_auth_token', data.token); } catch (_) {}
+    updateUserUI(data.user);
+    closeAuthModal();
+    showToast(authMode === 'login' ? 'ยินดีต้อนรับกลับ, ' + (data.user.displayName || data.user.username) : 'สร้างบัญชีสำเร็จ ยินดีต้อนรับสู่ Zixel Studio!');
+  } catch (err) {
+    if (errorMsg) {
+      errorMsg.textContent = err.message;
+      errorMsg.classList.remove('hidden');
+    }
+  } finally {
+    if (submitBtn) submitBtn.disabled = false;
+  }
+}
+
+async function handleLogout() {
+  try {
+    const headers = {};
+    if (state.authToken) headers['Authorization'] = 'Bearer ' + state.authToken;
+    await fetch('/api/auth/logout', { method: 'POST', headers: headers });
+  } catch (_) {}
+  state.authToken = null;
+  try { localStorage.removeItem('zc_auth_token'); } catch (_) {}
+  updateUserUI(null);
+  const userDropdown = $('#userMenuDropdown');
+  if (userDropdown) userDropdown.classList.add('hidden');
+  showToast('ออกจากระบบเรียบร้อยแล้ว');
+}
+
+function initAuthUI() {
+  const authTriggerBtn = $('#authTriggerBtn');
+  const userDropdown = $('#userMenuDropdown');
+  const closeAuthBtn = $('#closeAuthModal');
+  const authModal = $('#authModal');
+  const tabLogin = $('#authTabLogin');
+  const tabRegister = $('#authTabRegister');
+  const authForm = $('#authForm');
+  const logoutBtn = $('#logoutBtn');
+  const userLibraryShortcut = $('#userLibraryShortcut');
+
+  if (authTriggerBtn) {
+    authTriggerBtn.addEventListener('click', function (e) {
+      if (state.currentUser) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (userDropdown) userDropdown.classList.toggle('hidden');
+      } else if (authTriggerBtn.tagName === 'BUTTON') {
+        openAuthModal('login');
+      }
+    });
+  }
+
+  if (closeAuthBtn) closeAuthBtn.addEventListener('click', closeAuthModal);
+  if (authModal) {
+    authModal.addEventListener('click', function (e) {
+      if (e.target === authModal) closeAuthModal();
+    });
+  }
+
+  if (tabLogin) tabLogin.addEventListener('click', function () { switchAuthMode('login'); });
+  if (tabRegister) tabRegister.addEventListener('click', function () { switchAuthMode('register'); });
+
+  const switchReg = $('#authSwitchToRegister');
+  if (switchReg) switchReg.addEventListener('click', function (e) { e.preventDefault(); switchAuthMode('register'); });
+  const switchLog = $('#authSwitchToLogin');
+  if (switchLog) switchLog.addEventListener('click', function (e) { e.preventDefault(); switchAuthMode('login'); });
+
+  if (authForm) authForm.addEventListener('submit', handleAuthSubmit);
+  if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
+
+  if (userLibraryShortcut) {
+    userLibraryShortcut.addEventListener('click', function () {
+      if (userDropdown) userDropdown.classList.add('hidden');
+      const libBtn = $('#libraryButton');
+      if (libBtn) libBtn.click();
+    });
+  }
+
+  // Click outside user dropdown to close it
+  document.addEventListener('click', function (e) {
+    if (userDropdown && !userDropdown.classList.contains('hidden')) {
+      if (!userDropdown.contains(e.target) && e.target !== authTriggerBtn) {
+        userDropdown.classList.add('hidden');
+      }
+    }
+  });
+
+  checkAuthStatus();
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// CUBERTO MUSIC TOOLS: GUITAR TUNER, CHORD CHART & VIRTUAL JAM STUDIO
+// ══════════════════════════════════════════════════════════════════════════
+
+let studioAudioCtx = null;
+function getStudioAudioCtx() {
+  if (!studioAudioCtx) {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (AudioCtx) studioAudioCtx = new AudioCtx();
+  }
+  if (studioAudioCtx && studioAudioCtx.state === 'suspended') {
+    studioAudioCtx.resume();
+  }
+  return studioAudioCtx;
+}
+
+// ─── 1. GUITAR TUNER ENGINE ───
+let tunerAudioCtx = null;
+let tunerAnalyser = null;
+let tunerMicStream = null;
+let tunerRafId = null;
+let isTunerListening = false;
+const NOTE_STRINGS = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
+function autoCorrelate(buf, sampleRate) {
+  const size = buf.length;
+  let rms = 0;
+  for (let i = 0; i < size; i++) {
+    const val = buf[i];
+    rms += val * val;
+  }
+  rms = Math.sqrt(rms / size);
+  if (rms < 0.012) return -1; // Background silence
+
+  let r1 = 0, r2 = size - 1, thres = 0.2;
+  for (let i = 0; i < size / 2; i++) {
+    if (Math.abs(buf[i]) < thres) { r1 = i; break; }
+  }
+  for (let i = 1; i < size / 2; i++) {
+    if (Math.abs(buf[size - i]) < thres) { r2 = size - i; break; }
+  }
+  const slice = buf.slice(r1, r2);
+  const c = new Array(slice.length).fill(0);
+  for (let i = 0; i < slice.length; i++) {
+    for (let j = 0; j < slice.length - i; j++) {
+      c[i] = c[i] + slice[j] * slice[j + i];
+    }
+  }
+  let d = 0;
+  while (c[d] > c[d + 1]) d++;
+  let maxval = -1, maxpos = -1;
+  for (let i = d; i < slice.length; i++) {
+    if (c[i] > maxval) { maxval = c[i]; maxpos = i; }
+  }
+  let T0 = maxpos;
+  if (T0 > 0 && T0 < slice.length - 1) {
+    const x1 = c[T0 - 1], x2 = c[T0], x3 = c[T0 + 1];
+    const a = (x1 + x3 - 2 * x2) / 2;
+    const b = (x3 - x1) / 2;
+    if (a) T0 = T0 - b / (2 * a);
+  }
+  return sampleRate / T0;
+}
+
+function updateTunerPitch() {
+  if (!isTunerListening || !tunerAnalyser) return;
+  const buffer = new Float32Array(tunerAnalyser.fftSize);
+  tunerAnalyser.getFloatTimeDomainData(buffer);
+  const freq = autoCorrelate(buffer, tunerAudioCtx.sampleRate);
+
+  const noteEl = $('#tunerNote');
+  const octaveEl = $('#tunerOctave');
+  const freqEl = $('#tunerFreq');
+  const centsEl = $('#tunerCents');
+  const needleEl = $('#tunerNeedle');
+  const badgeEl = $('#tunerStatusBadge');
+
+  if (freq !== -1 && freq >= 60 && freq <= 1200) {
+    const noteNum = 12 * (Math.log(freq / 440) / Math.log(2)) + 69;
+    const rounded = Math.round(noteNum);
+    const noteName = NOTE_STRINGS[rounded % 12];
+    const octave = Math.floor(rounded / 12) - 1;
+    const standardFreq = 440 * Math.pow(2, (rounded - 69) / 12);
+    const cents = Math.floor(1200 * Math.log(freq / standardFreq) / Math.log(2));
+
+    if (noteEl) noteEl.textContent = noteName;
+    if (octaveEl) octaveEl.textContent = octave;
+    if (freqEl) freqEl.textContent = freq.toFixed(1) + ' Hz';
+    if (centsEl) centsEl.textContent = (cents > 0 ? '+' : '') + cents + ' cents';
+
+    // Update needle position
+    const clampedCents = Math.max(-50, Math.min(50, cents));
+    const needlePct = 50 + clampedCents;
+    if (needleEl) {
+      needleEl.style.left = needlePct + '%';
+      if (Math.abs(cents) <= 4) {
+        needleEl.classList.add('in-tune');
+        if (noteEl) noteEl.classList.add('in-tune');
+      } else {
+        needleEl.classList.remove('in-tune');
+        if (noteEl) noteEl.classList.remove('in-tune');
+      }
+    }
+
+    if (badgeEl) {
+      badgeEl.className = 'tuner-status-badge';
+      if (Math.abs(cents) <= 4) {
+        badgeEl.classList.add('in-tune');
+        badgeEl.textContent = 'ตรงคีย์แล้ว (IN TUNE)';
+      } else if (cents < -4) {
+        badgeEl.classList.add('flat');
+        badgeEl.textContent = 'เสียงต่ำไป (FLAT ♭)';
+      } else {
+        badgeEl.classList.add('sharp');
+        badgeEl.textContent = 'เสียงสูงไป (SHARP ♯)';
+      }
+    }
+  }
+
+  tunerRafId = requestAnimationFrame(updateTunerPitch);
+}
+
+async function startTunerMic() {
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!tunerAudioCtx) tunerAudioCtx = new AudioCtx();
+    if (tunerAudioCtx.state === 'suspended') await tunerAudioCtx.resume();
+
+    tunerMicStream = await navigator.mediaDevices.getUserMedia({
+      audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }
+    });
+    const source = tunerAudioCtx.createMediaStreamSource(tunerMicStream);
+    tunerAnalyser = tunerAudioCtx.createAnalyser();
+    tunerAnalyser.fftSize = 2048;
+    source.connect(tunerAnalyser);
+
+    isTunerListening = true;
+    const btn = $('#tunerMicToggle');
+    if (btn) {
+      btn.classList.add('active');
+      $('#tunerMicLabel').textContent = 'กำลังตรวจจับเสียง... (คลิกเพื่อหยุด)';
+      $('#tunerMicIcon').textContent = '⏹️';
+    }
+    const badge = $('#tunerStatusBadge');
+    if (badge) badge.textContent = 'กำลังฟังเสียงเครื่องดนตรี...';
+    updateTunerPitch();
+  } catch (err) {
+    console.warn('[Tuner] Mic error:', err);
+    const badge = $('#tunerStatusBadge');
+    if (badge) {
+      badge.textContent = 'ไม่สามารถเข้าถึงไมค์ได้ (กรุณาอนุญาตสิทธิ์ไมโครโฟน)';
+      badge.classList.add('sharp');
+    }
+  }
+}
+
+function stopTunerMic() {
+  isTunerListening = false;
+  if (tunerRafId) cancelAnimationFrame(tunerRafId);
+  if (tunerMicStream) {
+    tunerMicStream.getTracks().forEach(t => t.stop());
+    tunerMicStream = null;
+  }
+  const btn = $('#tunerMicToggle');
+  if (btn) {
+    btn.classList.remove('active');
+    $('#tunerMicLabel').textContent = 'เปิดไมค์ตรวจจับเสียงสด';
+    $('#tunerMicIcon').textContent = '✦';
+  }
+  const badge = $('#tunerStatusBadge');
+  if (badge) badge.textContent = 'พร้อมใช้งาน';
+  const needle = $('#tunerNeedle');
+  if (needle) {
+    needle.style.left = '50%';
+    needle.classList.remove('in-tune');
+  }
+  const noteEl = $('#tunerNote');
+  if (noteEl) noteEl.classList.remove('in-tune');
+}
+
+function playGuitarStringTone(freq, noteName) {
+  const ctx = getStudioAudioCtx();
+  if (!ctx) return;
+  const now = ctx.currentTime;
+
+  // Rich plucked acoustic string harmonics
+  const osc1 = ctx.createOscillator();
+  const osc2 = ctx.createOscillator();
+  const filter = ctx.createBiquadFilter();
+  const gain = ctx.createGain();
+
+  osc1.type = 'triangle';
+  osc1.frequency.setValueAtTime(freq, now);
+
+  osc2.type = 'sine';
+  osc2.frequency.setValueAtTime(freq * 2, now);
+
+  filter.type = 'lowpass';
+  filter.frequency.setValueAtTime(freq * 6, now);
+  filter.frequency.exponentialRampToValueAtTime(freq * 1.5, now + 1.8);
+
+  gain.gain.setValueAtTime(0.35, now);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 2.2);
+
+  osc1.connect(filter);
+  osc2.connect(filter);
+  filter.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc1.start(now);
+  osc2.start(now);
+  osc1.stop(now + 2.3);
+  osc2.stop(now + 2.3);
+
+  // Update visual tuner values
+  const noteEl = $('#tunerNote');
+  const freqEl = $('#tunerFreq');
+  const centsEl = $('#tunerCents');
+  const needle = $('#tunerNeedle');
+  const badge = $('#tunerStatusBadge');
+
+  if (noteEl) {
+    noteEl.textContent = noteName.replace(/[0-9]/g, '');
+    noteEl.classList.add('in-tune');
+  }
+  if (freqEl) freqEl.textContent = freq.toFixed(1) + ' Hz';
+  if (centsEl) centsEl.textContent = '0 cents (เสียงมาตรฐาน)';
+  if (needle) {
+    needle.style.left = '50%';
+    needle.classList.add('in-tune');
+  }
+  if (badge) {
+    badge.className = 'tuner-status-badge in-tune';
+    badge.textContent = 'เสียงมาตรฐาน: สาย ' + noteName;
+  }
+}
+
+// ─── 2. CHORD CHART EXPLORER ENGINE ───
+const chordChartState = {
+  root: 'C',
+  quality: '',
+  instrument: 'guitar'
+};
+
+const CHORD_NOTES_MAP = {
+  '': [0, 4, 7],
+  'm': [0, 3, 7],
+  '7': [0, 4, 7, 10],
+  'maj7': [0, 4, 7, 11],
+  'm7': [0, 3, 7, 10],
+  'sus4': [0, 5, 7],
+  'dim': [0, 3, 6]
+};
+
+function getNotesForChord(root, quality) {
+  const rootIdx = NOTE_STRINGS.indexOf(root);
+  if (rootIdx === -1) return [];
+  const intervals = CHORD_NOTES_MAP[quality] || [0, 4, 7];
+  return intervals.map(semitone => NOTE_STRINGS[(rootIdx + semitone) % 12]);
+}
+
+function renderChordChartExplorer() {
+  const chordName = chordChartState.root + chordChartState.quality;
+  const titleEl = $('#chartChordTitle');
+  if (titleEl) {
+    const qualText = chordChartState.quality === 'm' ? 'Minor' :
+      chordChartState.quality === '7' ? '7th' :
+      chordChartState.quality === 'maj7' ? 'Major 7' :
+      chordChartState.quality === 'm7' ? 'Minor 7' :
+      chordChartState.quality === 'sus4' ? 'Suspended 4' :
+      chordChartState.quality === 'dim' ? 'Diminished' : 'Major';
+    titleEl.textContent = chordChartState.root + ' ' + qualText;
+  }
+
+  const container = $('#chartDiagramContainer');
+  if (!container) return;
+
+  const notes = getNotesForChord(chordChartState.root, chordChartState.quality);
+  const notesInfo = $('#chartNotesInfo');
+  if (notesInfo) notesInfo.textContent = 'โน้ตในคอร์ด: ' + notes.join(' · ');
+
+  if (chordChartState.instrument === 'piano') {
+    const rootIdx = NOTE_STRINGS.indexOf(chordChartState.root);
+    const intervals = CHORD_NOTES_MAP[chordChartState.quality] || [0, 4, 7];
+    const semitones = intervals.map(i => (rootIdx + i) % 12);
+    // Double in second octave for nice visual
+    const active = semitones.concat(semitones.map(s => s + 12)).filter(s => s < 24);
+    container.innerHTML = renderPianoKeyboard(active);
+  } else {
+    const shapeMap = chordChartState.instrument === 'ukulele' ? UKULELE_SHAPES : GUITAR_SHAPES;
+    const shape = standardShapeFor(chordName, shapeMap);
+    if (shape) {
+      renderFretboard(shape, container, chordChartState.instrument);
+    } else {
+      container.innerHTML = '<div style="font-size:16px;color:var(--text-muted);padding:30px;">ไม่มีรูปทรงคอร์ดมาตรฐานสำหรับรูปแบบนี้</div>';
+    }
+  }
+}
+
+function strumChordSound(root, quality, instrument) {
+  const ctx = getStudioAudioCtx();
+  if (!ctx) return;
+
+  const rootIdx = NOTE_STRINGS.indexOf(root);
+  const intervals = CHORD_NOTES_MAP[quality] || [0, 4, 7];
+  const notes = intervals.map(i => rootIdx + i);
+
+  const baseMidi = instrument === 'ukulele' ? 60 : 48; // C3 for guitar, C4 for ukulele
+  const midiNotes = [
+    baseMidi + rootIdx,
+    baseMidi + rootIdx + intervals[1],
+    baseMidi + rootIdx + intervals[2],
+    baseMidi + 12 + rootIdx,
+    baseMidi + 12 + rootIdx + intervals[1],
+    baseMidi + 12 + rootIdx + intervals[2]
+  ];
+
+  midiNotes.forEach((midi, i) => {
+    const freq = 440 * Math.pow(2, (midi - 69) / 12);
+    const now = ctx.currentTime + (i * 0.035); // Gentle realistic strum arpeggiation
+
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const filter = ctx.createBiquadFilter();
+
+    osc.type = instrument === 'piano' ? 'sine' : 'triangle';
+    osc.frequency.setValueAtTime(freq, now);
+
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(freq * 5, now);
+    filter.frequency.exponentialRampToValueAtTime(freq * 1.2, now + 1.2);
+
+    gain.gain.setValueAtTime(0.18, now);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.8);
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 1.9);
+  });
+}
+
+// ─── 3. VIRTUAL JAM STUDIO & SYNTHESIZER ───
+let isDrumPlaying = false;
+let drumIntervalId = null;
+let currentDrumStep = 0;
+let drumBpm = 100;
+let drumGroove = 'metronome';
+
+function playPianoKey(midi) {
+  const ctx = getStudioAudioCtx();
+  if (!ctx) return;
+  const now = ctx.currentTime;
+  const freq = 440 * Math.pow(2, (midi - 69) / 12);
+
+  // Polyphonic acoustic piano synthesis
+  const osc1 = ctx.createOscillator();
+  const osc2 = ctx.createOscillator();
+  const gain = ctx.createGain();
+  const filter = ctx.createBiquadFilter();
+
+  osc1.type = 'sine';
+  osc1.frequency.setValueAtTime(freq, now);
+
+  osc2.type = 'triangle';
+  osc2.frequency.setValueAtTime(freq * 2, now); // Second harmonic overtone
+
+  filter.type = 'lowpass';
+  filter.frequency.setValueAtTime(freq * 6, now);
+  filter.frequency.exponentialRampToValueAtTime(freq * 1.5, now + 1.2);
+
+  gain.gain.setValueAtTime(0.4, now);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.5);
+
+  osc1.connect(filter);
+  osc2.connect(filter);
+  filter.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc1.start(now);
+  osc2.start(now);
+  osc1.stop(now + 1.6);
+  osc2.stop(now + 1.6);
+}
+
+function playDrumSound(type) {
+  const ctx = getStudioAudioCtx();
+  if (!ctx) return;
+  const now = ctx.currentTime;
+
+  if (type === 'kick') {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.frequency.setValueAtTime(140, now);
+    osc.frequency.exponentialRampToValueAtTime(38, now + 0.12);
+    gain.gain.setValueAtTime(0.8, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.3);
+  } else if (type === 'snare') {
+    // Noise burst + body pop
+    const bufferSize = ctx.sampleRate * 0.18;
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+
+    const noise = ctx.createBufferSource();
+    noise.buffer = buffer;
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'highpass';
+    filter.frequency.value = 1000;
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.5, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    noise.start(now);
+
+    const osc = ctx.createOscillator();
+    const oscGain = ctx.createGain();
+    osc.frequency.setValueAtTime(180, now);
+    osc.frequency.exponentialRampToValueAtTime(80, now + 0.1);
+    oscGain.gain.setValueAtTime(0.35, now);
+    oscGain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+    osc.connect(oscGain);
+    oscGain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.15);
+  } else if (type === 'hihat') {
+    const bufferSize = ctx.sampleRate * 0.05;
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+    const noise = ctx.createBufferSource();
+    noise.buffer = buffer;
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'highpass';
+    filter.frequency.value = 7500;
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.25, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    noise.start(now);
+  } else if (type === 'click_hi' || type === 'click_lo') {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.frequency.setValueAtTime(type === 'click_hi' ? 1200 : 800, now);
+    gain.gain.setValueAtTime(0.4, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.08);
+  }
+}
+
+function startDrumSequencer() {
+  if (isDrumPlaying) return;
+  isDrumPlaying = true;
+  currentDrumStep = 0;
+
+  const btn = $('#jamToggleBeatBtn');
+  if (btn) {
+    btn.classList.add('playing');
+    $('#jamBeatIcon').textContent = '⏹';
+    $('#jamBeatLabel').textContent = 'หยุดจังหวะ';
+  }
+
+  const stepDurationMs = (60 / drumBpm / 2) * 1000; // 8th note steps
+
+  drumIntervalId = setInterval(function () {
+    const step = currentDrumStep % 8; // 8 eighth-notes = 1 measure of 4/4
+    if (drumGroove === 'metronome') {
+      if (step === 0) playDrumSound('click_hi');
+      else if (step % 2 === 0) playDrumSound('click_lo');
+    } else if (drumGroove === 'lofi') {
+      if (step === 0 || step === 5) playDrumSound('kick');
+      if (step === 2 || step === 6) playDrumSound('snare');
+      playDrumSound('hihat');
+    } else if (drumGroove === 'pop') {
+      if (step === 0 || step === 4) playDrumSound('kick');
+      if (step === 2 || step === 6) playDrumSound('snare');
+      playDrumSound('hihat');
+    } else if (drumGroove === 'rock') {
+      if (step === 0 || step === 3 || step === 4) playDrumSound('kick');
+      if (step === 2 || step === 6) playDrumSound('snare');
+      playDrumSound('hihat');
+    }
+    currentDrumStep++;
+  }, stepDurationMs);
+}
+
+function stopDrumSequencer() {
+  isDrumPlaying = false;
+  if (drumIntervalId) {
+    clearInterval(drumIntervalId);
+    drumIntervalId = null;
+  }
+  const btn = $('#jamToggleBeatBtn');
+  if (btn) {
+    btn.classList.remove('playing');
+    $('#jamBeatIcon').textContent = '▶';
+    $('#jamBeatLabel').textContent = 'เริ่มจังหวะ';
+  }
+}
+
+// ─── INITIALIZE ALL 3 NAV TOOLS & MODALS ───
+function initCubertoNavTools() {
+  // 1. Modals Elements
+  const tunerModal = $('#tunerModal');
+  const chordChartModal = $('#chordChartModal');
+  const onlineJamModal = $('#onlineJamModal');
+
+  // Nav Buttons
+  const tunerNavBtn = $('#tunerNavBtn');
+  const chordChartNavBtn = $('#chordChartNavBtn');
+  const onlineJamNavBtn = $('#onlineJamNavBtn');
+
+  // Close Buttons
+  const closeTunerModal = $('#closeTunerModal');
+  const closeChordChartModal = $('#closeChordChartModal');
+  const closeOnlineJamModal = $('#closeOnlineJamModal');
+
+  // Open Tuner
+  if (tunerNavBtn && tunerNavBtn.tagName === 'BUTTON') {
+    tunerNavBtn.addEventListener('click', function () {
+      getStudioAudioCtx();
+      if (tunerModal) tunerModal.classList.remove('hidden');
+    });
+  }
+  if (closeTunerModal) {
+    closeTunerModal.addEventListener('click', function () {
+      stopTunerMic();
+      if (tunerModal) tunerModal.classList.add('hidden');
+    });
+  }
+  if (tunerModal) {
+    tunerModal.addEventListener('click', function (e) {
+      if (e.target === tunerModal) {
+        stopTunerMic();
+        tunerModal.classList.add('hidden');
+      }
+    });
+  }
+
+  // Tuner Mic Toggle
+  const micToggleBtn = $('#tunerMicToggle');
+  if (micToggleBtn) {
+    micToggleBtn.addEventListener('click', function () {
+      if (isTunerListening) stopTunerMic();
+      else startTunerMic();
+    });
+  }
+
+  // Pluckable Guitar Strings
+  document.querySelectorAll('.tuner-str-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const freq = parseFloat(btn.dataset.freq);
+      const note = btn.dataset.note;
+      btn.classList.add('playing');
+      setTimeout(() => btn.classList.remove('playing'), 600);
+      playGuitarStringTone(freq, note);
+    });
+  });
+
+  // Open Chord Chart
+  if (chordChartNavBtn && chordChartNavBtn.tagName === 'BUTTON') {
+    chordChartNavBtn.addEventListener('click', function () {
+      getStudioAudioCtx();
+      if (chordChartModal) {
+        chordChartModal.classList.remove('hidden');
+        renderChordChartExplorer();
+      }
+    });
+  }
+  if (closeChordChartModal) {
+    closeChordChartModal.addEventListener('click', function () {
+      if (chordChartModal) chordChartModal.classList.add('hidden');
+    });
+  }
+  if (chordChartModal) {
+    chordChartModal.addEventListener('click', function (e) {
+      if (e.target === chordChartModal) chordChartModal.classList.add('hidden');
+    });
+  }
+
+  // Instrument Tabs in Chord Chart
+  document.querySelectorAll('#chartInstTabs .chart-inst-tab').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      document.querySelectorAll('#chartInstTabs .chart-inst-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      chordChartState.instrument = tab.dataset.inst;
+      renderChordChartExplorer();
+    });
+  });
+
+  // Root Selector in Chord Chart
+  document.querySelectorAll('#chordRootSelector .chart-pill').forEach(function (pill) {
+    pill.addEventListener('click', function () {
+      document.querySelectorAll('#chordRootSelector .chart-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      chordChartState.root = pill.dataset.root;
+      renderChordChartExplorer();
+    });
+  });
+
+  // Quality Selector in Chord Chart
+  document.querySelectorAll('#chordQualitySelector .chart-pill').forEach(function (pill) {
+    pill.addEventListener('click', function () {
+      document.querySelectorAll('#chordQualitySelector .chart-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      chordChartState.quality = pill.dataset.quality;
+      renderChordChartExplorer();
+    });
+  });
+
+  // Play Strum Chord in Chord Chart
+  const playChordBtn = $('#chartPlayChordBtn');
+  if (playChordBtn) {
+    playChordBtn.addEventListener('click', function () {
+      strumChordSound(chordChartState.root, chordChartState.quality, chordChartState.instrument);
+    });
+  }
+
+  // Open Virtual Jam Studio
+  if (onlineJamNavBtn && onlineJamNavBtn.tagName === 'BUTTON') {
+    onlineJamNavBtn.addEventListener('click', function () {
+      getStudioAudioCtx();
+      if (onlineJamModal) onlineJamModal.classList.remove('hidden');
+    });
+  }
+  if (closeOnlineJamModal) {
+    closeOnlineJamModal.addEventListener('click', function () {
+      stopDrumSequencer();
+      if (onlineJamModal) onlineJamModal.classList.add('hidden');
+    });
+  }
+  if (onlineJamModal) {
+    onlineJamModal.addEventListener('click', function (e) {
+      if (e.target === onlineJamModal) {
+        stopDrumSequencer();
+        onlineJamModal.classList.add('hidden');
+      }
+    });
+  }
+
+  // Instant Chord Pads in Jam Studio
+  document.querySelectorAll('#jamChordPads .jam-pad').forEach(function (pad) {
+    pad.addEventListener('click', function () {
+      const chord = pad.dataset.chord;
+      pad.classList.add('pressed');
+      setTimeout(() => pad.classList.remove('pressed'), 250);
+      const match = /^([A-G][#b]?)(m?)/.exec(chord);
+      if (match) {
+        strumChordSound(match[1], match[2] || '', 'guitar');
+      }
+    });
+  });
+
+  // Virtual Piano Keys (Mouse / Touch)
+  document.querySelectorAll('#jamPianoKeys .jam-key').forEach(function (key) {
+    key.addEventListener('pointerdown', function (e) {
+      e.preventDefault();
+      const midi = parseInt(key.dataset.note, 10);
+      key.classList.add('pressed');
+      playPianoKey(midi);
+    });
+    key.addEventListener('pointerup', function () { key.classList.remove('pressed'); });
+    key.addEventListener('pointerleave', function () { key.classList.remove('pressed'); });
+  });
+
+  // QWERTY Computer Keyboard support for Piano
+  const KEY_TO_NOTE = {
+    'a': 60, 'w': 61, 's': 62, 'e': 63, 'd': 64, 'f': 65,
+    't': 66, 'g': 67, 'y': 68, 'h': 69, 'u': 70, 'j': 71,
+    'k': 72, 'o': 73, 'l': 74
+  };
+  const activeKeys = new Set();
+
+  window.addEventListener('keydown', function (e) {
+    if (!onlineJamModal || onlineJamModal.classList.contains('hidden')) return;
+    if (e.repeat || e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') return;
+
+    const char = e.key.toLowerCase();
+    if (KEY_TO_NOTE[char]) {
+      const midi = KEY_TO_NOTE[char];
+      if (!activeKeys.has(char)) {
+        activeKeys.add(char);
+        playPianoKey(midi);
+        const keyEl = document.querySelector(`.jam-key[data-key="${char}"]`);
+        if (keyEl) keyEl.classList.add('pressed');
+      }
+    }
+  });
+
+  window.addEventListener('keyup', function (e) {
+    const char = e.key.toLowerCase();
+    if (activeKeys.has(char)) {
+      activeKeys.delete(char);
+      const keyEl = document.querySelector(`.jam-key[data-key="${char}"]`);
+      if (keyEl) keyEl.classList.remove('pressed');
+    }
+  });
+
+  // Drum Machine Controls
+  const jamGrooveSelect = $('#jamGrooveSelect');
+  if (jamGrooveSelect) {
+    jamGrooveSelect.addEventListener('change', function () {
+      drumGroove = jamGrooveSelect.value;
+    });
+  }
+
+  const bpmSlider = $('#jamBpmSlider');
+  const bpmDisplay = $('#jamBpmDisplay');
+  if (bpmSlider) {
+    bpmSlider.addEventListener('input', function () {
+      drumBpm = parseInt(bpmSlider.value, 10);
+      if (bpmDisplay) bpmDisplay.textContent = drumBpm;
+      if (isDrumPlaying) {
+        stopDrumSequencer();
+        startDrumSequencer();
+      }
+    });
+  }
+
+  const toggleBeatBtn = $('#jamToggleBeatBtn');
+  if (toggleBeatBtn) {
+    toggleBeatBtn.addEventListener('click', function () {
+      if (isDrumPlaying) stopDrumSequencer();
+      else startDrumSequencer();
+    });
+  }
+}
+
 // App Initialization
 populateChordOptions();
 checkEngine();
+initMidiPractice();
+initCubertoCursor();
+initAuthUI();
+initCubertoNavTools();
+
+
+
+

@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ZixelChordsAnalysisResult",
+  "description": "Canonical schema for Zixel Chords AnalysisResult (v1)",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "title",
+    "duration",
+    "chords",
+    "beats",
+    "provenance"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "author": {
+      "type": "string"
+    },
+    "duration": {
+      "type": "number",
+      "minimum": 0
+    },
+    "key": {
+      "type": "string"
+    },
+    "bpm": {
+      "type": ["number", "string"]
+    },
+    "meter": {
+      "type": ["number", "string"]
+    },
+    "chords": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["start", "end", "chord", "root", "quality"],
+        "properties": {
+          "start": { "type": "number", "minimum": 0 },
+          "end": { "type": "number", "minimum": 0 },
+          "chord": { "type": "string" },
+          "root": { "type": ["string", "null"] },
+          "quality": { "type": "string" },
+          "bass": { "type": ["string", "null"] },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      }
+    },
+    "beats": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["time", "downbeat"],
+        "properties": {
+          "index": { "type": "integer" },
+          "time": { "type": "number", "minimum": 0 },
+          "type": { "type": "string", "enum": ["beat", "downbeat"] },
+          "downbeat": { "type": "boolean" },
+          "chord": { "type": "string" },
+          "aiChord": { "type": "string" },
+          "confidence": { "type": "number" }
+        }
+      }
+    },
+    "lyrics": {
+      "type": "object",
+      "properties": {
+        "language": { "type": "string" },
+        "segments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["start", "end", "text"],
+            "properties": {
+              "start": { "type": "number" },
+              "end": { "type": "number" },
+              "text": { "type": "string" },
+              "words": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["start", "end", "word"],
+                  "properties": {
+                    "start": { "type": "number" },
+                    "end": { "type": "number" },
+                    "word": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["runtime", "backend", "precision", "createdAt"],
+      "properties": {
+        "runtime": { "type": "string" },
+        "runtimeVersion": { "type": ["string", "null"] },
+        "backend": { "type": "string" },
+        "precision": { "type": "string" },
+        "gpuName": { "type": ["string", "null"] },
+        "models": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "file"],
+            "properties": {
+              "name": { "type": "string" },
+              "file": { "type": "string" },
+              "sha256": { "type": ["string", "null"] }
+            }
+          }
+        },
+        "analysisMode": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "fallbackReason": { "type": ["string", "null"] },
+        "_legacy": { "type": "boolean" }
+      }
+    }
+  }
+}

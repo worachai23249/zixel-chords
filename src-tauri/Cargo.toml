@@ -1,0 +1,40 @@
+[package]
+name = "zixel-chords"
+version = "0.1.0"
+description = "Zixel Chords - Ultimate Local AI Music Workstation"
+authors = ["Worachai"]
+edition = "2021"
+
+[lib]
+name = "zixel_chords_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.0", features = [] }
+
+[dependencies]
+tauri = { version = "2.0", features = ["tray-icon"] }
+tauri-plugin-shell = "2.0"
+tauri-plugin-dialog = "2.0"
+tauri-plugin-fs = "2.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.40", features = ["full"] }
+uuid = { version = "1.10", features = ["v4", "fast-rng", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+symphonia = { version = "0.5", features = ["all"] }
+rubato = "0.15"
+tracing = "0.1"
+tracing-subscriber = "0.3"
+thiserror = "1.0"
+rustfft = "6.2"
+realfft = "3.3"
+cpal = "0.15"
+midir = "0.9"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="เล่นดนตรีออนไลน์ ดีดคอร์ดเสมือน เล่นเปียโน และซ้อมแจมกับจังหวะกลอง" />
+    <title>ห้องซ้อมดนตรีออนไลน์ (Virtual Jam Studio) — Zixel Chords</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./style.css?v=3.2" />
+  </head>
+  <body class="tool-page chords-studio-view">
+    <!-- Ambient Aurora Glow Orbs (Pure Luxury Atmosphere) -->
+    <div class="luxury-aurora-wrap" aria-hidden="true">
+      <div class="aurora-orb aurora-orb-1"></div>
+      <div class="aurora-orb aurora-orb-2"></div>
+      <div class="aurora-orb aurora-orb-3"></div>
+    </div>
+
+    <!-- Floating Spatial Dynamic Island HUD (Futuristic 2026 Navigation) -->
+    <header class="spatial-hud-island" id="spatialHudIsland">
+      <div class="hud-brand-pill">
+        <a href="./index.html" class="hud-brand-link" aria-label="Zixel Chords Studio หน้าแรก">
+          <span class="hud-brand-glyph">✦</span>
+          <span class="hud-brand-name">ZIXEL<span class="hud-accent">·CHORDS</span></span>
+        </a>
+      </div>
+
+      <!-- Quick Teleport Links -->
+      <nav class="hud-nav-links">
+        <a class="hud-link" href="./index.html">สตูดิโอ</a>
+        <a class="hud-link" id="tunerNavBtn" href="./tuner.html" title="เครื่องตั้งสายกีตาร์">ตั้งสาย</a>
+        <a class="hud-link" id="chordChartNavBtn" href="./chords.html" title="ตารางคอร์ดและไดอะแกรม">ตารางคอร์ด</a>
+        <a class="hud-link active" id="onlineJamNavBtn" href="./jam.html" title="เล่นดนตรีออนไลน์">ห้องซ้อม</a>
+        <a class="hud-link" href="./index.html#library" title="ดูแฟ้มเพลงที่บันทึกไว้">แฟ้มเพลง</a>
+      </nav>
+
+      <!-- Right Controls: Audio Telemetry & Auth Capsule -->
+      <div class="hud-controls-pill">
+        <div class="hud-eq-visualizer" aria-hidden="true" title="Audio Engine Active">
+          <span class="eq-b eq-1"></span>
+          <span class="eq-b eq-2"></span>
+          <span class="eq-b eq-3"></span>
+          <span class="eq-b eq-4"></span>
+          <span class="eq-b eq-5"></span>
+        </div>
+
+        <div class="auth-header-wrap" id="authHeaderWrap">
+          <a class="cb-pill-btn" id="authTriggerBtn" href="./login.html" title="เข้าสู่ระบบหรือจัดการบัญชี">
+            <span class="auth-avatar-chip hidden" id="authAvatarChip">ZC</span>
+            <span class="btn-icon" id="authDefaultIcon"></span>
+            <span id="authBtnLabel">เข้าสู่ระบบ</span>
+          </a>
+          <div class="user-menu-dropdown hidden" id="userMenuDropdown">
+            <div class="user-menu-header">
+              <div class="user-avatar-circle" id="userAvatarCircle">ZC</div>
+              <div class="user-menu-info">
+                <strong id="userDisplayName">Guest</strong>
+                <span id="userUsername">@guest</span>
+              </div>
+            </div>
+            <div class="user-menu-divider"></div>
+            <a href="./login.html" class="user-menu-item">
+              ข้อมูลบัญชีของฉัน
+            </a>
+            <a href="./index.html#library" class="user-menu-item">
+              แฟ้มเพลงของฉัน
+            </a>
+            <button type="button" class="user-menu-item text-danger" id="logoutBtn">
+              ออกจากระบบ
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-main">
+      <section class="page-hero">
+        <span class="page-badge">✦ ★★★★★ 5-STAR ULTRA LUXURY · VIRTUAL JAM WORKSTATION</span>
+        <h1 class="page-title">เล่นดนตรีออนไลน์ (Virtual Jam Studio)</h1>
+        <p class="page-subtitle">
+          ดีดคอร์ดเสมือนจริง เล่นเปียโนผ่านคีย์บอร์ดคอมพิวเตอร์ และซ้อมแจมคู่กับกลองและเมโทรนอม
+        </p>
+      </section>
+
+      <div class="jam-standalone-container jam-master-console card-3d">
+        <!-- UPPER STAGE: Dual Split Deck (Left: Chord Launchpad | Right: Drum Machine) -->
+        <div class="jam-upper-stage">
+          <!-- Left Console: Instant Chord Launchpad -->
+          <div class="jam-section jam-launchpad-card card-3d">
+            <div class="jam-section-header">
+              <span class="console-badge-title">CHORD LAUNCHPAD</span>
+              <div class="chart-inst-tabs" style="padding: 2px;">
+                <button type="button" class="chart-inst-tab jam-sound-tab active" data-sound="acoustic" style="padding: 4px 10px; font-size: 11.5px;">โปร่ง</button>
+                <button type="button" class="chart-inst-tab jam-sound-tab" data-sound="electric" style="padding: 4px 10px; font-size: 11.5px;">ไฟฟ้า</button>
+                <button type="button" class="chart-inst-tab jam-sound-tab" data-sound="piano" style="padding: 4px 10px; font-size: 11.5px;">เปียโน</button>
+              </div>
+            </div>
+
+            <div class="jam-key-selector-row">
+              <div class="tuning-preset-selector" style="margin-bottom: 0;">
+                <button type="button" class="tuning-preset-pill jam-key-btn active" data-key-preset="c_major">คีย์ C / Am</button>
+                <button type="button" class="tuning-preset-pill jam-key-btn" data-key-preset="g_major">คีย์ G / Em</button>
+                <button type="button" class="tuning-preset-pill jam-key-btn" data-key-preset="d_major">คีย์ D / Bm</button>
+              </div>
+              <span class="jam-hint">กดเลข 1-8 บนคีย์บอร์ด</span>
+            </div>
+
+            <!-- 8 Interactive Chord Pads -->
+            <div class="jam-chord-pads" id="jamChordPads"></div>
+          </div>
+
+          <!-- Right Console: Drum Machine & Metronome Groove Unit -->
+          <div class="jam-section jam-groove-card card-3d">
+            <div class="jam-section-header">
+              <span class="console-badge-title">DRUM &amp; METRONOME GROOVE DECK</span>
+              <span class="jam-hint">จังหวะอัตโนมัติ</span>
+            </div>
+
+            <div class="jam-groove-controls-grid">
+              <div class="jam-groove-select-wrap">
+                <label for="jamGrooveSelect">รูปแบบจังหวะ:</label>
+                <select id="jamGrooveSelect" class="jam-select">
+                  <option value="metronome">เมโทรนอม (Click Track)</option>
+                  <option value="lofi">Lo-Fi Chill Hop Beat</option>
+                  <option value="pop">Acoustic Pop 4/4 Beat</option>
+                  <option value="rock">Rock Straight Groove</option>
+                </select>
+              </div>
+
+              <div class="jam-bpm-dial-box">
+                <div class="bpm-dial-head">
+                  <span>TEMPO (BPM)</span>
+                  <strong id="jamBpmDisplay">100</strong>
+                </div>
+                <input type="range" id="jamBpmSlider" min="50" max="200" value="100" class="jam-bpm-slider" />
+              </div>
+            </div>
+
+            <!-- Master Beat Trigger -->
+            <button type="button" class="jam-play-beat-btn console-master-beat-btn" id="jamToggleBeatBtn">
+              <span id="jamBeatIcon">▶</span>
+              <span id="jamBeatLabel">เริ่มจังหวะกลอง</span>
+            </button>
+
+            <!-- Beat Visualizer LED step dots -->
+            <div class="jam-beat-visualizer">
+              <span class="beat-dot downbeat"></span>
+              <span class="beat-dot"></span>
+              <span class="beat-dot"></span>
+              <span class="beat-dot"></span>
+              <span class="beat-dot downbeat"></span>
+              <span class="beat-dot"></span>
+              <span class="beat-dot"></span>
+              <span class="beat-dot"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- LOWER STAGE: Panoramic Virtual Playable Piano Keyboard -->
+        <div class="jam-section jam-keyboard-stage card-3d">
+          <div class="jam-section-header">
+            <span class="console-badge-title">PANORAMIC SYNTH KEYBOARD (C4 - D#5)</span>
+            <span class="jam-hint">กดแป้นพิมพ์คอมพิวเตอร์ A S D F G H J K L เพื่อเล่นเสียง</span>
+          </div>
+          <div class="jam-piano-wrap">
+            <div class="jam-piano-keys" id="jamPianoKeys">
+              <div class="jam-key white" data-note="60" data-key="a"><span class="key-note">C4</span><span class="key-kb">A</span></div>
+              <div class="jam-key black" data-note="61" data-key="w" style="left: 7.1%;"><span class="key-note">C#</span><span class="key-kb">W</span></div>
+              <div class="jam-key white" data-note="62" data-key="s"><span class="key-note">D4</span><span class="key-kb">S</span></div>
+              <div class="jam-key black" data-note="63" data-key="e" style="left: 17.5%;"><span class="key-note">D#</span><span class="key-kb">E</span></div>
+              <div class="jam-key white" data-note="64" data-key="d"><span class="key-note">E4</span><span class="key-kb">D</span></div>
+              <div class="jam-key white" data-note="65" data-key="f"><span class="key-note">F4</span><span class="key-kb">F</span></div>
+              <div class="jam-key black" data-note="66" data-key="t" style="left: 38.3%;"><span class="key-note">F#</span><span class="key-kb">T</span></div>
+              <div class="jam-key white" data-note="67" data-key="g"><span class="key-note">G4</span><span class="key-kb">G</span></div>
+              <div class="jam-key black" data-note="68" data-key="y" style="left: 48.7%;"><span class="key-note">G#</span><span class="key-kb">Y</span></div>
+              <div class="jam-key white" data-note="69" data-key="h"><span class="key-note">A4</span><span class="key-kb">H</span></div>
+              <div class="jam-key black" data-note="70" data-key="u" style="left: 59.1%;"><span class="key-note">A#</span><span class="key-kb">U</span></div>
+              <div class="jam-key white" data-note="71" data-key="j"><span class="key-note">B4</span><span class="key-kb">J</span></div>
+              <div class="jam-key white" data-note="72" data-key="k"><span class="key-note">C5</span><span class="key-kb">K</span></div>
+              <div class="jam-key black" data-note="73" data-key="o" style="left: 79.9%;"><span class="key-note">C#</span><span class="key-kb">O</span></div>
+              <div class="jam-key white" data-note="74" data-key="l"><span class="key-note">D5</span><span class="key-kb">L</span></div>
+              <div class="jam-key black" data-note="75" data-key="p" style="left: 90.3%;"><span class="key-note">D#</span><span class="key-kb">P</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 6px;">
+          <a href="./index.html" class="banner-link" style="font-size: 13px; opacity: 0.85;">
+            ← กลับไปยังสตูดิโอแกะคอร์ดเพลง
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <!-- Minimal Footer -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <strong>ZIXEL CHORDS STUDIO PRO</strong>
+          <span>LOCAL AI CHORD &amp; LYRICS RECOGNITION</span>
+        </div>
+        <div class="footer-copy">
+          ประมวลผลบนเครื่อง 100% · ปกป้องความเป็นส่วนตัว · AI Workstation สำหรับนักดนตรี
+        </div>
+      </div>
+    </footer>
+
+    <script src="./client/nav.js"></script>
+    <script src="./client/luxury-engine.js"></script>
+    <script src="./client/jam-page.js"></script>
+  </body>
+</html>

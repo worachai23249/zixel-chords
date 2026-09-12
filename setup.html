@@ -7,62 +7,264 @@
     <title>ตั้งค่า AI engine — Zixel Chords Local</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./style.css?v=3.2" />
   </head>
-  <body class="setup-page">
-    <header class="site-header">
-      <a class="brand" href="./index.html" aria-label="กลับไป Zixel Chords Local">
-        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
-        <span>Zixel <span>Chords</span> <small>LOCAL</small></span>
-      </a>
-      <a class="quiet-link" href="./index.html">← กลับหน้าแกะคอร์ด</a>
+  <body class="setup-page chords-studio-view">
+    <!-- Ambient Aurora Glow Orbs (Pure Luxury Atmosphere) -->
+    <div class="luxury-aurora-wrap" aria-hidden="true">
+      <div class="aurora-orb aurora-orb-1"></div>
+      <div class="aurora-orb aurora-orb-2"></div>
+      <div class="aurora-orb aurora-orb-3"></div>
+    </div>
+
+    <!-- Floating Spatial Dynamic Island HUD (Futuristic 2026 Navigation) -->
+    <header class="spatial-hud-island" id="spatialHudIsland">
+      <div class="hud-brand-pill">
+        <a href="./index.html" class="hud-brand-link" aria-label="Zixel Chords Studio หน้าแรก">
+          <span class="hud-brand-glyph">✦</span>
+          <span class="hud-brand-name">ZIXEL<span class="hud-accent">·CHORDS</span></span>
+        </a>
+      </div>
+
+      <!-- Quick Teleport Links -->
+      <nav class="hud-nav-links">
+        <a class="hud-link" href="./index.html">สตูดิโอ</a>
+        <a class="hud-link" href="./tuner.html" title="เครื่องตั้งสายกีตาร์">ตั้งสาย</a>
+        <a class="hud-link" href="./chords.html" title="ตารางคอร์ดและไดอะแกรม">ตารางคอร์ด</a>
+        <a class="hud-link" href="./jam.html" title="เล่นดนตรีออนไลน์">ห้องซ้อม</a>
+        <a class="hud-link active" href="./setup.html" title="คู่มือติดตั้งและตรวจฮาร์ดแวร์">คู่มือ</a>
+      </nav>
+
+      <!-- Auth Header Dynamic Container -->
+      <div class="hud-controls-pill">
+        <div class="auth-header-wrap" id="authHeaderWrap">
+          <a class="auth-btn-pill" id="authTriggerBtn" href="./login.html">
+            <span class="auth-avatar-circle hidden" id="authAvatarChip">ZC</span>
+            <span class="auth-icon-default" id="authDefaultIcon"></span>
+            <span id="authBtnLabel">เข้าสู่ระบบ</span>
+          </a>
+          <div class="user-menu-dropdown hidden" id="userMenuDropdown">
+            <div class="user-info-header">
+              <div class="user-avatar-large" id="userAvatarCircle">ZC</div>
+              <div class="user-meta-text">
+                <span class="user-name" id="userDisplayName">User</span>
+                <span class="user-handle" id="userUsername">@user</span>
+              </div>
+            </div>
+            <hr class="menu-divider" />
+            <a class="menu-item" href="./login.html">จัดการโปรไฟล์</a>
+            <button class="menu-item danger" id="logoutBtn" type="button">ออกจากระบบ</button>
+          </div>
+        </div>
+      </div>
     </header>
 
-    <main class="setup-main">
-      <section class="setup-intro">
-        <p class="eyebrow">ONE-TIME SETUP</p>
-        <h1>เปิดใช้ <em>AI engine</em><br />บนเครื่องคุณ</h1>
-        <p>Zixel Chords ใช้โมเดล Transformer สำหรับคอร์ด และตัวจับ beat/downbeat จริง ไม่ได้เดาคอร์ดจากกฎง่าย ๆ ในเบราว์เซอร์</p>
-      </section>
+    <main class="setup-main-container">
+      <!-- Cockpit Header Banner -->
+      <header class="setup-header-banner">
+        <span class="eyebrow-badge">✦ ★★★★★ 5-STAR ULTRA LUXURY · LOCAL NEURAL ENGINE TELEMETRY</span>
+        <h1>เปิดใช้ <em>Local AI Engine</em> บนเครื่องคุณ</h1>
+        <p>Zixel Chords ทำงานแบบ Local-First 100% ประมวลผลผ่านโมเดล Transformer, Beat This!, และ Whisper บนฮาร์ดแวร์ของคุณ ไม่มีการส่งข้อมูลเสียงออกสู่อินเทอร์เน็ต</p>
+      </header>
 
-      <section class="setup-grid">
-        <article class="setup-card highlighted">
-          <span class="step-number">01</span>
-          <h2>ติดตั้งเอนจิน</h2>
-          <p>ดับเบิลคลิกไฟล์ <strong>install-ai-engine.cmd</strong> ในโฟลเดอร์นี้หนึ่งครั้ง หน้าต่างจะดาวน์โหลดเฉพาะตัวเอนจินลงในโฟลเดอร์ Zixel Chords</p>
-          <div class="setup-code">install-ai-engine.cmd</div>
-        </article>
-        <article class="setup-card">
-          <span class="step-number">02</span>
-          <h2>เปิด Zixel Chords</h2>
-          <p>ดับเบิลคลิก <strong>start-zixelchords.cmd</strong> แล้วเปิด <strong>http://127.0.0.1:4173</strong> หรือรีเฟรชหน้านี้</p>
-          <div class="setup-code">start-zixelchords.cmd</div>
-        </article>
-        <article class="setup-card">
-          <span class="step-number">03</span>
-          <h2>เลือก MP3 และฟังทวน</h2>
-          <p>ติ๊กยอมรับการใช้ส่วนตัว/ไม่เชิงพาณิชย์ เลือก MP3 ที่คุณมีสิทธิ์ใช้ แล้วแก้จุดที่คลาดเคลื่อนในโหมดตรวจแก้ก่อนส่งออก</p>
-          <div class="setup-code">MP3 → AI draft → review</div>
-        </article>
-      </section>
+      <!-- Asymmetrical Dual-Cockpit: Left Telemetry & Diagnostics | Right Guided Ignition Sequence -->
+      <div class="setup-split-cockpit">
+        <!-- LEFT WING: Live System Telemetry & Hardware Diagnostics -->
+        <div class="setup-telemetry-col">
+          <div class="telemetry-radar-card card-3d">
+            <div class="telemetry-card-head">
+              <div class="telemetry-title-group">
+                <div class="telemetry-icon-pulse">✦</div>
+                <h2>HARDWARE TELEMETRY</h2>
+              </div>
+              <div class="telemetry-live-status" id="telemetryStatusPill">
+                <span class="status-dot"></span>
+                <span id="telemetryStatusText">GPU READY</span>
+              </div>
+            </div>
 
-      <section class="privacy-card">
-        <div class="privacy-icon">◎</div>
-        <div>
-          <p class="eyebrow">PRIVACY BY DESIGN</p>
-          <h2>ไฟล์ไม่ออกจากเครื่อง</h2>
-          <p>ไฟล์ MP3 ถูกส่งไปยัง Local AI engine ผ่าน localhost เท่านั้น และไฟล์ชั่วคราวจะถูกลบทันทีหลังวิเคราะห์เสร็จ การดาวน์โหลดโมเดลจะเกิดเฉพาะตอนวิเคราะห์เพลงครั้งแรก</p>
+            <!-- Hardware Spec Rows -->
+            <div class="hardware-specs-list">
+              <div class="hw-spec-row">
+                <span class="hw-spec-label">Hardware Device</span>
+                <span class="hw-spec-val active-gpu" id="hwGpuName">NVIDIA RTX 3070 Ti (Ampere)</span>
+              </div>
+              <div class="hw-spec-row">
+                <span class="hw-spec-label">Acceleration Tech</span>
+                <span class="hw-spec-val">Tensor Cores FP16 + Flash-Attention</span>
+              </div>
+              <div class="hw-spec-row">
+                <span class="hw-spec-label">Core Binary</span>
+                <span class="hw-spec-val" id="hwBinaryName">CrispASR Engine (11.9 MB)</span>
+              </div>
+              <div class="hw-spec-row">
+                <span class="hw-spec-label">Privacy Isolation</span>
+                <span class="hw-spec-val" style="color: #38bdf8;">100% Localhost Only</span>
+              </div>
+            </div>
+
+            <!-- Neural Model Manifest -->
+            <div class="manifest-section-title">VERIFIED AI MODEL MANIFEST (.engine/models/)</div>
+            <div class="manifest-mini-grid">
+              <div class="manifest-item">
+                <div class="manifest-item-name">
+                  <span>BTC Chords</span>
+                  <span class="manifest-tag">5.6 MB</span>
+                </div>
+                <span class="manifest-file">btc-chords-large-f16.gguf</span>
+              </div>
+              <div class="manifest-item">
+                <div class="manifest-item-name">
+                  <span>Beat This!</span>
+                  <span class="manifest-tag">38.9 MB</span>
+                </div>
+                <span class="manifest-file">beat-this-f16.gguf</span>
+              </div>
+              <div class="manifest-item">
+                <div class="manifest-item-name">
+                  <span>HTDemucs</span>
+                  <span class="manifest-tag">37.3 MB</span>
+                </div>
+                <span class="manifest-file">htdemucs-q4_k.gguf</span>
+              </div>
+              <div class="manifest-item">
+                <div class="manifest-item-name">
+                  <span>Whisper ASR</span>
+                  <span class="manifest-tag">141.1 MB</span>
+                </div>
+                <span class="manifest-file">ggml-base.bin</span>
+              </div>
+            </div>
+
+            <button class="diag-run-btn" id="runDiagBtn" type="button">
+              <span>✦</span> ตรวจสอบการเชื่อมต่อ AI Engine ทันที
+            </button>
+          </div>
         </div>
-      </section>
 
-      <section class="license-card">
-        <p class="eyebrow">IMPORTANT LICENSE NOTE</p>
-        <h2>ใช้สำหรับส่วนตัวและไม่เชิงพาณิชย์</h2>
-        <p>น้ำหนักโมเดลคอร์ดที่ใช้ในชุดนี้เป็นสัญญาอนุญาต CC BY-NC-SA 4.0 จึงต้องใช้กับงานที่ไม่ใช่เชิงพาณิชย์และปฏิบัติตามเงื่อนไขของสัญญาอนุญาต หากต้องการนำไปใช้ในธุรกิจหรือเผยแพร่บริการ ให้เปลี่ยนเป็นโมเดล/บริการที่มีสิทธิ์เชิงพาณิชย์ก่อน</p>
-        <a class="quiet-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">อ่านเงื่อนไขสัญญาอนุญาต →</a>
-      </section>
+        <!-- RIGHT WING: 3-Step Guided Ignition Sequence -->
+        <div class="setup-flow-col">
+          <!-- Step 1: Install Engine -->
+          <article class="ignition-step-card highlighted card-3d">
+            <div class="step-card-header">
+              <span class="step-badge-num">01</span>
+              <h2>ติดตั้งเอนจิน AI บนเครื่อง</h2>
+            </div>
+            <p class="step-card-desc">
+              ดับเบิลคลิกไฟล์ <strong>install-ai-engine.cmd</strong> ภายในโฟลเดอร์ Zixel Chords เพียงครั้งเดียว ระบบจะตั้งค่า CrispASR และโมเดลที่จำเป็นให้พร้อมใช้งานโดยอัตโนมัติ
+            </p>
+            <div class="terminal-command-box">
+              <code>install-ai-engine.cmd</code>
+              <button class="copy-cmd-btn" type="button" data-copy="install-ai-engine.cmd">คัดลอกคำสั่ง</button>
+            </div>
+          </article>
+
+          <!-- Step 2: Launch Studio -->
+          <article class="ignition-step-card card-3d">
+            <div class="step-card-header">
+              <span class="step-badge-num">02</span>
+              <h2>เปิด Zixel Chords Studio</h2>
+            </div>
+            <p class="step-card-desc">
+              ดับเบิลคลิกไฟล์ <strong>start-zixelchords.cmd</strong> แล้วเปิดเว็บบราวเซอร์ไปที่ <strong>http://127.0.0.1:4173</strong> เพื่อเข้าสู่สตูดิโอทำเพลง
+            </p>
+            <div class="terminal-command-box">
+              <code>start-zixelchords.cmd</code>
+              <button class="copy-cmd-btn" type="button" data-copy="start-zixelchords.cmd">คัดลอกคำสั่ง</button>
+            </div>
+          </article>
+
+          <!-- Step 3: Select MP3 & Jam -->
+          <article class="ignition-step-card card-3d">
+            <div class="step-card-header">
+              <span class="step-badge-num">03</span>
+              <h2>นำเข้าไฟล์เสียงและเริ่มแกะคอร์ด</h2>
+            </div>
+            <p class="step-card-desc">
+              เลือกไฟล์ MP3, WAV, หรือ M4A ที่คุณมีสิทธิ์ใช้งาน ระบบจะวิเคราะห์คอร์ด บีต และเนื้อเพลงไทยอัตโนมัติ พร้อมเข้าสู่โหมดซ้อมดนตรีและ Stem Mixer ทันที
+            </p>
+            <div class="terminal-command-box">
+              <code>MP3 / WAV → BTC Transformer → Live Jamming</code>
+              <a href="./index.html" class="copy-cmd-btn" style="text-decoration: none;">เข้าสตูดิโอ →</a>
+            </div>
+          </article>
+
+          <!-- Bottom Privacy & License Shield Deck -->
+          <div class="setup-bottom-shields">
+            <div class="shield-mini-card card-3d">
+              <span class="shield-badge">PRIVACY BY DESIGN</span>
+              <h3>ข้อมูลไม่ออกจากเครื่อง</h3>
+              <p>ไฟล์เสียงถูกส่งไปยัง Local AI engine ผ่าน localhost เท่านั้น ข้อมูลทั้งหมดจะถูกลบทันทีหลังวิเคราะห์เสร็จสิ้น ไม่มีการอัปโหลดเข้าคลาวด์ใดๆ ทั้งสิ้น</p>
+            </div>
+            <div class="shield-mini-card card-3d">
+              <span class="shield-badge" style="color: #eab308;">LICENSE &amp; ATTRIBUTION</span>
+              <h3>การใช้งานส่วนตัว &amp; ฝึกซ้อม</h3>
+              <p>น้ำหนักโมเดลเป็นสัญญาอนุญาต CC BY-NC-SA 4.0 จึงต้องใช้กับงานที่ไม่ใช่เชิงพาณิชย์เท่านั้น สามารถตรวจสอบเงื่อนไขสัญญาอนุญาตต้นฉบับได้ตลอดเวลา</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
-    <footer><span>ZIXEL CHORDS LOCAL / 2026</span><span>เก็บเสียงไว้บนเครื่อง · ตรวจทานก่อนใช้งาน</span></footer>
+
+    <footer class="site-footer">
+      <span>ZIXEL CHORDS LOCAL / 2026</span>
+      <span>เก็บเสียงไว้บนเครื่อง · ตรวจทานก่อนใช้งาน · 100% Offline Capable</span>
+    </footer>
+
+    <!-- Shared Navigation & Telemetry Scripts -->
+    <script src="./client/nav.js"></script>
+    <script>
+      (function() {
+        const runBtn = document.getElementById('runDiagBtn');
+        const statusPill = document.getElementById('telemetryStatusPill');
+        const statusText = document.getElementById('telemetryStatusText');
+        const hwGpuName = document.getElementById('hwGpuName');
+        const hwBinary = document.getElementById('hwBinaryName');
+
+        async function probeDiagnostics() {
+          if (statusText) statusText.textContent = 'กำลังทดสอบ…';
+          try {
+            const res = await fetch('/api/health', { cache: 'no-store' });
+            if (!res.ok) throw new Error('API Error');
+            const d = await res.json();
+            if (d.ready || d.installed) {
+              if (statusPill) statusPill.classList.remove('offline');
+              if (statusText) statusText.textContent = (d.gpu && d.gpu.includes('NVIDIA')) ? 'GPU READY (RTX)' : 'AI ENGINE READY';
+              if (hwGpuName && d.gpu) hwGpuName.textContent = d.gpu;
+              if (hwBinary && d.engine) hwBinary.textContent = d.engine + ' (Active)';
+            } else {
+              if (statusPill) statusPill.classList.add('offline');
+              if (statusText) statusText.textContent = 'ENGINE OFFLINE';
+            }
+          } catch (e) {
+            if (statusPill) statusPill.classList.add('offline');
+            if (statusText) statusText.textContent = 'OFFLINE';
+          }
+        }
+
+        if (runBtn) {
+          runBtn.addEventListener('click', probeDiagnostics);
+        }
+
+        // Copy button handling
+        document.querySelectorAll('.copy-cmd-btn[data-copy]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const text = btn.getAttribute('data-copy');
+            if (navigator.clipboard) {
+              navigator.clipboard.writeText(text).then(() => {
+                const orig = btn.textContent;
+                btn.textContent = '✓ คัดลอกแล้ว!';
+                setTimeout(() => { btn.textContent = orig; }, 1500);
+              });
+            }
+          });
+        });
+
+        // Run initial probe
+        probeDiagnostics();
+      })();
+    </script>
+    <script src="./client/luxury-engine.js"></script>
   </body>
 </html>
