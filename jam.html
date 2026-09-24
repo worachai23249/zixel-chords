@@ -3,12 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="เล่นดนตรีออนไลน์ ดีดคอร์ดเสมือน เล่นเปียโน และซ้อมแจมกับจังหวะกลอง" />
+    <meta name="description" content="เล่นดนตรีออนไลน์ ดีดคอร์ดเสมือนจริง ตารางคอร์ด Circle of Fifths เปียโน และซ้อมแจมกับจังหวะกลอง" />
     <title>ห้องซ้อมดนตรีออนไลน์ (Virtual Jam Studio) — Zixel Chords</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./style.css?v=3.2" />
+    <link rel="stylesheet" href="./client/jam-studio.css?v=3.8" />
   </head>
   <body class="tool-page chords-studio-view">
     <!-- Ambient Aurora Glow Orbs (Pure Luxury Atmosphere) -->
@@ -75,123 +76,300 @@
       </div>
     </header>
 
-    <main class="page-main">
-      <section class="page-hero">
-        <span class="page-badge">✦ ★★★★★ 5-STAR ULTRA LUXURY · VIRTUAL JAM WORKSTATION</span>
-        <h1 class="page-title">เล่นดนตรีออนไลน์ (Virtual Jam Studio)</h1>
-        <p class="page-subtitle">
-          ดีดคอร์ดเสมือนจริง เล่นเปียโนผ่านคีย์บอร์ดคอมพิวเตอร์ และซ้อมแจมคู่กับกลองและเมโทรนอม
-        </p>
+    <main style="flex: 1; display: flex; flex-direction: column; width: 100%;">
+      <!-- 1. Next-Gen Spatial 3D Instrument Stage (เหมือนหน้าตารางคอร์ด chords.html) -->
+      <section class="inst-landing-view" id="jamLandingView">
+        <div class="spatial-stage-orbit">
+          <!-- Ambient Futuristic Cyber Rings -->
+          <div class="spatial-orbital-rings" aria-hidden="true">
+            <div class="orbit-ring orbit-ring-1"></div>
+            <div class="orbit-ring orbit-ring-2"></div>
+            <div class="orbit-ring orbit-ring-3"></div>
+          </div>
+
+          <div class="spatial-hero-cluster">
+            <div class="spatial-hero-badge">
+              <span class="badge-sparkle">✦</span> ★★★★★ 5-STAR ULTRA LUXURY · VIRTUAL JAM STUDIO
+            </div>
+            <h1 class="spatial-hero-title">เลือกเครื่องดนตรีสำหรับห้องซ้อม</h1>
+            <p class="spatial-hero-desc">
+              เลือกแท่นเครื่องดนตรีเพื่อเปิดห้องซ้อมแจม ตาราง Circle of Fifths จะส่งเสียงและจัดกลุ่มคอร์ดของเครื่องดนตรีนั้นโดยอัตโนมัติ
+            </p>
+          </div>
+
+          <!-- 3 Spatial Floating Pedestals (Guitar · Piano · Ukulele) -->
+          <div class="spatial-pods-row inst-landing-grid">
+            <!-- 1. Guitar Spatial Pod -->
+            <div class="inst-select-card spatial-pod-card pod-guitar card-3d" data-inst="acoustic" tabindex="0" role="button">
+              <div class="pod-ambient-glow"></div>
+              <div class="pod-card-sheen"></div>
+              <div class="pod-hologram-stage">
+                <div class="pod-icon-shield">
+                  <span class="pod-icon">🎸</span>
+                  <div class="pod-radar-ring"></div>
+                </div>
+              </div>
+              <div class="pod-details">
+                <div class="pod-kicker">STEEL STRING ACOUSTIC · 6 STRINGS</div>
+                <h3 class="pod-title">1. กีต้าร์โปร่ง (Guitar)</h3>
+                <div class="pod-metrics">
+                  <span>6 สาย</span> · <span>เสียงก้องกังวาน</span> · <span>Body Resonance</span>
+                </div>
+                <p class="pod-blurb">ซาวด์กีตาร์โปร่งอะคูสติกแท้ เสียงสายสตีล/บรอนซ์นุ่มลึก กังวาน เหมาะสำหรับตีคอร์ดโฟล์กและป๊อป</p>
+              </div>
+              <div class="pod-action-dock">
+                <span class="pod-action-text">เข้าห้องซ้อมกีต้าร์โปร่ง</span>
+                <span class="pod-action-laser">→</span>
+              </div>
+            </div>
+
+            <!-- 2. VR Piano Spatial Pod -->
+            <div class="inst-select-card spatial-pod-card pod-piano card-3d" data-inst="piano" tabindex="0" role="button">
+              <div class="pod-ambient-glow"></div>
+              <div class="pod-card-sheen"></div>
+              <div class="pod-hologram-stage">
+                <div class="pod-icon-shield">
+                  <span class="pod-icon">🎹</span>
+                  <div class="pod-radar-ring"></div>
+                </div>
+              </div>
+              <div class="pod-details">
+                <div class="pod-kicker">CONCERT GRAND ACOUSTIC</div>
+                <h3 class="pod-title">2. เปียโน (Piano)</h3>
+                <div class="pod-metrics">
+                  <span>88 คีย์ฮาร์โมนิก</span> · <span>Felt Hammer</span> · <span>ซาวด์แกรนด์เปียโน</span>
+                </div>
+                <p class="pod-blurb">ซาวด์คอนเสิร์ตแกรนด์เปียโน คอร์ดกว้าง กังวาน ละมุนหู สัมผัสคีย์นุ่มนวลและมิติเสียงจริง 100%</p>
+              </div>
+              <div class="pod-action-dock">
+                <span class="pod-action-text">เข้าห้องซ้อมเปียโน</span>
+                <span class="pod-action-laser">→</span>
+              </div>
+            </div>
+
+            <!-- 3. Ukulele Pro Spatial Pod -->
+            <div class="inst-select-card spatial-pod-card pod-ukulele card-3d" data-inst="ukulele" tabindex="0" role="button">
+              <div class="pod-ambient-glow"></div>
+              <div class="pod-card-sheen"></div>
+              <div class="pod-hologram-stage">
+                <div class="pod-icon-shield">
+                  <span class="pod-icon">🪕</span>
+                  <div class="pod-radar-ring"></div>
+                </div>
+              </div>
+              <div class="pod-details">
+                <div class="pod-kicker">HAWAIIAN RE-ENTRANT · 4 STRINGS</div>
+                <h3 class="pod-title">3. อูคูเลเล่ (Ukulele)</h3>
+                <div class="pod-metrics">
+                  <span>4 สาย G-C-E-A</span> · <span>Nylon Strings</span> · <span>เสียงใสแหลมคม</span>
+                </div>
+                <p class="pod-blurb">ซาวด์อูคูเลเล่ฮาวายแท้ เสียงสายไนลอนใส ก้องกังวาน สดใส พร้อมฟอร์มคอร์ด 4 สายสมจริง</p>
+              </div>
+              <div class="pod-action-dock">
+                <span class="pod-action-text">เข้าห้องซ้อมอูคูเลเล่</span>
+                <span class="pod-action-laser">→</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
-      <div class="jam-standalone-container jam-master-console card-3d">
-        <!-- UPPER STAGE: Dual Split Deck (Left: Chord Launchpad | Right: Drum Machine) -->
-        <div class="jam-upper-stage">
-          <!-- Left Console: Instant Chord Launchpad -->
-          <div class="jam-section jam-launchpad-card card-3d">
-            <div class="jam-section-header">
-              <span class="console-badge-title">CHORD LAUNCHPAD</span>
-              <div class="chart-inst-tabs" style="padding: 2px;">
-                <button type="button" class="chart-inst-tab jam-sound-tab active" data-sound="acoustic" style="padding: 4px 10px; font-size: 11.5px;">โปร่ง</button>
-                <button type="button" class="chart-inst-tab jam-sound-tab" data-sound="electric" style="padding: 4px 10px; font-size: 11.5px;">ไฟฟ้า</button>
-                <button type="button" class="chart-inst-tab jam-sound-tab" data-sound="piano" style="padding: 4px 10px; font-size: 11.5px;">เปียโน</button>
-              </div>
-            </div>
+      <!-- 2. Jam Workspace View (Revealed AFTER Instrument Selection) -->
+      <section class="jam-workspace-view" id="jamWorkspaceView" style="display: none; width: 100%;">
+        <!-- Top Spatial Command Deck: Return Button + Instrument Switcher Blade -->
+        <div class="spatial-cockpit-toolbar" style="max-width: 1240px; margin: 20px auto 14px; padding: 0 16px;">
+          <button type="button" class="back-to-instruments-btn" id="jamBackToInstrumentsBtn" title="กลับไปหน้าเลือกเครื่องดนตรี">
+            <span class="back-laser-arrow">←</span> <span>เปลี่ยนเครื่องดนตรี</span>
+          </button>
 
-            <div class="jam-key-selector-row">
-              <div class="tuning-preset-selector" style="margin-bottom: 0;">
-                <button type="button" class="tuning-preset-pill jam-key-btn active" data-key-preset="c_major">คีย์ C / Am</button>
-                <button type="button" class="tuning-preset-pill jam-key-btn" data-key-preset="g_major">คีย์ G / Em</button>
-                <button type="button" class="tuning-preset-pill jam-key-btn" data-key-preset="d_major">คีย์ D / Bm</button>
-              </div>
-              <span class="jam-hint">กดเลข 1-8 บนคีย์บอร์ด</span>
-            </div>
-
-            <!-- 8 Interactive Chord Pads -->
-            <div class="jam-chord-pads" id="jamChordPads"></div>
-          </div>
-
-          <!-- Right Console: Drum Machine & Metronome Groove Unit -->
-          <div class="jam-section jam-groove-card card-3d">
-            <div class="jam-section-header">
-              <span class="console-badge-title">DRUM &amp; METRONOME GROOVE DECK</span>
-              <span class="jam-hint">จังหวะอัตโนมัติ</span>
-            </div>
-
-            <div class="jam-groove-controls-grid">
-              <div class="jam-groove-select-wrap">
-                <label for="jamGrooveSelect">รูปแบบจังหวะ:</label>
-                <select id="jamGrooveSelect" class="jam-select">
-                  <option value="metronome">เมโทรนอม (Click Track)</option>
-                  <option value="lofi">Lo-Fi Chill Hop Beat</option>
-                  <option value="pop">Acoustic Pop 4/4 Beat</option>
-                  <option value="rock">Rock Straight Groove</option>
-                </select>
-              </div>
-
-              <div class="jam-bpm-dial-box">
-                <div class="bpm-dial-head">
-                  <span>TEMPO (BPM)</span>
-                  <strong id="jamBpmDisplay">100</strong>
-                </div>
-                <input type="range" id="jamBpmSlider" min="50" max="200" value="100" class="jam-bpm-slider" />
-              </div>
-            </div>
-
-            <!-- Master Beat Trigger -->
-            <button type="button" class="jam-play-beat-btn console-master-beat-btn" id="jamToggleBeatBtn">
-              <span id="jamBeatIcon">▶</span>
-              <span id="jamBeatLabel">เริ่มจังหวะกลอง</span>
+          <!-- Tactile Switcher Blade -->
+          <div class="instrument-dock" role="tablist" aria-label="สลับเครื่องดนตรี">
+            <button type="button" class="instrument-tab-btn active" data-inst="acoustic" title="กีต้าร์โปร่ง 6 สาย">
+              🎸 กีต้าร์โปร่ง
             </button>
+            <button type="button" class="instrument-tab-btn" data-inst="piano" title="เปียโน &amp; คีย์บอร์ด">
+              🎹 เปียโน
+            </button>
+            <button type="button" class="instrument-tab-btn" data-inst="ukulele" title="อูคูเลเล่ 4 สาย">
+              🪕 อูคูเลเล่
+            </button>
+          </div>
+        </div>
 
-            <!-- Beat Visualizer LED step dots -->
-            <div class="jam-beat-visualizer">
-              <span class="beat-dot downbeat"></span>
-              <span class="beat-dot"></span>
-              <span class="beat-dot"></span>
-              <span class="beat-dot"></span>
-              <span class="beat-dot downbeat"></span>
-              <span class="beat-dot"></span>
-              <span class="beat-dot"></span>
-              <span class="beat-dot"></span>
+        <section class="page-hero" style="margin-bottom: 16px;">
+          <span class="page-badge">✦ ★★★★★ 5-STAR ULTRA LUXURY · HARMONIC CHORD MATRIX</span>
+          <h1 class="page-title" id="jamWorkspaceTitle">ห้องซ้อมดนตรีออนไลน์ — กีต้าร์โปร่ง</h1>
+        </section>
+
+      <!-- MASTER WORKSTATION CHASSIS -->
+      <div class="jam-chassis-container card-3d">
+        <!-- 1. Key Root Selector Strip (12 Keys Centered in Dochord Style) -->
+        <div class="jam-key-strip-container">
+          <div class="jam-key-strip-wrap" id="jamKeyStrip">
+            <button type="button" class="jam-key-root-btn active" data-key="C">C</button>
+            <button type="button" class="jam-key-root-btn" data-key="C#">C#</button>
+            <button type="button" class="jam-key-root-btn" data-key="D">D</button>
+            <button type="button" class="jam-key-root-btn" data-key="Eb">Eb</button>
+            <button type="button" class="jam-key-root-btn" data-key="E">E</button>
+            <button type="button" class="jam-key-root-btn" data-key="F">F</button>
+            <button type="button" class="jam-key-root-btn" data-key="F#">F#</button>
+            <button type="button" class="jam-key-root-btn" data-key="G">G</button>
+            <button type="button" class="jam-key-root-btn" data-key="G#">G#</button>
+            <button type="button" class="jam-key-root-btn" data-key="A">A</button>
+            <button type="button" class="jam-key-root-btn" data-key="Bb">Bb</button>
+            <button type="button" class="jam-key-root-btn" data-key="B">B</button>
+          </div>
+        </div>
+
+        <!-- 2. The 12×3 Harmonic Matrix with Center Spotlight Frame -->
+        <div class="jam-matrix-viewport" id="jamMatrixViewport">
+          <!-- Static Center Focus Frame for Active In-Key 3x3 Chords -->
+          <div class="jam-matrix-center-frame" id="jamMatrixCenterFrame" aria-hidden="true"></div>
+
+          <div class="jam-matrix-track" id="jamMatrixTrack">
+            <!-- Col 0: Bbm / C# / Bb7 -->
+            <div class="jam-matrix-col" data-col-idx="0" data-root="C#">
+              <button type="button" class="jam-chord-cell row-minor" data-chord="Bbm"><strong>Bbm</strong></button>
+              <button type="button" class="jam-chord-cell row-major" data-chord="C#"><strong>C#</strong></button>
+              <button type="button" class="jam-chord-cell row-dom7" data-chord="Bb7"><strong>Bb7</strong></button>
+            </div>
+            <!-- Col 1: Fm / G# / F7 -->
+            <div class="jam-matrix-col" data-col-idx="1" data-root="G#">
+              <button type="button" class="jam-chord-cell row-minor" data-chord="Fm"><strong>Fm</strong></button>
+              <button type="button" class="jam-chord-cell row-major" data-chord="G#"><strong>G#</strong></button>
+              <button type="button" class="jam-chord-cell row-dom7" data-chord="F7"><strong>F7</strong></button>
+            </div>
+            <!-- Col 2: Cm / Eb / C7 -->
+            <div class="jam-matrix-col" data-col-idx="2" data-root="Eb">
+              <button type="button" class="jam-chord-cell row-minor" data-chord="Cm"><strong>Cm</strong></button>
+              <button type="button" class="jam-chord-cell row-major" data-chord="Eb"><strong>Eb</strong></button>
+              <button type="button" class="jam-chord-cell row-dom7" data-chord="C7"><strong>C7</strong></button>
+            </div>
+            <!-- Col 3: Gm / Bb / G7 -->
+            <div class="jam-matrix-col" data-col-idx="3" data-root="Bb">
+              <button type="button" class="jam-chord-cell row-minor" data-chord="Gm"><strong>Gm</strong></button>
+              <button type="button" class="jam-chord-cell row-major" data-chord="Bb"><strong>Bb</strong></button>
+              <button type="button" class="jam-chord-cell row-dom7" data-chord="G7"><strong>G7</strong></button>
+            </div>
+            <!-- Col 4: Dm / F / D7 -->
+            <div class="jam-matrix-col in-key" data-col-idx="4" data-root="F">
+              <button type="button" class="jam-chord-cell row-minor" data-chord="Dm"><strong>Dm</strong></button>
+              <button type="button" class="jam-chord-cell row-major" data-chord="F"><strong>F</strong></button>
+              <button type="button" class="jam-chord-cell row-dom7" data-chord="D7"><strong>D7</strong></button>
+            </div>
+            <!-- Col 5: Am / C / A7 -->
+            <div class="jam-matrix-col in-key is-tonic" data-col-idx="5" data-root="C">
+              <button type="button" class="jam-chord-cell row-minor" data-chord="Am"><strong>Am</strong></button>
+              <button type="button" class="jam-chord-cell row-major current-armed" data-chord="C"><strong>C</strong></button>
+              <button type="button" class="jam-chord-cell row-dom7" data-chord="A7"><strong>A7</strong></button>
+            </div>
+            <!-- Col 6: Em / G / E7 -->
+            <div class="jam-matrix-col in-key" data-col-idx="6" data-root="G">
+              <button type="button" class="jam-chord-cell row-minor" data-chord="Em"><strong>Em</strong></button>
+              <button type="button" class="jam-chord-cell row-major" data-chord="G"><strong>G</strong></button>
+              <button type="button" class="jam-chord-cell row-dom7" data-chord="E7"><strong>E7</strong></button>
+            </div>
+            <!-- Col 7: Bm / D / B7 -->
+            <div class="jam-matrix-col" data-col-idx="7" data-root="D">
+              <button type="button" class="jam-chord-cell row-minor" data-chord="Bm"><strong>Bm</strong></button>
+              <button type="button" class="jam-chord-cell row-major" data-chord="D"><strong>D</strong></button>
+              <button type="button" class="jam-chord-cell row-dom7" data-chord="B7"><strong>B7</strong></button>
+            </div>
+            <!-- Col 8: F#m / A / F#7 -->
+            <div class="jam-matrix-col" data-col-idx="8" data-root="A">
+              <button type="button" class="jam-chord-cell row-minor" data-chord="F#m"><strong>F#m</strong></button>
+              <button type="button" class="jam-chord-cell row-major" data-chord="A"><strong>A</strong></button>
+              <button type="button" class="jam-chord-cell row-dom7" data-chord="F#7"><strong>F#7</strong></button>
+            </div>
+            <!-- Col 9: C#m / E / C#7 -->
+            <div class="jam-matrix-col" data-col-idx="9" data-root="E">
+              <button type="button" class="jam-chord-cell row-minor" data-chord="C#m"><strong>C#m</strong></button>
+              <button type="button" class="jam-chord-cell row-major" data-chord="E"><strong>E</strong></button>
+              <button type="button" class="jam-chord-cell row-dom7" data-chord="C#7"><strong>C#7</strong></button>
+            </div>
+            <!-- Col 10: G#m / B / G#7 -->
+            <div class="jam-matrix-col" data-col-idx="10" data-root="B">
+              <button type="button" class="jam-chord-cell row-minor" data-chord="G#m"><strong>G#m</strong></button>
+              <button type="button" class="jam-chord-cell row-major" data-chord="B"><strong>B</strong></button>
+              <button type="button" class="jam-chord-cell row-dom7" data-chord="G#7"><strong>G#7</strong></button>
+            </div>
+            <!-- Col 11: Ebm / F# / Eb7 -->
+            <div class="jam-matrix-col" data-col-idx="11" data-root="F#">
+              <button type="button" class="jam-chord-cell row-minor" data-chord="Ebm"><strong>Ebm</strong></button>
+              <button type="button" class="jam-chord-cell row-major" data-chord="F#"><strong>F#</strong></button>
+              <button type="button" class="jam-chord-cell row-dom7" data-chord="Eb7"><strong>Eb7</strong></button>
             </div>
           </div>
         </div>
 
-        <!-- LOWER STAGE: Panoramic Virtual Playable Piano Keyboard -->
-        <div class="jam-section jam-keyboard-stage card-3d">
-          <div class="jam-section-header">
-            <span class="console-badge-title">PANORAMIC SYNTH KEYBOARD (C4 - D#5)</span>
-            <span class="jam-hint">กดแป้นพิมพ์คอมพิวเตอร์ A S D F G H J K L เพื่อเล่นเสียง</span>
-          </div>
-          <div class="jam-piano-wrap">
-            <div class="jam-piano-keys" id="jamPianoKeys">
-              <div class="jam-key white" data-note="60" data-key="a"><span class="key-note">C4</span><span class="key-kb">A</span></div>
-              <div class="jam-key black" data-note="61" data-key="w" style="left: 7.1%;"><span class="key-note">C#</span><span class="key-kb">W</span></div>
-              <div class="jam-key white" data-note="62" data-key="s"><span class="key-note">D4</span><span class="key-kb">S</span></div>
-              <div class="jam-key black" data-note="63" data-key="e" style="left: 17.5%;"><span class="key-note">D#</span><span class="key-kb">E</span></div>
-              <div class="jam-key white" data-note="64" data-key="d"><span class="key-note">E4</span><span class="key-kb">D</span></div>
-              <div class="jam-key white" data-note="65" data-key="f"><span class="key-note">F4</span><span class="key-kb">F</span></div>
-              <div class="jam-key black" data-note="66" data-key="t" style="left: 38.3%;"><span class="key-note">F#</span><span class="key-kb">T</span></div>
-              <div class="jam-key white" data-note="67" data-key="g"><span class="key-note">G4</span><span class="key-kb">G</span></div>
-              <div class="jam-key black" data-note="68" data-key="y" style="left: 48.7%;"><span class="key-note">G#</span><span class="key-kb">Y</span></div>
-              <div class="jam-key white" data-note="69" data-key="h"><span class="key-note">A4</span><span class="key-kb">H</span></div>
-              <div class="jam-key black" data-note="70" data-key="u" style="left: 59.1%;"><span class="key-note">A#</span><span class="key-kb">U</span></div>
-              <div class="jam-key white" data-note="71" data-key="j"><span class="key-note">B4</span><span class="key-kb">J</span></div>
-              <div class="jam-key white" data-note="72" data-key="k"><span class="key-note">C5</span><span class="key-kb">K</span></div>
-              <div class="jam-key black" data-note="73" data-key="o" style="left: 79.9%;"><span class="key-note">C#</span><span class="key-kb">O</span></div>
-              <div class="jam-key white" data-note="74" data-key="l"><span class="key-note">D5</span><span class="key-kb">L</span></div>
-              <div class="jam-key black" data-note="75" data-key="p" style="left: 90.3%;"><span class="key-note">D#</span><span class="key-kb">P</span></div>
+        <!-- 3. Dochord-Style Master Console Deck (In Zixel Luxury Styling) -->
+        <div class="jam-console-deck">
+          <!-- Top Tier: Capo (Left) | Sound Engine & Strum (Right) -->
+          <div class="jam-deck-top-tier">
+            <!-- Left: Capo / Transpose -->
+            <div class="jam-deck-section jam-capo-section">
+              <span class="jam-deck-label">คาโป้ / เลื่อนเสียง</span>
+              <div class="jam-capo-stepper">
+                <button type="button" class="jam-stepper-btn" id="jamCapoDec" title="ลดคาโป้ 1 เฟร็ต">‹</button>
+                <div class="jam-capo-badge" id="jamCapoDisplay">0</div>
+                <button type="button" class="jam-stepper-btn" id="jamCapoInc" title="เพิ่มคาโป้ 1 เฟร็ต">›</button>
+              </div>
             </div>
+
+            <!-- Vertical Hairline Divider -->
+            <div class="jam-deck-divider" aria-hidden="true"></div>
+
+            <!-- Right: Strum Mode -->
+            <div class="jam-deck-section jam-strum-section">
+              <span class="jam-deck-label">เสียงเมื่อกดคอร์ด</span>
+              <div class="jam-strum-radios" style="margin-left: 0; padding-top: 6px;">
+                <label class="jam-radio-label">
+                  <input type="radio" name="jamStrumRadio" value="short" checked />
+                  <span class="jam-radio-custom"></span>
+                  <span>ดีดสั้น</span>
+                </label>
+                <label class="jam-radio-label">
+                  <input type="radio" name="jamStrumRadio" value="long" />
+                  <span class="jam-radio-custom"></span>
+                  <span>ดีดยาว</span>
+                </label>
+                <label class="jam-radio-label">
+                  <input type="radio" name="jamStrumRadio" value="arpeggio" />
+                  <span class="jam-radio-custom"></span>
+                  <span>การเกา</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Tier: BPM Slider (with Badge inside Thumb) + Metronome Button -->
+          <div class="jam-deck-bottom-tier">
+            <div class="jam-bpm-group">
+              <label for="jamBpmSlider" class="jam-deck-label">ความเร็วของจังหวะเพลง (BPM)</label>
+              <div class="jam-bpm-slider-container">
+                <input type="range" id="jamBpmSlider" min="40" max="200" value="70" class="jam-bpm-range" />
+                <div class="jam-bpm-floating-badge" id="jamBpmFloatingBadge">70</div>
+              </div>
+            </div>
+
+            <button type="button" class="jam-auto-strum-btn jam-metronome-btn" id="jamAutoStrumBtn" title="เปิด/ปิด เมโทรนอมตามความเร็ว BPM (กด P ได้เช่นกัน)">
+              <span class="jam-metro-icon">⏱</span>
+              <span id="jamMetronomeBtnText">เปิดเมโทรนอม</span>
+            </button>
           </div>
         </div>
 
-        <div style="text-align: center; margin-top: 6px;">
-          <a href="./index.html" class="banner-link" style="font-size: 13px; opacity: 0.85;">
-            ← กลับไปยังสตูดิโอแกะคอร์ดเพลง
+        <!-- Shortcuts Footnote -->
+        <div style="text-align: center; margin-top: 20px; display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+          <span class="jam-hint" style="font-family: var(--mono); font-size: 11.5px;">
+            [Spacebar] ดีด/เกาคอร์ด · [เลข 1-9] กดคอร์ด 9 ช่องในคีย์ · [P] เปิด/ปิดเมโทรนอม · [← / →] เลื่อนเปลี่ยนคีย์
+          </span>
+          <a href="./index.html" class="banner-link" style="font-size: 12.5px; opacity: 0.85;">
+            ← กลับสตูดิโอแกะเพลง
           </a>
         </div>
       </div>
+      </section>
     </main>
 
     <!-- Minimal Footer -->
@@ -209,6 +387,6 @@
 
     <script src="./client/nav.js"></script>
     <script src="./client/luxury-engine.js"></script>
-    <script src="./client/jam-page.js"></script>
+    <script src="./client/jam-page.js?v=3.8"></script>
   </body>
 </html>

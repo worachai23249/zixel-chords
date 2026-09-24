@@ -67,6 +67,7 @@ const state = {
   stemSoloed: null,     // which stem is soloed (or null)
   stemVolumes: {},      // { vocals: 1.0, drums: 1.0, ... }
   simplifiedChords: false,
+  syncOffset: 0,        // Sync calibration offset in seconds (e.g. -0.05, +0.05)
   currentUser: null,
   authToken: (function () { try { return localStorage.getItem('zc_auth_token') || null; } catch (_) { return null; } })()
 };
@@ -123,6 +124,8 @@ async function loadSong(songId) {
 
     state.transpose = 0;
     state.selectedBeat = null;
+    state.syncOffset = 0;
+    updateSyncOffsetUI();
     setReviewMode(false);
     $('#workspace').classList.remove('hidden');
     renderSong();
@@ -180,10 +183,10 @@ function initStemsFromLibrary(songId, stemsList, absentStems) {
     routeStemToPitchNode(audio);
   });
 
-  // 100% PREVENT SOUND DOUBLING: When stems are active, mute the master player!
-  // The master player continues silently to drive timing, timeline, chords, and lyrics.
+  // Default to Master original audio for pristine fidelity & zero latency!
+  // Stems only take over when the user mutes, solos, or adjusts a stem slider.
   if (state.player) {
-    state.player.muted = true;
+    state.player.muted = false;
   }
 
   renderStemMixer(stemsList, absentStems);
@@ -300,14 +303,16 @@ function transposeKey(key, amount) {
   return match ? transposeChord(match[1] + match[2], amount) + match[3] : key || '—';
 }
 function chordAt(time) {
+  const effTime = Math.max(0, time + (state.syncOffset || 0));
   const beats = state.song ? state.song.beats : [];
   let result = beats[0] || { chord: 'N.C.', time: 0, index: 0 };
-  beats.forEach(function (beat) { if (beat.time <= time + 0.01) result = beat; });
+  beats.forEach(function (beat) { if (beat.time <= effTime + 0.01) result = beat; });
   return result;
 }
 function nextChordAfter(time) {
+  const effTime = Math.max(0, time + (state.syncOffset || 0));
   const current = chordAt(time).chord;
-  const next = state.song.beats.find(function (beat) { return beat.time > time && beat.chord !== current && beat.chord !== 'N.C.'; });
+  const next = state.song.beats.find(function (beat) { return beat.time > effTime && beat.chord !== current && beat.chord !== 'N.C.'; });
   return next ? next.chord : '—';
 }
 function getPreviousBeat(time) {
@@ -838,11 +843,33 @@ function toggleStemSolo(stem) {
   else showToast('ยกเลิก Solo แล้ว');
 }
 
+function isStemMixActive() {
+  const stems = Object.keys(state.stemAudios);
+  if (!stems.length) return false;
+  if (state.stemSoloed !== null) return true;
+  for (const s of stems) {
+    if (state.stemMuted[s]) return true;
+    if (state.stemVolumes[s] !== undefined && state.stemVolumes[s] < 0.98) return true;
+  }
+  return false;
+}
+
 function syncStemAudios(time) {
-  // Sync all stem audio elements with the main player
   const stems = Object.keys(state.stemAudios);
   if (!stems.length) return;
-  // Master player MUST be muted when stems are playing to prevent sound doubling
+  const stemMixActive = isStemMixActive();
+
+  if (!stemMixActive) {
+    // When no stem is soloed or muted, play crystal-clear Master audio with zero latency!
+    if (state.player && state.player.muted) state.player.muted = false;
+    stems.forEach(function (stem) {
+      const audio = state.stemAudios[stem];
+      if (audio && !audio.paused) audio.pause();
+    });
+    return;
+  }
+
+  // Active stem mixing (Mute/Solo/Fader applied):
   if (state.player && !state.player.muted) {
     state.player.muted = true;
   }
@@ -850,8 +877,7 @@ function syncStemAudios(time) {
   stems.forEach(function (stem) {
     const audio = state.stemAudios[stem];
     if (!audio) return;
-    // Tight synchronization: if drift > 0.08s, realign
-    if (Math.abs(audio.currentTime - time) > 0.08) {
+    if (Math.abs(audio.currentTime - time) > 0.06) {
       audio.currentTime = time;
     }
     if (audio.playbackRate !== state.player.playbackRate) {
@@ -892,24 +918,8 @@ async function checkEngine() {
     state.modelsReady = Boolean(status.modelsReady);
     if (state.engineReady) {
       if (state.modelsReady) {
-        const engStatus = $('#engineStatus');
-        if (engStatus) {
-          engStatus.classList.remove('offline');
-          let label = 'Local AI Engine พร้อมใช้งาน 100%';
-          if (status.gpu) {
-            label = '🔥 ' + status.gpu + ' (ความเร็วสูงสุด 100%)';
-          } else if (status.gpus && status.gpus.length > 0) {
-            label = '🔥 ' + status.gpus[0].name + ' (ความเร็วสูงสุด 100%)';
-          }
-          setText('#engineStatus span.status-label', label);
-        }
         if ($('#engineBanner')) $('#engineBanner').classList.add('hidden');
       } else {
-        const engStatus = $('#engineStatus');
-        if (engStatus) {
-          engStatus.classList.add('offline');
-          setText('#engineStatus span.status-label', 'พร้อมติดตั้งโมเดล AI');
-        }
         setText('#engineMessageTitle', 'Local AI Engine พร้อมแล้ว');
         setText('#engineMessage', ' — กดเริ่มวิเคราะห์เพลงเพื่อดาวน์โหลดโมเดลคอร์ดและเนื้อเพลงครั้งเดียว');
         if ($('#downloadModelsButton')) $('#downloadModelsButton').classList.remove('hidden');
@@ -917,11 +927,6 @@ async function checkEngine() {
         if ($('#engineBanner')) $('#engineBanner').classList.remove('hidden');
       }
     } else {
-      const engStatus = $('#engineStatus');
-      if (engStatus) {
-        engStatus.classList.add('offline');
-        setText('#engineStatus span.status-label', 'ต้องเปิดหรือติดตั้ง AI Engine');
-      }
       setText('#engineMessageTitle', 'ยังไม่พบ Local AI Engine');
       setText('#engineMessage', ' — ติดตั้งครั้งเดียวเพื่อใช้โมเดล Transformer บนเครื่องคุณ');
       if ($('#downloadModelsButton')) $('#downloadModelsButton').classList.add('hidden');
@@ -931,11 +936,6 @@ async function checkEngine() {
   } catch (error) {
     state.engineReady = false;
     state.modelsReady = false;
-    const engStatus = $('#engineStatus');
-    if (engStatus) {
-      engStatus.classList.add('offline');
-      setText('#engineStatus span.status-label', 'ออฟไลน์ / กรุณารัน node server.js');
-    }
     if ($('#engineBanner')) $('#engineBanner').classList.remove('hidden');
   }
 }
@@ -1077,6 +1077,8 @@ function clearAudio() {
   if (typeof state.clearPitchBuffer === 'function') state.clearPitchBuffer();
   const pitchEl = $('#pitchValue');
   if (pitchEl) { pitchEl.textContent = '0 st'; pitchEl.classList.remove('active-shift'); }
+  state.syncOffset = 0;
+  updateSyncOffsetUI();
 }
 function mountAudio(file) {
   clearAudio();
@@ -1105,9 +1107,11 @@ function mountAudio(file) {
 }
 function startTicker() {
   stopTicker();
-  const hasStems = Object.keys(state.stemAudios).length > 0;
-  if (hasStems && state.player) {
-    state.player.muted = true;
+  const stemMixActive = isStemMixActive();
+  if (state.player) {
+    state.player.muted = stemMixActive;
+  }
+  if (stemMixActive) {
     const curTime = state.player.currentTime || 0;
     Object.values(state.stemAudios).forEach(function (a) {
       try {
@@ -1116,6 +1120,8 @@ function startTicker() {
         a.play().catch(function () {});
       } catch (e) {}
     });
+  } else {
+    Object.values(state.stemAudios).forEach(function (a) { try { if (!a.paused) a.pause(); } catch (e) {} });
   }
   state.playingTimer = window.setInterval(function () {
     const time = state.player.currentTime || 0;
@@ -1125,9 +1131,10 @@ function startTicker() {
       Object.values(state.stemAudios).forEach(function (a) { try { a.currentTime = state.loop.a; } catch (e) {} });
     }
     if (state.metronome.enabled && state.song) {
-      const nextBeatObj = state.song.beats.find(function(b) { return b.time > time; });
+      const effTime = Math.max(0, time + (state.syncOffset || 0));
+      const nextBeatObj = state.song.beats.find(function(b) { return b.time > effTime; });
       if (nextBeatObj && state.metronome.nextBeat !== nextBeatObj.index) {
-        if (time >= nextBeatObj.time - 0.1) {
+        if (effTime >= nextBeatObj.time - 0.03) {
           playMetronomeClick(nextBeatObj.downbeat);
           state.metronome.nextBeat = nextBeatObj.index;
         }
@@ -1352,6 +1359,34 @@ function toggleChordComplexity() {
   showToast(state.simplifiedChords ? 'เปิดโหมดคอร์ดง่าย (Triads พื้นฐาน)' : 'เปิดโหมดคอร์ดเต็ม (Extended/Tension Chords)');
 }
 
+function adjustSyncOffset(delta) {
+  state.syncOffset = Math.round(((state.syncOffset || 0) + delta) * 1000) / 1000;
+  state.syncOffset = Math.max(-2.0, Math.min(2.0, state.syncOffset));
+  updateSyncOffsetUI();
+  const ms = Math.round(state.syncOffset * 1000);
+  showToast('ปรับจูน Sync: ' + (ms >= 0 ? '+' : '') + ms + ' ms');
+  updatePlayback(state.player ? state.player.currentTime || 0 : 0);
+}
+
+function resetSyncOffset() {
+  state.syncOffset = 0;
+  updateSyncOffsetUI();
+  showToast('รีเซ็ต Sync เป็น 0 ms');
+  updatePlayback(state.player ? state.player.currentTime || 0 : 0);
+}
+
+function updateSyncOffsetUI() {
+  const ms = Math.round((state.syncOffset || 0) * 1000);
+  const text = (ms >= 0 ? '+' : '') + ms + ' ms';
+  ['#syncGridOffsetValue', '#syncLyricsOffsetValue'].forEach(function (sel) {
+    const el = $(sel);
+    if (el) {
+      el.textContent = text;
+      el.classList.toggle('offset-active', ms !== 0);
+    }
+  });
+}
+
 function renderLyrics() {
   const panel = $('#lyricsPanel');
   if (!panel || !state.song) return;
@@ -1371,13 +1406,42 @@ function renderLyrics() {
     lineDiv.dataset.end = String(segment.end);
     lineDiv.dataset.index = String(segIdx);
 
-    if (segment.words && segment.words.length > 0) {
+    const isThai = /[\u0e00-\u0e7f]/.test(segment.text || '');
+
+    if (isThai && window.thaiTokenizer && typeof window.thaiTokenizer.createTimedSyllables === 'function' && segment.text) {
+      const syllables = window.thaiTokenizer.createTimedSyllables(segment.text, segment.start, segment.end);
+      syllables.forEach(function (syl) {
+        const sylSpan = document.createElement('span');
+        sylSpan.className = 'lyrics-word';
+        sylSpan.dataset.start = String(syl.start);
+        sylSpan.dataset.end = String(syl.end);
+        sylSpan.textContent = syl.text;
+        sylSpan.onclick = function (e) { e.stopPropagation(); seek(syl.start); };
+
+        if (syl.isWord) {
+          const sylChords = state.song.beats.filter(function (b, idx) {
+            if (idx === 0) return false;
+            const prev = state.song.beats[idx - 1];
+            if (b.chord === prev.chord || b.chord === 'N.C.') return false;
+            return b.time >= syl.start - 0.15 && b.time < syl.end + 0.15;
+          });
+
+          if (sylChords.length > 0) {
+            const chordSpan = document.createElement('span');
+            chordSpan.className = 'lyrics-chord';
+            chordSpan.textContent = transposeChord(sylChords[0].chord, state.transpose);
+            sylSpan.prepend(chordSpan);
+          }
+        }
+        lineDiv.append(sylSpan);
+      });
+    } else if (segment.words && segment.words.length > 0) {
       segment.words.forEach(function (wordObj) {
         const wordSpan = document.createElement('span');
         wordSpan.className = 'lyrics-word';
         wordSpan.dataset.start = String(wordObj.start);
         wordSpan.dataset.end = String(wordObj.end);
-        wordSpan.textContent = wordObj.word + ' ';
+        wordSpan.textContent = /[\u0e00-\u0e7f]/.test(wordObj.word) ? wordObj.word : (wordObj.word + ' ');
         wordSpan.onclick = function (e) { e.stopPropagation(); seek(wordObj.start); };
 
         const wordChords = state.song.beats.filter(function (b, idx) {
@@ -1394,31 +1458,6 @@ function renderLyrics() {
           wordSpan.prepend(chordSpan);
         }
         lineDiv.append(wordSpan);
-      });
-    } else if (window.thaiTokenizer && typeof window.thaiTokenizer.createTimedSyllables === 'function' && segment.text) {
-      const syllables = window.thaiTokenizer.createTimedSyllables(segment.text, segment.start, segment.end);
-      syllables.forEach(function (syl) {
-        const sylSpan = document.createElement('span');
-        sylSpan.className = 'lyrics-word';
-        sylSpan.dataset.start = String(syl.start);
-        sylSpan.dataset.end = String(syl.end);
-        sylSpan.textContent = syl.text;
-        sylSpan.onclick = function (e) { e.stopPropagation(); seek(syl.start); };
-
-        const sylChords = state.song.beats.filter(function (b, idx) {
-          if (idx === 0) return false;
-          const prev = state.song.beats[idx - 1];
-          if (b.chord === prev.chord || b.chord === 'N.C.') return false;
-          return b.time >= syl.start - 0.15 && b.time < syl.end + 0.15;
-        });
-
-        if (sylChords.length > 0) {
-          const chordSpan = document.createElement('span');
-          chordSpan.className = 'lyrics-chord';
-          chordSpan.textContent = transposeChord(sylChords[0].chord, state.transpose);
-          sylSpan.prepend(chordSpan);
-        }
-        lineDiv.append(sylSpan);
       });
     } else {
       const lineChords = state.song.beats.filter(function (b, idx) {
@@ -1614,26 +1653,27 @@ function updatePlayback(time) {
   // LIVE TELEPROMPTER & LYRICS SHEET SYNC
   let activeLyricText = '';
   let nextLyricText = '—';
+  const effTime = Math.max(0, time + (state.syncOffset || 0));
 
   if (state.song.lyrics && state.song.lyrics.segments && state.song.lyrics.segments.length > 0) {
     const segs = state.song.lyrics.segments;
     let foundIdx = -1;
 
     for (let i = 0; i < segs.length; i++) {
-      if (time >= segs[i].start && time <= segs[i].end) {
+      if (effTime >= segs[i].start && effTime <= segs[i].end) {
         foundIdx = i;
         activeLyricText = segs[i].text;
         if (i + 1 < segs.length) nextLyricText = segs[i + 1].text;
         break;
-      } else if (time < segs[i].start && foundIdx === -1) {
+      } else if (effTime < segs[i].start && foundIdx === -1) {
         nextLyricText = segs[i].text;
       }
     }
 
-    if (foundIdx === -1 && time < segs[0].start) {
+    if (foundIdx === -1 && effTime < segs[0].start) {
       activeLyricText = '✦ อินโทร (Intro)';
       nextLyricText = segs[0].text;
-    } else if (foundIdx === -1 && time > segs[segs.length - 1].end) {
+    } else if (foundIdx === -1 && effTime > segs[segs.length - 1].end) {
       activeLyricText = '✦ เอาต์โทร (Outro)';
       nextLyricText = 'จบเพลง';
     }
@@ -1642,9 +1682,9 @@ function updatePlayback(time) {
     document.querySelectorAll('.lyrics-word').forEach(function (word) {
       const start = Number(word.dataset.start);
       const end = Number(word.dataset.end);
-      const isActive = time >= start && time <= end;
+      const isActive = effTime >= start && effTime <= end;
       word.classList.toggle('active', isActive);
-      word.classList.toggle('past', time > end);
+      word.classList.toggle('past', effTime > end);
     });
 
     // Highlighting lines
@@ -1652,7 +1692,7 @@ function updatePlayback(time) {
     document.querySelectorAll('.lyrics-line').forEach(function (line) {
       const start = Number(line.dataset.start);
       const end = Number(line.dataset.end);
-      const isActive = time >= start && time <= end;
+      const isActive = effTime >= start && effTime <= end;
       const wasActive = line.classList.contains('active-line');
       line.classList.toggle('active-line', isActive);
       // Only scroll when newly becoming active and scroll inside its container only
@@ -2235,6 +2275,20 @@ if (shiftNextBtn) shiftNextBtn.addEventListener('click', function () { shiftDown
 
 const simplifyBtn = $('#simplifyChordsBtn');
 if (simplifyBtn) simplifyBtn.addEventListener('click', toggleChordComplexity);
+
+const nudgeGMinus = $('#nudgeGridMinus');
+if (nudgeGMinus) nudgeGMinus.addEventListener('click', function () { adjustSyncOffset(-0.05); });
+const nudgeGPlus = $('#nudgeGridPlus');
+if (nudgeGPlus) nudgeGPlus.addEventListener('click', function () { adjustSyncOffset(0.05); });
+const syncGReset = $('#syncGridOffsetValue');
+if (syncGReset) syncGReset.addEventListener('click', resetSyncOffset);
+
+const nudgeLMinus = $('#nudgeLyricsMinus');
+if (nudgeLMinus) nudgeLMinus.addEventListener('click', function () { adjustSyncOffset(-0.05); });
+const nudgeLPlus = $('#nudgeLyricsPlus');
+if (nudgeLPlus) nudgeLPlus.addEventListener('click', function () { adjustSyncOffset(0.05); });
+const syncLReset = $('#syncLyricsOffsetValue');
+if (syncLReset) syncLReset.addEventListener('click', resetSyncOffset);
 
 $('#reviewToggle').addEventListener('click', function () {
   if (state.song) setReviewMode(!state.reviewMode);

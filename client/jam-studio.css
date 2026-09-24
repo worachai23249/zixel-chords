@@ -1,0 +1,926 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   ZIXEL CHORDS — VIRTUAL JAM WORKSTATION (HARMONIC MATRIX STUDIO)
+   5-Star Ultra Luxury Design · Circle-of-Fifths Chord Matrix
+   Fluid Tactile Haptics · Obsidian & 24K Gold Aesthetic
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── 1. Sub-Toolbar (Dochord Inspired Quick Navigation) ─── */
+.jam-sub-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.jam-sub-nav-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: var(--radius-pill, 9999px);
+  background: rgba(18, 21, 31, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-dim, #94a3b8);
+  font-family: var(--sans);
+  font-size: 13.5px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.jam-sub-nav-pill:hover {
+  color: #ffffff;
+  border-color: rgba(245, 158, 11, 0.45);
+  background: rgba(26, 31, 46, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.15);
+}
+
+.jam-sub-nav-pill.active {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(212, 175, 55, 0.1) 100%);
+  border-color: var(--cb-volt, #f59e0b);
+  color: #ffffff;
+  box-shadow: 0 0 20px var(--cb-volt-glow, rgba(245, 158, 11, 0.35));
+}
+
+.jam-sub-nav-glyph {
+  font-size: 15px;
+  color: var(--cb-volt, #f59e0b);
+}
+
+/* ─── 2. Master Workstation Chassis ─── */
+.jam-chassis-container {
+  max-width: 1240px;
+  margin: 0 auto 36px;
+  padding: 24px 28px;
+  background: rgba(12, 14, 21, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(212, 175, 55, 0.15);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  position: relative;
+  overflow: hidden;
+}
+
+.jam-chassis-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.7), transparent);
+}
+
+:root {
+  --jam-col-width: 82px;
+  --jam-col-gap: 8px;
+  --jam-col-stride: 90px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --jam-col-width: 72px;
+    --jam-col-gap: 6px;
+    --jam-col-stride: 78px;
+  }
+}
+
+/* ─── 3. Key Selector Bar (12 Root Keys Centered in Dochord Style) ─── */
+.jam-key-strip-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  position: relative;
+  width: 100%;
+}
+
+.jam-key-strip-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  max-width: 960px;
+}
+
+.jam-key-root-btn {
+  flex: 0 0 auto;
+  min-width: 48px;
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #f1f5f9;
+  font-family: var(--sans);
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.16s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.jam-key-root-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+.jam-key-root-btn.active {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: #ffffff;
+  color: #ffffff;
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+/* ─── 4. The Harmonic Matrix Center Spotlight & Sliding Track ─── */
+.jam-matrix-viewport {
+  width: 100%;
+  position: relative;
+  padding: 16px 0;
+  margin: 0 auto;
+  user-select: none;
+  background: rgba(9, 11, 16, 0.7);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden; /* Cleanly masks the sliding strip */
+  min-height: 248px;
+}
+
+/* Static Center Frame Surrounding the Active In-Key 3x3 Chords */
+.jam-matrix-center-frame {
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(3 * var(--jam-col-stride, 90px) - var(--jam-col-gap, 8px) + 16px);
+  border: 1.5px dashed rgba(255, 255, 255, 0.5);
+  border-radius: 18px;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 0 28px rgba(245, 158, 11, 0.18), inset 0 0 16px rgba(245, 158, 11, 0.04);
+}
+
+/* The Sliding Matrix Track */
+.jam-matrix-track {
+  display: flex;
+  align-items: center;
+  gap: var(--jam-col-gap, 8px);
+  width: max-content;
+  will-change: transform;
+  transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.25, 1);
+  padding: 0 4px;
+}
+
+/* Column Container */
+.jam-matrix-col {
+  flex: 0 0 var(--jam-col-width, 82px);
+  width: var(--jam-col-width, 82px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  opacity: 0.32;
+  transform: scale(0.96);
+}
+
+.jam-matrix-col.in-key {
+  opacity: 1 !important;
+  transform: scale(1.0) !important;
+  z-index: 2;
+}
+
+.jam-matrix-col:hover {
+  opacity: 0.85;
+}
+
+/* Individual Chord Pad */
+.jam-chord-cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 64px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  border: 1px solid transparent;
+  user-select: none;
+}
+
+.jam-chord-cell strong {
+  font-family: var(--sans);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  pointer-events: none;
+}
+
+/* Row 1: Minor row (Purple Palette) */
+.jam-chord-cell.row-minor {
+  background: #251b38;
+  border-color: rgba(168, 85, 247, 0.15);
+  color: #8e7aa8;
+}
+
+.jam-matrix-col.in-key .jam-chord-cell.row-minor {
+  background: linear-gradient(180deg, #6b21a8 0%, #581c87 100%);
+  border-color: #a855f7;
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(107, 33, 168, 0.45);
+}
+
+/* Row 2: Major row (Leaf Green Palette) */
+.jam-chord-cell.row-major {
+  background: #192719;
+  border-color: rgba(34, 197, 94, 0.15);
+  color: #6d8e6c;
+}
+
+.jam-matrix-col.in-key .jam-chord-cell.row-major {
+  background: linear-gradient(180deg, #4d8e37 0%, #3a7526 100%);
+  border-color: #65a30d;
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(77, 142, 55, 0.45);
+}
+
+/* Row 3: Dominant 7th row (Warm Amber/Orange Palette) */
+.jam-chord-cell.row-dom7 {
+  background: #2e1a10;
+  border-color: rgba(234, 88, 12, 0.15);
+  color: #a47c66;
+}
+
+.jam-matrix-col.in-key .jam-chord-cell.row-dom7 {
+  background: linear-gradient(180deg, #c25e00 0%, #9e4600 100%);
+  border-color: #ea580c;
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(194, 94, 0, 0.45);
+}
+
+/* Cell Hover & Click States */
+.jam-chord-cell:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.22);
+  border-color: rgba(255, 255, 255, 0.55) !important;
+  color: #ffffff !important;
+}
+
+.jam-chord-cell.playing,
+.jam-chord-cell:active {
+  transform: scale(0.93) !important;
+  box-shadow: 0 0 22px #ffffff, inset 0 0 12px rgba(255, 255, 255, 0.8) !important;
+  filter: brightness(1.5) !important;
+}
+
+.jam-chord-cell.current-armed {
+  outline: 2.5px solid #ffffff;
+  outline-offset: -1px;
+}
+
+/* ─── 5. Dochord-Style Console Deck (In Zixel Luxury Styling) ─── */
+.jam-console-deck {
+  display: flex;
+  flex-direction: column;
+  margin-top: 22px;
+  padding: 22px 28px;
+  background: rgba(15, 18, 26, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Top Tier: Capo (Left) | Sound Engine & Strum (Right) */
+.jam-deck-top-tier {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-wrap: wrap;
+}
+
+.jam-deck-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.jam-capo-section {
+  align-items: center;
+  min-width: 200px;
+}
+
+.jam-deck-label {
+  font-family: var(--sans);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #94a3b8;
+  letter-spacing: -0.1px;
+}
+
+/* Capo Stepper */
+.jam-capo-stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.jam-stepper-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.16s ease;
+  user-select: none;
+}
+
+.jam-stepper-btn:hover {
+  background: rgba(245, 158, 11, 0.2);
+  border-color: #f59e0b;
+  color: #fbbf24;
+}
+
+.jam-capo-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+  color: #ffffff;
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 14px rgba(234, 88, 12, 0.45);
+}
+
+/* Vertical Hairline Divider */
+.jam-deck-divider {
+  width: 1px;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+}
+
+/* Sound Section */
+.jam-sound-section {
+  flex: 1;
+  align-items: flex-start;
+}
+
+.jam-sound-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.jam-sound-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.jam-sound-pill-btn {
+  padding: 7px 16px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #cbd5e1;
+  font-family: var(--sans);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.16s ease;
+}
+
+.jam-sound-pill-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.jam-sound-pill-btn.active {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: #ffffff;
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.25);
+}
+
+/* Strum Radio Options */
+.jam-strum-radios {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-left: 10px;
+}
+
+.jam-radio-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--sans);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #e2e8f0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.jam-radio-label input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  background: transparent;
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  margin: 0;
+}
+
+.jam-radio-label input[type="radio"]:checked {
+  border-color: #ea580c;
+}
+
+.jam-radio-label input[type="radio"]::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ea580c;
+  transform: scale(0);
+  transition: transform 0.15s ease-in-out;
+}
+
+.jam-radio-label input[type="radio"]:checked::before {
+  transform: scale(1);
+}
+
+/* Bottom Tier: BPM Slider with Badge inside Thumb + Auto-Strum */
+.jam-deck-bottom-tier {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding-top: 18px;
+  flex-wrap: wrap;
+}
+
+.jam-bpm-group {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+  min-width: 280px;
+}
+
+.jam-bpm-slider-container {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  height: 38px;
+}
+
+.jam-bpm-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 9999px;
+  background: linear-gradient(to right, #ea580c 0%, #ea580c var(--bpm-pct, 18.75%), rgba(255, 255, 255, 0.15) var(--bpm-pct, 18.75%), rgba(255, 255, 255, 0.15) 100%);
+  outline: none;
+  cursor: pointer;
+}
+
+.jam-bpm-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  opacity: 0; /* Handled visually by floating badge */
+  cursor: pointer;
+}
+
+.jam-bpm-range::-moz-range-thumb {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  opacity: 0;
+  cursor: pointer;
+  border: none;
+}
+
+.jam-bpm-floating-badge {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+  color: #ffffff;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transform: translateX(-50%);
+  box-shadow: 0 2px 10px rgba(234, 88, 12, 0.5);
+  transition: left 0.05s ease;
+  z-index: 2;
+  user-select: none;
+}
+
+/* Metronome & Auto Strum Button */
+.jam-auto-strum-btn,
+.jam-metronome-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 22px;
+  border-radius: 10px;
+  background: rgba(30, 36, 50, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  font-family: var(--sans);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  user-select: none;
+}
+
+.jam-auto-strum-btn:hover,
+.jam-metronome-btn:hover {
+  background: rgba(45, 54, 76, 0.95);
+  border-color: #f59e0b;
+  color: #fbbf24;
+  transform: translateY(-1px);
+}
+
+.jam-auto-strum-btn.active,
+.jam-metronome-btn.active {
+  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+  border-color: #fde68a;
+  color: #ffffff;
+  box-shadow: 0 0 24px rgba(245, 158, 11, 0.55);
+}
+
+.jam-metro-icon {
+  font-size: 16px;
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.jam-auto-strum-btn.active .jam-metro-icon,
+.jam-metronome-btn.active .jam-metro-icon {
+  animation: metroTickPendulum 0.75s infinite alternate ease-in-out;
+}
+
+@keyframes metroTickPendulum {
+  0% { transform: rotate(-18deg) scale(1.1); }
+  100% { transform: rotate(18deg) scale(1.1); }
+}
+
+/* ─── 6. Companion Studio Tools Tray (Accordion) ─── */
+.jam-companion-tray {
+  margin-top: 24px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.jam-companion-tray-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.jam-tray-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 22px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #94a3b8;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.jam-tray-toggle-btn:hover {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: #f59e0b;
+  color: #fbbf24;
+}
+
+.jam-tray-toggle-icon {
+  color: #f59e0b;
+  font-size: 14px;
+}
+
+.jam-tray-chevron {
+  font-size: 12px;
+  transition: transform 0.2s ease;
+}
+
+.jam-tray-toggle-btn.open .jam-tray-chevron {
+  transform: rotate(180deg);
+}
+
+.jam-companion-tray-content.hidden {
+  display: none !important;
+}
+
+/* ─── 6. Strum Action Deck (ONE, TWO, Master PLAY, Virtual Strings) ─── */
+.jam-strum-deck {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 22px;
+  flex-wrap: wrap;
+}
+
+.jam-action-btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 64px;
+  height: 60px;
+  padding: 0 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.16s cubic-bezier(0.2, 0.8, 0.2, 1);
+  user-select: none;
+}
+
+.jam-action-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.jam-action-btn:active {
+  transform: scale(0.93);
+}
+
+.jam-action-glyph {
+  font-size: 18px;
+  margin-bottom: 2px;
+}
+
+.jam-action-label {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* Big Master PLAY Button */
+.jam-master-play-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-width: 200px;
+  height: 60px;
+  padding: 0 32px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  border: 1px solid #38bdf8;
+  color: #ffffff;
+  font-family: var(--sans);
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(2, 132, 199, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.jam-master-play-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(2, 132, 199, 0.6);
+  filter: brightness(1.1);
+}
+
+.jam-master-play-btn.playing {
+  background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+  border-color: #fda4af;
+  box-shadow: 0 8px 24px rgba(225, 29, 72, 0.45);
+}
+
+/* ─── 7. Virtual Guitar Strings Interactive Sound Deck ─── */
+.jam-strings-console {
+  margin-top: 24px;
+  padding: 16px 20px;
+  background: rgba(8, 9, 14, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.jam-strings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.jam-current-chord-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--text-dim, #94a3b8);
+}
+
+.jam-current-chord-badge strong {
+  font-size: 18px;
+  color: var(--gold-bright, #fbbf24);
+  font-family: var(--sans);
+}
+
+.jam-strings-rack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 0;
+  cursor: crosshair;
+}
+
+.jam-string-line {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 16px;
+  padding: 0 8px;
+}
+
+.jam-string-name {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted, #64748b);
+  width: 24px;
+}
+
+.jam-string-wire {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.6) 50%, rgba(212, 175, 55, 0.2));
+  border-radius: 1px;
+  position: relative;
+  transition: all 0.1s ease;
+}
+
+.jam-string-line:nth-child(1) .jam-string-wire { height: 3.5px; }
+.jam-string-line:nth-child(2) .jam-string-wire { height: 3.0px; }
+.jam-string-line:nth-child(3) .jam-string-wire { height: 2.5px; }
+.jam-string-line:nth-child(4) .jam-string-wire { height: 2.0px; }
+.jam-string-line:nth-child(5) .jam-string-wire { height: 1.6px; }
+.jam-string-line:nth-child(6) .jam-string-wire { height: 1.2px; }
+
+.jam-string-line.vibrating .jam-string-wire {
+  background: #ffffff;
+  box-shadow: 0 0 12px var(--cb-volt, #f59e0b);
+  animation: stringVibrate 0.2s ease;
+}
+
+@keyframes stringVibrate {
+  0% { transform: translateY(0); }
+  25% { transform: translateY(-2px); }
+  50% { transform: translateY(2px); }
+  75% { transform: translateY(-1px); }
+  100% { transform: translateY(0); }
+}
+
+/* ─── 8. Companion Decks (Collapsible Piano & Groove Select) ─── */
+.jam-companion-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.jam-companion-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: transparent;
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  color: var(--text-dim, #94a3b8);
+  font-family: var(--sans);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.jam-companion-toggle-btn:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+}
+
+.jam-companion-section {
+  margin-top: 16px;
+  transition: all 0.3s ease;
+}
+
+.jam-companion-section.hidden {
+  display: none;
+}
+
+/* ─── 9. Next-Gen Spatial Instrument Stage & Jam Workspace (Identical to chords.html) ─── */
+#jamLandingView {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 20px 80px;
+  position: relative;
+  z-index: 1;
+  animation: fadeInLanding 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#jamWorkspaceView {
+  width: 100%;
+  animation: fadeInLanding 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Sound Section in Console Deck */
+.jam-sound-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.jam-change-inst-btn {
+  background: transparent;
+  border: none;
+  color: #f59e0b;
+  font-family: var(--sans);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.jam-change-inst-btn:hover {
+  color: #fbbf24;
+  background: rgba(245, 158, 11, 0.12);
+}

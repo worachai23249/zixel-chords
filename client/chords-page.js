@@ -2187,21 +2187,28 @@
     const playLabel = $('#chordPlaySoundLabel');
 
     if (selectedInstrument === 'drums') {
-      $('#harmonicChordsDocks').style.display = 'none';
-      $('#drumGrooveDockWrap').style.display = 'block';
-      $('#drumTempoBar').style.display = 'inline-flex';
+      const harmDocks = $('#harmonicChordsDocks');
+      if (harmDocks) harmDocks.style.display = 'none';
+      const drumGroove = $('#drumGrooveDockWrap');
+      if (drumGroove) drumGroove.style.display = 'block';
+      const drumTempo = $('#drumTempoBar');
+      if (drumTempo) drumTempo.style.display = 'inline-flex';
 
       const grooveObj = DRUM_GROOVES[otherGroove] || DRUM_GROOVES.rock;
       drumBpm = grooveObj.bpm || 120;
-      $('#drumBpmSlider').value = drumBpm;
-      $('#drumBpmDisplay').textContent = `${drumBpm} BPM`;
+      const bpmSlider = $('#drumBpmSlider');
+      if (bpmSlider) bpmSlider.value = drumBpm;
+      const bpmDisplay = $('#drumBpmDisplay');
+      if (bpmDisplay) bpmDisplay.textContent = `${drumBpm} BPM`;
 
       if (pageTitleEl) pageTitleEl.textContent = `ตารางจังหวะและกรูฟกลองสากล`;
       if (pageSubEl) pageSubEl.textContent = `แพทเทิร์นกลองชุด 16-Step Sequencer ฝึกซ้อมและฟังบีท`;
       if (patTitleEl) patTitleEl.textContent = `รูปแบบจังหวะ & ลูกส่ง`;
 
-      $('#chordHighlightTitle').textContent = grooveObj.title;
-      $('#chordNotesBadge').textContent = grooveObj.desc;
+      const chordHlTitle = $('#chordHighlightTitle');
+      if (chordHlTitle) chordHlTitle.textContent = grooveObj.title;
+      const chordNotesBd = $('#chordNotesBadge');
+      if (chordNotesBd) chordNotesBd.textContent = grooveObj.desc;
 
       if (playIcon && playLabel && !drumIsPlaying) {
         playIcon.textContent = '▶';
@@ -2248,9 +2255,12 @@
     }
 
     // Harmonic instruments (Piano, Keyboard, Bass, Ukulele)
-    $('#harmonicChordsDocks').style.display = 'block';
-    $('#drumGrooveDockWrap').style.display = 'none';
-    $('#drumTempoBar').style.display = 'none';
+    const harmDocks = $('#harmonicChordsDocks');
+    if (harmDocks) harmDocks.style.display = 'block';
+    const drumGroove = $('#drumGrooveDockWrap');
+    if (drumGroove) drumGroove.style.display = 'none';
+    const drumTempo = $('#drumTempoBar');
+    if (drumTempo) drumTempo.style.display = 'none';
     stopDrumSequencer();
 
     if (playIcon && playLabel) {
@@ -2274,12 +2284,14 @@
       if (pageSubEl) pageSubEl.textContent = `คอร์ดฮาวายเอี้ยนมาตรฐาน 192 คอร์ด ตำแหน่งเปิดและทาบ พร้อมเสียงดีดไนลอน`;
     }
 
-    $('#chordHighlightTitle').textContent = fullChordName;
+    const chordHlTitle = $('#chordHighlightTitle');
+    if (chordHlTitle) chordHlTitle.textContent = fullChordName;
 
     const formula = OTHER_FORMULAS[otherQuality] || { notes: [0, 4, 7], label: '' };
     const rootIdx = NOTE_NAMES.indexOf(otherRoot);
     const notesStr = formula.notes.map((st) => NOTE_NAMES[(rootIdx + st) % 12]).join(' · ');
-    $('#chordNotesBadge').textContent = `โน้ตในคอร์ด: ${notesStr} (${formula.label})`;
+    const chordNotesBd = $('#chordNotesBadge');
+    if (chordNotesBd) chordNotesBd.textContent = `โน้ตในคอร์ด: ${notesStr} (${formula.label})`;
 
     if (selectedInstrument === 'ukulele') {
       otherCurrentPositions = getUkulelePositions(otherRoot, otherQuality);
@@ -2632,7 +2644,8 @@
     if (bpmSlider) {
       bpmSlider.addEventListener('input', (e) => {
         drumBpm = parseInt(e.target.value, 10);
-        $('#drumBpmDisplay').textContent = `${drumBpm} BPM`;
+        const bpmDisp = $('#drumBpmDisplay');
+        if (bpmDisp) bpmDisp.textContent = `${drumBpm} BPM`;
         if (drumIsPlaying) {
           const grooveObj = DRUM_GROOVES[otherGroove] || DRUM_GROOVES.rock;
           const variation = grooveObj.variations[otherPatternIndex] || grooveObj.variations[0];

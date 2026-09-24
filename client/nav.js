@@ -98,30 +98,7 @@
       }
     });
 
-    // Local AI Engine status check
-    const engineStatus = $('#engineStatus');
-    if (engineStatus) {
-      fetch('/api/health', { cache: 'no-store' })
-        .then((r) => r.json())
-        .then((data) => {
-          const statusLabel = engineStatus.querySelector('.status-label');
-          if (data && (data.ready || data.installed)) {
-            engineStatus.classList.remove('offline');
-            if (statusLabel) {
-              const gpu = data.gpu || data.device || '';
-              statusLabel.textContent = gpu.includes('NVIDIA') ? 'GPU พร้อม (RTX)' : 'AI Engine พร้อม';
-            }
-          } else {
-            engineStatus.classList.add('offline');
-            if (statusLabel) statusLabel.textContent = 'ยังไม่ติดตั้ง AI Engine';
-          }
-        })
-        .catch(() => {
-          engineStatus.classList.add('offline');
-          const statusLabel = engineStatus.querySelector('.status-label');
-          if (statusLabel) statusLabel.textContent = 'ออฟไลน์';
-        });
-    }
+
 
     checkSharedAuth();
   }

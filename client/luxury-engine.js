@@ -439,34 +439,9 @@
       brandPill.appendChild(vipPill);
     }
 
-    // 2. Sound Switch inside .hud-controls-pill (NEVER fixed over bottom transport bar)
-    const controlsPill = hud.querySelector('.hud-controls-pill');
-    if (controlsPill && !document.getElementById('hudSoundToggleBtn')) {
-      const soundBtn = document.createElement('button');
-      soundBtn.id = 'hudSoundToggleBtn';
-      soundBtn.className = 'hud-sound-toggle-btn' + (soundEngine.enabled ? '' : ' muted');
-      soundBtn.type = 'button';
-      soundBtn.title = 'เปิด/ปิด เสียงสัมผัส Haptic Audio สตูดิโอ 5 ดาว';
-      soundBtn.innerHTML = `
-        <span class="sound-icon">${soundEngine.enabled ? '🔊' : '🔇'}</span>
-        <span class="sound-label">${soundEngine.enabled ? 'AUDIO' : 'MUTED'}</span>
-      `;
-
-      soundBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const isEnabled = soundEngine.toggle();
-        soundBtn.className = 'hud-sound-toggle-btn' + (isEnabled ? '' : ' muted');
-        soundBtn.innerHTML = `
-          <span class="sound-icon">${isEnabled ? '🔊' : '🔇'}</span>
-          <span class="sound-label">${isEnabled ? 'AUDIO' : 'MUTED'}</span>
-        `;
-        if (isEnabled) soundEngine.playChime();
-      });
-
-      // Insert before auth container in controls pill
-      controlsPill.insertBefore(soundBtn, controlsPill.firstChild);
-    }
+    // Clean up any existing sound toggle button as requested
+    const existingSoundBtn = document.getElementById('hudSoundToggleBtn');
+    if (existingSoundBtn) existingSoundBtn.remove();
   }
 
   // ─── 6. Clean Single-Trigger Click Audio Hooks ───
@@ -476,7 +451,7 @@
       if (!target) return;
 
       // Never play sound when clicking inside text inputs, textareas or dropdown options
-      if (target.closest('input, textarea, select, .hud-sound-toggle-btn')) return;
+      if (target.closest('input, textarea, select')) return;
 
       // Chime on chord selection & presets
       const chordBtn = target.closest('.chord-button, .chord-btn, .gc-root-btn, .gc-q-btn, .uke-root-btn, .tuning-preset-pill');

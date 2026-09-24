@@ -242,8 +242,7 @@ class CrispASRAdapter {
   }
 
   /**
-   * Run ASR transcription on an audio file.
-   * Currently returns an empty result because Whisper path is bypassed.
+   * Run ASR transcription on an audio file using Whisper.
    * @param {string} filePath
    * @param {string} modelFile
    * @param {string} lang
@@ -251,8 +250,142 @@ class CrispASRAdapter {
    * @returns {Promise<LyricsResult>}
    */
   async runTranscribe(filePath, modelFile, lang, signal) {
-    // TODO: Re-enable when WhisperX alignment pipeline is ready (Phase 4)
-    return { language: 'auto', segments: [] };
+    const turboPath = path.join(this.modelCacheRoot, 'ggml-large-v3-turbo-q5_0.bin');
+    const whisperPath = fs.existsSync(turboPath) ? turboPath : path.join(this.modelCacheRoot, modelFile || 'ggml-base.bin');
+    if (!fs.existsSync(whisperPath)) {
+      return { language: lang || 'auto', segments: [] };
+    }
+    const tempDir = path.join(path.dirname(this.modelCacheRoot), 'temp');
+    fs.mkdirSync(tempDir, { recursive: true });
+
+    const _transcribeOnce = async (targetLang) => {
+      const prefixId = 'lyrics_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
+      const outPrefix = path.join(tempDir, prefixId);
+      const jsonOutFile = outPrefix + '.json';
+      try {
+        const whisperArgs = [
+          '-m', whisperPath,
+          '-f', filePath,
+          '-ojf',
+          '-of', outPrefix,
+          '-l', targetLang,
+          '-sns',
+          '-nth', '0.8'
+        ];
+        if (targetLang === 'th') {
+          whisperArgs.push('--prompt', 'เพลงไทย เนื้อเพลง ร้องเพลง');
+        } else if (targetLang === 'en') {
+          whisperArgs.push('--prompt', 'song lyrics singing verse chorus');
+        }
+        await this._run(whisperArgs, signal);
+
+        if (fs.existsSync(jsonOutFile)) {
+          const rawJson = fs.readFileSync(jsonOutFile, 'utf8');
+          return this._parseTranscription(rawJson);
+        }
+      } catch (err) {
+        // Continue to fallback
+      } finally {
+        try {
+          if (fs.existsSync(jsonOutFile)) fs.unlinkSync(jsonOutFile);
+        } catch (_) {}
+      }
+      return null;
+    };
+
+    const targetLang = (lang && lang !== 'auto') ? lang : 'auto';
+    let res = await _transcribeOnce(targetLang);
+    if (res && res.segments && res.segments.length > 0) return res;
+
+    if (targetLang !== 'auto') {
+      res = await _transcribeOnce('auto');
+      if (res && res.segments && res.segments.length > 0) return res;
+    }
+
+    return res || { language: targetLang, segments: [] };
+  }
+
+  /**
+   * Parse CrispASR Whisper full JSON transcription output.
+   * @param {string} jsonOutput
+   * @returns {LyricsResult}
+   */
+  _parseTranscription(jsonOutput) {
+    try {
+      const parsed = typeof jsonOutput === 'string' ? JSON.parse(jsonOutput) : jsonOutput;
+      const transcription = parsed.transcription || parsed.segments || [];
+      const language = parsed.result ? (parsed.result.language || 'auto') : 'auto';
+      const segments = [];
+
+      transcription.forEach(seg => {
+        const startMs = seg.offsets ? seg.offsets.from : (seg.start !== undefined ? seg.start * 1000 : 0);
+        const endMs = seg.offsets ? seg.offsets.to : (seg.end !== undefined ? seg.end * 1000 : endMs);
+        const text = (seg.text || '').trim();
+        if (!text) return;
+
+        const isInstrumentalTag = /^(\[|\()(เสียงดนตรี|ดนตรี|music|applause|laughter|instrumental|solo)(\]|\))$/i.test(text) || /^[♪\s]+$/.test(text);
+
+        const words = [];
+        const tokens = isInstrumentalTag ? [] : (seg.tokens || seg.words || []);
+        let currentWord = null;
+
+        tokens.forEach(tok => {
+          const rawText = tok.text || tok.word || '';
+          if (!rawText) return;
+          if (rawText.startsWith('[_') || (tok.id !== undefined && tok.id >= 50000)) return;
+
+          const tokStart = tok.offsets ? tok.offsets.from : (tok.start !== undefined ? tok.start * 1000 : startMs);
+          const tokEnd = tok.offsets ? tok.offsets.to : (tok.end !== undefined ? tok.end * 1000 : endMs);
+
+          const startsWithSpace = /^\s/.test(rawText);
+          const cleanToken = rawText.trim();
+          if (!cleanToken) return;
+
+          const hasThai = /[\u0e00-\u0e7f]/.test(cleanToken);
+
+          if (hasThai) {
+            if (currentWord) {
+              words.push(currentWord);
+              currentWord = null;
+            }
+            words.push({
+              start: Math.round((tokStart / 1000) * 100) / 100,
+              end: Math.round((tokEnd / 1000) * 100) / 100,
+              word: cleanToken
+            });
+          } else if (!currentWord || startsWithSpace) {
+            if (currentWord) words.push(currentWord);
+            currentWord = {
+              start: Math.round((tokStart / 1000) * 100) / 100,
+              end: Math.round((tokEnd / 1000) * 100) / 100,
+              word: cleanToken
+            };
+          } else {
+            currentWord.word += cleanToken;
+            currentWord.end = Math.max(currentWord.end, Math.round((tokEnd / 1000) * 100) / 100);
+          }
+        });
+
+        if (currentWord) words.push(currentWord);
+
+        segments.push({
+          start: Math.round((startMs / 1000) * 100) / 100,
+          end: Math.round((endMs / 1000) * 100) / 100,
+          text: isInstrumentalTag ? '♪ (ช่วงดนตรี)' : text,
+          words: words,
+          isInstrumental: isInstrumentalTag
+        });
+      });
+
+      const hasActualSinging = segments.some(s => !s.isInstrumental);
+      if (!hasActualSinging) {
+        segments = [];
+      }
+
+      return { language, segments };
+    } catch (_) {
+      return { language: 'auto', segments: [] };
+    }
   }
 
   // ── Private parsers ─────────────────────────────────────────────────────────

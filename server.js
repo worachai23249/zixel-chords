@@ -84,11 +84,17 @@ function detectGpuDevice() {
 }
 detectGpuDevice();
 const maxUploadBytes = 80 * 1024 * 1024;
-const whisperModel = {
+const whisperTurboModel = {
+  name: 'Whisper Large-v3-Turbo ASR model',
+  file: 'ggml-large-v3-turbo-q5_0.bin',
+  url: 'https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo-q5_0.bin'
+};
+const whisperBaseModel = {
   name: 'Whisper base ASR model',
   file: 'ggml-base.bin',
   url: 'https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.bin'
 };
+const whisperModel = fs.existsSync(path.join(modelCacheRoot, whisperTurboModel.file)) ? whisperTurboModel : whisperBaseModel;
 const coreModelFiles = [
   {
     name: 'BTC chord model',
@@ -394,34 +400,164 @@ function parseBeatTable(output) {
 }
 function parseTranscription(jsonOutput) {
   try {
-    var parsed = JSON.parse(jsonOutput);
+    var parsed = typeof jsonOutput === 'string' ? JSON.parse(jsonOutput) : jsonOutput;
     var transcription = parsed.transcription || parsed.segments || [];
+    var language = parsed.result ? (parsed.result.language || 'auto') : 'auto';
     var segments = [];
+
     transcription.forEach(function (seg) {
       var startMs = seg.offsets ? seg.offsets.from : (seg.start !== undefined ? seg.start * 1000 : 0);
-      var endMs = seg.offsets ? seg.offsets.to : (seg.end !== undefined ? seg.end * 1000 : 0);
+      var endMs = seg.offsets ? seg.offsets.to : (seg.end !== undefined ? seg.end * 1000 : endMs);
       var text = (seg.text || '').trim();
       if (!text) return;
+
+      var isInstrumentalTag = /^(\[|\()(เสียงดนตรี|ดนตรี|music|applause|laughter|instrumental|solo)(\]|\))$/i.test(text) || /^[♪\s]+$/.test(text);
+
       var words = [];
-      var tokens = seg.tokens || seg.words || [];
+      var tokens = isInstrumentalTag ? [] : (seg.tokens || seg.words || []);
+      var currentWord = null;
+
       tokens.forEach(function (tok) {
-        var w = (tok.text || tok.word || '').trim();
-        if (!w) return;
-        var wStart = tok.offsets ? tok.offsets.from : (tok.start !== undefined ? tok.start * 1000 : startMs);
-        var wEnd = tok.offsets ? tok.offsets.to : (tok.end !== undefined ? tok.end * 1000 : endMs);
-        words.push({ start: wStart / 1000, end: wEnd / 1000, word: w });
+        var rawText = tok.text || tok.word || '';
+        if (!rawText) return;
+        // Filter out Whisper internal tokens like [_BEG_], [_TT_146], etc.
+        if (rawText.startsWith('[_') || (tok.id !== undefined && tok.id >= 50000)) return;
+
+        var tokStart = tok.offsets ? tok.offsets.from : (tok.start !== undefined ? tok.start * 1000 : startMs);
+        var tokEnd = tok.offsets ? tok.offsets.to : (tok.end !== undefined ? tok.end * 1000 : endMs);
+
+        var startsWithSpace = /^\s/.test(rawText);
+        var cleanToken = rawText.trim();
+        if (!cleanToken) return;
+
+        var hasThai = /[\u0e00-\u0e7f]/.test(cleanToken);
+
+        if (hasThai) {
+          if (currentWord) {
+            words.push(currentWord);
+            currentWord = null;
+          }
+          words.push({
+            start: Math.round((tokStart / 1000) * 100) / 100,
+            end: Math.round((tokEnd / 1000) * 100) / 100,
+            word: cleanToken
+          });
+        } else if (!currentWord || startsWithSpace) {
+          if (currentWord) words.push(currentWord);
+          currentWord = {
+            start: Math.round((tokStart / 1000) * 100) / 100,
+            end: Math.round((tokEnd / 1000) * 100) / 100,
+            word: cleanToken
+          };
+        } else {
+          currentWord.word += cleanToken;
+          currentWord.end = Math.max(currentWord.end, Math.round((tokEnd / 1000) * 100) / 100);
+        }
       });
-      segments.push({ start: startMs / 1000, end: endMs / 1000, text: text, words: words });
+
+      if (currentWord) words.push(currentWord);
+
+      segments.push({
+        start: Math.round((startMs / 1000) * 100) / 100,
+        end: Math.round((endMs / 1000) * 100) / 100,
+        text: isInstrumentalTag ? '♪ (ช่วงดนตรี)' : text,
+        words: words,
+        isInstrumental: isInstrumentalTag
+      });
     });
-    var language = parsed.result ? (parsed.result.language || 'auto') : 'auto';
+
+    // If entire file contains only instrumental tags, treat as instrumental track
+    var hasActualSinging = segments.some(function (s) { return !s.isInstrumental; });
+    if (!hasActualSinging) {
+      segments = [];
+    }
+
     return { language: language, segments: segments };
   } catch (e) {
+    console.warn('[Lyrics] Parse transcription error:', e.message);
     return { language: 'auto', segments: [] };
   }
 }
-async function extractLyrics(audioFile, lang) {
-  // Bypassed: Whisper removed to maximize speed and prevent hanging
-  return { language: 'auto', segments: [] };
+
+async function extractLyrics(audioFile, lang, fallbackAudioFile) {
+  if (!fs.existsSync(enginePath)) {
+    console.warn('[Lyrics] CrispASR engine not found at', enginePath);
+    return { language: lang || 'auto', segments: [] };
+  }
+  const whisperPath = modelPath(whisperModel);
+  if (!fs.existsSync(whisperPath)) {
+    console.warn('[Lyrics] Whisper model not found at', whisperPath);
+    return { language: lang || 'auto', segments: [] };
+  }
+
+  async function _transcribeSingle(file, targetLanguage) {
+    const prefixId = 'lyrics_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
+    const outPrefix = path.join(tempRoot, prefixId);
+    const jsonOutFile = outPrefix + '.json';
+    try {
+      fs.mkdirSync(tempRoot, { recursive: true });
+      const whisperArgs = [
+        '-m', whisperPath,
+        '-f', file,
+        '-ojf',
+        '-of', outPrefix,
+        '-l', targetLanguage,
+        '-sns',
+        '-nth', '0.8'
+      ];
+      if (targetLanguage === 'th') {
+        whisperArgs.push('--prompt', 'เพลงไทย เนื้อเพลง ร้องเพลง');
+      } else if (targetLanguage === 'en') {
+        whisperArgs.push('--prompt', 'song lyrics singing verse chorus');
+      }
+      console.log(`[Lyrics] 🎙️ Running Whisper ASR (lang=${targetLanguage}) on ${path.basename(file)}...`);
+      await runEngine(whisperArgs);
+      if (fs.existsSync(jsonOutFile)) {
+        const rawJson = fs.readFileSync(jsonOutFile, 'utf8');
+        const parsed = parseTranscription(rawJson);
+        return parsed;
+      }
+    } catch (e) {
+      console.warn(`[Lyrics] Transcription attempt error (${targetLanguage} on ${path.basename(file)}):`, e.message);
+    } finally {
+      try {
+        if (fs.existsSync(jsonOutFile)) fs.unlinkSync(jsonOutFile);
+      } catch (_) {}
+    }
+    return null;
+  }
+
+  const primaryLang = (lang && lang !== 'auto') ? lang : 'auto';
+
+  // 1. Primary pass on given audioFile
+  let res = await _transcribeSingle(audioFile, primaryLang);
+  if (res && res.segments && res.segments.length > 0) {
+    console.log(`[Lyrics] ✅ Extracted ${res.segments.length} lyric segments (lang=${res.language}) from ${path.basename(audioFile)}.`);
+    return res;
+  }
+
+  // 2. If primary pass failed or returned 0 segments, and user had specified a language (e.g. 'th'), retry with 'auto'
+  if (primaryLang !== 'auto') {
+    console.log(`[Lyrics] 🔄 No lyrics detected with lang='${primaryLang}'. Retrying with 'auto' on ${path.basename(audioFile)}...`);
+    res = await _transcribeSingle(audioFile, 'auto');
+    if (res && res.segments && res.segments.length > 0) {
+      console.log(`[Lyrics] ✅ Auto-detection extracted ${res.segments.length} lyric segments (lang=${res.language}).`);
+      return res;
+    }
+  }
+
+  // 3. If still empty and a fallbackAudioFile exists, try the fallback file with 'auto'
+  if (fallbackAudioFile && fs.existsSync(fallbackAudioFile) && fallbackAudioFile !== audioFile) {
+    console.log(`[Lyrics] 🔄 Checking fallback audio ${path.basename(fallbackAudioFile)} for vocals/lyrics...`);
+    res = await _transcribeSingle(fallbackAudioFile, 'auto');
+    if (res && res.segments && res.segments.length > 0) {
+      console.log(`[Lyrics] ✅ Fallback extracted ${res.segments.length} lyric segments (lang=${res.language}).`);
+      return res;
+    }
+  }
+
+  console.log(`[Lyrics] ℹ️ Song appears to be purely instrumental or vocals not recognized (0 segments).`);
+  return res || { language: primaryLang, segments: [] };
 }
 const PITCH_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 // Temperley Key Profiles (Temperley 1999) - Unbiased harmonic triad weights
@@ -1267,7 +1403,7 @@ async function analyzeAccurate(filePath, meter, lang, reportProgress) {
         progressInterval = setInterval(function () {
           if (subPct < 92) {
             subPct += 1.4;
-            reportProgress('chords', Math.round(subPct), 'NVIDIA RTX 3070 Ti: กำลังแกะคอร์ดและจับจังหวะ', 'ประมวลผลความเร็วสูงสุดบน Tensor Cores (Flash-Attention)');
+            reportProgress('chords', Math.round(subPct), 'NVIDIA RTX 3070 Ti: กำลังแกะคอร์ด จับจังหวะ และถอดเนื้อเพลง', 'ประมวลผลคู่ขนานความเร็วสูงสุดบน Tensor Cores (Flash-Attention)');
           }
         }, 1000);
 
@@ -1276,7 +1412,7 @@ async function analyzeAccurate(filePath, meter, lang, reportProgress) {
           runEngine(['--chords', '-m', modelPath(coreModelFiles[0]), '-f', chordsBackingFile]),
           runEngine(['--chords', '-m', modelPath(coreModelFiles[0]), '-f', filePath]),
           runEngine(['--beats', '-m', modelPath(coreModelFiles[1]), '-f', filePath]),
-          extractLyrics(vocalsFile || filePath, lang)
+          extractLyrics(filePath, lang, vocalsFile)
         ]);
 
         clearInterval(progressInterval);
@@ -1453,13 +1589,13 @@ async function analyze(request, response) {
     } else {
       // Fast Mode: run chords + beats + lyrics all in parallel
       console.log('[API] Fast Mode: running chords + beats + lyrics in parallel...');
-      reportProgress('chords_beats', 25, 'NVIDIA RTX 3070 Ti AI: กำลังวิเคราะห์คอร์ดและจังหวะ', 'ประมวลผลความเร็วสูงสุดด้วย Tensor Cores (Flash-Attention)');
+      reportProgress('chords_beats', 25, 'NVIDIA RTX 3070 Ti AI: กำลังวิเคราะห์คอร์ด จังหวะ และถอดเนื้อเพลง', 'ประมวลผลความเร็วสูงสุดด้วย Tensor Cores (Flash-Attention)');
       
       let fastPct = 25;
       const fastInterval = setInterval(function () {
         if (fastPct < 85) {
           fastPct += 3;
-          reportProgress('chords_beats', Math.round(fastPct), 'NVIDIA RTX 3070 Ti AI: กำลังวิเคราะห์คอร์ดและจังหวะ', 'ประมวลผลความเร็วสูงสุดด้วย Tensor Cores (Flash-Attention)');
+          reportProgress('chords_beats', Math.round(fastPct), 'NVIDIA RTX 3070 Ti AI: กำลังวิเคราะห์คอร์ด จังหวะ และถอดเนื้อเพลง', 'ประมวลผลความเร็วสูงสุดด้วย Tensor Cores (Flash-Attention)');
         }
       }, 500);
 

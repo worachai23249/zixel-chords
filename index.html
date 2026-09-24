@@ -296,8 +296,8 @@
                         <div class="custom-select-wrap">
                           <select id="lyricsLangSelect">
                             <option value="th" selected>🇹🇭 ภาษาไทย (Thai)</option>
+                            <option value="auto">Auto (ตรวจจับภาษาอัตโนมัติ)</option>
                             <option value="en">🇺🇸 สากล / English</option>
-                            <option value="auto">Auto (ตรวจจับ)</option>
                             <option value="ja">🇯🇵 日本語</option>
                             <option value="ko">🇰🇷 한국어</option>
                             <option value="zh">🇨🇳 中文</option>
@@ -480,6 +480,12 @@
                     <small>— คลิกที่คำหรือบรรทัดเพื่อข้ามไปท่อนนั้นทันที</small>
                   </div>
                   <div class="lyrics-quick-tools">
+                    <div class="sync-nudge-group" title="ปรับจูนจังหวะเนื้อเพลงและคอร์ดให้ตรงกับเสียงเพลง">
+                      <span class="sync-nudge-label">⏱️ จูนเสียง:</span>
+                      <button class="grid-tool-btn sync-nudge-btn" id="nudgeLyricsMinus" type="button" title="เลื่อนเนื้อเพลง/คอร์ดให้เร็วขึ้น 50ms">-50ms</button>
+                      <span class="sync-offset-badge" id="syncLyricsOffsetValue" title="คลิกเพื่อรีเซ็ตเป็น 0ms">0 ms</span>
+                      <button class="grid-tool-btn sync-nudge-btn" id="nudgeLyricsPlus" type="button" title="เลื่อนเนื้อเพลง/คอร์ดให้ช้าลง 50ms">+50ms</button>
+                    </div>
                     <button class="quick-tool-btn" id="editLyricsBtn" type="button">วาง/แก้ไขเนื้อร้อง</button>
                   </div>
                 </div>
@@ -502,6 +508,12 @@
                     <span id="gridStatus">คลิกช่องเพื่อข้ามเวลา หรือเปิดโหมดตรวจแก้</span>
                   </div>
                   <div class="grid-tools">
+                    <div class="sync-nudge-group" title="ปรับจูนจังหวะเสียงให้ตรงกับคอร์ดและบีต">
+                      <span class="sync-nudge-label">⏱️ จูนเสียง:</span>
+                      <button class="grid-tool-btn sync-nudge-btn" id="nudgeGridMinus" type="button" title="เลื่อนคอร์ด/บีตให้เร็วขึ้น 50ms">-50ms</button>
+                      <span class="sync-offset-badge" id="syncGridOffsetValue" title="คลิกเพื่อรีเซ็ตเป็น 0ms">0 ms</span>
+                      <button class="grid-tool-btn sync-nudge-btn" id="nudgeGridPlus" type="button" title="เลื่อนคอร์ด/บีตให้ช้าลง 50ms">+50ms</button>
+                    </div>
                     <button class="grid-tool-btn" id="shiftDownbeatPrev" type="button" title="เลื่อนหัวห้องถอยหลัง 1 จังหวะ">◀ เลื่อนห้อง</button>
                     <button class="grid-tool-btn" id="shiftDownbeatNext" type="button" title="เลื่อนหัวห้องไปข้างหน้า 1 จังหวะ">เลื่อนห้อง ▶</button>
                     <button class="grid-tool-btn" id="simplifyChordsBtn" type="button" title="สลับระหว่างคอร์ดง่าย (Triads) กับคอร์ดเต็ม (Extensions)">คอร์ดง่าย</button>
